@@ -88,8 +88,7 @@
 //             ? "bg-blue-600  text-white font-semibold  shadow-md"
 //             : "text-slate-400  hover:text-white"
 //         }
-        
-        
+
 //         `}
 //             >
 //               {r === "FrontOffice" ? "Front Desk" : r}
@@ -202,20 +201,25 @@
 
 // export default Login;
 
-
-
-import React, { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
-import { FileText, Mail, Lock, ShieldCheck, ArrowRight, UserCheck } from 'lucide-react';
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import {
+  FileText,
+  Mail,
+  Lock,
+  ShieldCheck,
+  ArrowRight,
+  UserCheck,
+} from "lucide-react";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('Citizen'); // Default role
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("Citizen"); // Default role
   const [loading, setLoading] = useState(false);
 
-//   const { login } = useContext(AuthContext);
+  //   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -225,20 +229,20 @@ export default function Login() {
     // Simulated login delay for Step 1 UI testing
     setTimeout(() => {
       const mockUserData = {
-        name: role === 'Citizen' ? 'Ramesh Shrestha' : 'Srijana Admin',
+        name: role === "Citizen" ? "Ramesh Shrestha" : "Srijana Admin",
         email: email,
-        role: role
+        role: role,
       };
-      const mockToken = 'mock_jwt_token_123456';
+      const mockToken = "mock_jwt_token_123456";
 
-    //   login(mockUserData, mockToken);
-    //   setLoading(false);
+      //   login(mockUserData, mockToken);
+      //   setLoading(false);
 
       // Route based on user role
-      if (role === 'Citizen') {
-        navigate('/citizen-dashboard');
+      if (role === "Citizen") {
+        navigate("/citizen-dashboard");
       } else {
-        navigate('/admin');
+        navigate("/admin");
       }
     }, 800);
   };
@@ -247,13 +251,14 @@ export default function Login() {
     <div className="min-h-screen bg-slate-950 flex flex-col justify-center items-center p-4">
       {/* Container */}
       <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-xl p-8 space-y-6">
-        
         {/* Portal Branding */}
         <div className="text-center space-y-2">
           <div className="inline-flex p-3 rounded-xl bg-blue-600/20 border border-blue-500/30 text-yellow-400 mb-1">
             <FileText className="h-8 w-8" />
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-wide">Welcome Back</h1>
+          <h1 className="text-2xl font-bold text-white tracking-wide">
+            Welcome Back
+          </h1>
           <p className="text-xs text-slate-400">
             E-Ward Sifarish Portal • Government of Nepal
           </p>
@@ -261,25 +266,26 @@ export default function Login() {
 
         {/* Role Toggle Selector */}
         <div className="bg-slate-800/80 p-1 rounded-xl flex border border-slate-700/60 text-xs font-medium">
-          {['Citizen', 'FrontOffice','Secretary', 'Chairperson'].map((roles) => (
-            <button
-              key={roles}
-              type="button"
-              onClick={() => setRole(roles)}
-              className={`flex-1 py-2 rounded-lg transition-all duration-200 cursor-pointer ${
-                role === roles
-                  ? 'bg-blue-600 text-white font-semibold shadow-md'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              {roles === 'FrontOffice' ? 'Front Desk' : roles}
-            </button>
-          ))}
+          {["Citizen", "FrontOffice", "Secretary", "Chairperson"].map(
+            (roles) => (
+              <button
+                key={roles}
+                type="button"
+                onClick={() => setRole(roles)}
+                className={`flex-1 py-2 rounded-lg transition-all duration-200 cursor-pointer ${
+                  role === roles
+                    ? "bg-blue-600 text-white font-semibold shadow-md"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                {roles === "FrontOffice" ? "Front Desk" : roles}
+              </button>
+            ),
+          )}
         </div>
 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
-          
           {/* Email Input */}
           <div>
             <label className="block text-xs font-medium text-slate-300 mb-1.5">
@@ -323,10 +329,18 @@ export default function Login() {
           {/* Options: Remember & Forgot */}
           <div className="flex justify-between items-center text-xs text-slate-400">
             <label className="flex items-center space-x-2 cursor-pointer">
-              <input type="checkbox" className="rounded bg-slate-800 border-slate-700 text-blue-600 focus:ring-0" />
+              <input
+                type="checkbox"
+                className="rounded bg-slate-800 border-slate-700 text-blue-600 focus:ring-0"
+              />
               <span>Remember me</span>
             </label>
-            <a href="#" className="text-blue-400 hover:text-blue-300 transition">Forgot password?</a>
+            <a
+              href="#"
+              className="text-blue-400 hover:text-blue-300 transition"
+            >
+              Forgot password?
+            </a>
           </div>
 
           {/* Submit Button */}
@@ -348,12 +362,14 @@ export default function Login() {
 
         {/* Footer Link */}
         <p className="text-center text-xs text-slate-400 pt-2 border-t border-slate-800">
-          Don't have a citizen account?{' '}
-          <Link to="/register" className="text-blue-400 hover:text-blue-300 font-semibold">
+          Don't have a citizen account?{" "}
+          <Link
+            to="/register"
+            className="text-blue-400 hover:text-blue-300 font-semibold"
+          >
             Register here
           </Link>
         </p>
-
       </div>
     </div>
   );
