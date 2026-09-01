@@ -1,0 +1,29 @@
+{
+  "government": {
+    "title": "Government of Nepal",
+    "subtitle": "Local Level Digital Service Portal"
+  },
+
+  "navbar": {
+    "systemName": "E-Ward Sifarish System",
+    "systemSubtitle": "Digital Ward Service Portal",
+    "home": "Home",
+    "services": "Services",
+    "trackApplication": "Track Application",
+    "verifyCertificate": "Verify Certificate",
+    "notices": "Notices",
+    "login": "Login",
+    "loginNow": "Login",
+    "helpCenter": "Help Center",
+    "nepali": "नेपाली",
+    "english": "English"
+  }
+  ,
+  
+  "home": {
+    "heroTitle": "Ward Services, Simplified.",
+    "heroDescription": "Apply for ward recommendations online and receive your certificate digitally.",
+    "applyNow": "Apply for Sifarish"
+  }
+
+}
