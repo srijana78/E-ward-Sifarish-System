@@ -8,25 +8,25 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-10">
+    <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4 py-10">
 
-      <div className="w-full max-w-md">
+      <div className="w-full  max-w-md">
 
         {/* Logo / Heading */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 ">
 
           <Link
             to="/"
             className="inline-flex items-center gap-3"
           >
 
-            <div className="w-11 h-11 bg-blue-700 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-blue-700 rounded-xl flex items-center justify-center">
               <span className="text-white font-bold text-sm">
                 EW
               </span>
             </div>
 
-            <span className="text-xl font-bold text-slate-900">
+            <span className="text-2xl font-bold text-slate-900">
               E-Ward Sifarish
             </span>
 
@@ -36,7 +36,7 @@ function Login() {
             Welcome Back
           </h1>
 
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-base text-slate-600">
             Sign in to access your digital ward services
           </p>
 
@@ -44,7 +44,7 @@ function Login() {
 
 
         {/* Login Card */}
-        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 sm:p-8">
+        <div className="bg-white border border-slate-300 rounded-2xl shadow-2xl shadow-bg-slate-600 p-8 sm:p-8">
 
           <form onSubmit={handleSubmit} className="space-y-5">
 
@@ -53,7 +53,7 @@ function Login() {
 
               <label
                 htmlFor="email"
-                className="block text-sm font-semibold text-slate-700 mb-2"
+                className="block text-lg font-semibold text-slate-700 mb-2"
               >
                 Email Address
               </label>
@@ -63,7 +63,7 @@ function Login() {
                 type="email"
                 placeholder="you@example.com"
                 required
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg text-sm outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg text-lg outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
               />
 
             </div>
@@ -76,14 +76,14 @@ function Login() {
 
                 <label
                   htmlFor="password"
-                  className="block text-sm font-semibold text-slate-700"
+                  className="block text-lg font-semibold text-slate-700"
                 >
                   Password
                 </label>
 
                 <button
                   type="button"
-                  className="text-xs font-semibold text-blue-700 hover:text-blue-800"
+                  className="text-lg font-semibold text-blue-700 hover:text-blue-800"
                 >
                   Forgot password?
                 </button>
@@ -95,7 +95,7 @@ function Login() {
                 type="password"
                 placeholder="Enter your password"
                 required
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg text-sm outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg text-lg outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
               />
 
             </div>
@@ -106,13 +106,13 @@ function Login() {
 
               <input
                 id="remember"
-                type="checkbox"
-                className="w-4 h-4 accent-blue-700"
+                type="checkbox" 
+                className="w-4 h-4  accent-blue-700"
               />
 
               <label
                 htmlFor="remember"
-                className="text-sm text-slate-600"
+                className="text-lg text-slate-600"
               >
                 Remember me
               </label>
@@ -123,7 +123,7 @@ function Login() {
             {/* Submit */}
             <button
               type="submit"
-              className="w-full bg-blue-700 hover:bg-blue-800 text-white py-3 rounded-lg font-semibold transition shadow-sm"
+              className="w-full bg-blue-700 hover:bg-blue-900 text-white text-lg py-3 rounded-lg font-bold transition shadow-md"
             >
               Sign In
             </button>
@@ -132,14 +132,14 @@ function Login() {
 
 
           {/* Register */}
-          <div className="mt-7 pt-6 border-t border-slate-100 text-center">
+          <div className="mt-3 mb-4 pt-6 border-t border-slate-100 text-center">
 
-            <p className="text-sm text-slate-500">
+            <p className="text-md t text-slate-700">
               Don't have a citizen account?
 
               <Link
                 to="/register"
-                className="ml-1 text-blue-700 hover:text-blue-800 font-semibold"
+                className="ml-1 text-blue-700 hover:text-blue-900 font-semibold"
               >
                 Create an account
               </Link>
@@ -155,7 +155,7 @@ function Login() {
 
           <Link
             to="/"
-            className="text-sm text-slate-500 hover:text-blue-700 transition"
+            className="text-lg text-slate-700 hover:text-blue-900 font-semibold transition"
           >
             ← Back to home
           </Link>
