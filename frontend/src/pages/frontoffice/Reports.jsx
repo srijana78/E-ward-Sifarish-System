@@ -1,171 +1,251 @@
-function Reports() {
-  const reports = [
+import React from "react";
+import { useTranslation } from "react-i18next";
+import {
+  FileText,
+  Clock3,
+  CheckCircle2,
+  XCircle,
+  BarChart3,
+  TrendingUp,
+} from "lucide-react";
+
+const Reports = () => {
+  const { t } = useTranslation();
+
+  const statistics = [
     {
-      title: "Total Applications",
-      value: 124,
-      description: "Applications received",
-      icon: "📋",
-      color: "blue",
+      title: t("reports.totalApplications"),
+      value: "24",
+      icon: FileText,
+      iconStyle: "bg-blue-50 text-blue-700",
     },
     {
-      title: "Pending Applications",
-      value: 18,
-      description: "Waiting for verification",
-      icon: "⏳",
-      color: "amber",
+      title: t("reports.pendingApplications"),
+      value: "8",
+      icon: Clock3,
+      iconStyle: "bg-amber-50 text-amber-600",
     },
     {
-      title: "Verified Applications",
-      value: 91,
-      description: "Successfully verified",
-      icon: "✓",
-      color: "green",
+      title: t("reports.verifiedApplications"),
+      value: "12",
+      icon: CheckCircle2,
+      iconStyle: "bg-green-50 text-green-600",
     },
     {
-      title: "Rejected Applications",
-      value: 15,
-      description: "Applications rejected",
-      icon: "!",
-      color: "red",
+      title: t("reports.rejectedApplications"),
+      value: "4",
+      icon: XCircle,
+      iconStyle: "bg-red-50 text-red-600",
     },
   ];
 
-  const services = [
+  const statusReports = [
     {
-      name: "Residence Recommendation",
-      nepali: "बसोबास प्रमाणित सिफारिस",
-      count: 48,
+      label: t("reports.pending"),
+      value: 8,
+      percentage: 33,
+      color: "bg-amber-500",
     },
     {
-      name: "Relationship Certificate",
-      nepali: "नाता प्रमाणित सिफारिस",
-      count: 31,
+      label: t("reports.verified"),
+      value: 12,
+      percentage: 50,
+      color: "bg-green-500",
     },
     {
-      name: "Land Recommendation",
-      nepali: "जग्गा सम्बन्धी सिफारिस",
-      count: 27,
+      label: t("reports.rejected"),
+      value: 4,
+      percentage: 17,
+      color: "bg-red-500",
+    },
+  ];
+
+  const serviceReports = [
+    {
+      service: t("reports.residence"),
+      applications: 9,
     },
     {
-      name: "Other Services",
-      nepali: "अन्य सेवाहरू",
-      count: 18,
+      service: t("reports.personal"),
+      applications: 6,
+    },
+    {
+      service: t("reports.education"),
+      applications: 4,
+    },
+    {
+      service: t("reports.business"),
+      applications: 3,
+    },
+    {
+      service: t("reports.other"),
+      applications: 2,
     },
   ];
 
   return (
-    <div className="max-w-7xl mx-auto">
-
+    <div className="mx-auto max-w-7xl mt-9 space-y-6">
       {/* Header */}
-      <div className="mb-7">
-        <p className="text-sm font-medium text-blue-700">
-          Ward Administration
+      <section>
+        <p className="text-sm font-bold text-red-600">
+          {t("reports.label")}
         </p>
 
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
-          Reports
+        <h1 className="mt-1 text-2xl font-bold text-blue-950 sm:text-3xl">
+          {t("reports.title")}
         </h1>
 
-        <p className="text-sm text-slate-500 mt-1">
-          आवेदन तथा सेवाहरूको प्रतिवेदन
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+          {t("reports.description")}
         </p>
-      </div>
+      </section>
 
-      {/* Report Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-
-        {reports.map((report) => (
-          <div
-            key={report.title}
-            className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5"
-          >
-            <div className="flex items-start justify-between gap-3">
-
-              <div>
-                <p className="text-xs sm:text-sm text-slate-500">
-                  {report.title}
-                </p>
-
-                <p className="text-2xl sm:text-3xl font-bold text-slate-900 mt-3">
-                  {report.value}
-                </p>
-
-                <p className="text-[11px] text-slate-400 mt-1">
-                  {report.description}
-                </p>
-              </div>
-
-              <div
-                className={`
-                  w-10 h-10 rounded-xl
-                  flex items-center justify-center
-                  ${
-                    report.color === "blue"
-                      ? "bg-blue-50 text-blue-700"
-                      : report.color === "amber"
-                      ? "bg-amber-50 text-amber-700"
-                      : report.color === "green"
-                      ? "bg-green-50 text-green-700"
-                      : "bg-red-50 text-red-700"
-                  }
-                `}
-              >
-                {report.icon}
-              </div>
-
-            </div>
+      {/* Report Overview */}
+      <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="flex items-start gap-4">
+          <div className="rounded-xl bg-blue-50 p-3 text-blue-900">
+            <BarChart3 size={24} />
           </div>
-        ))}
 
-      </div>
+          <div>
+            <h2 className="text-lg font-bold text-blue-950">
+              {t("reports.overview")}
+            </h2>
 
-      {/* Service Report */}
-      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
-
-        <div className="p-5 sm:p-6 border-b border-slate-100">
-          <h2 className="text-lg font-bold text-slate-900">
-            Applications by Service
-          </h2>
-
-          <p className="text-xs text-slate-400 mt-1">
-            सेवाअनुसार आवेदनहरूको विवरण
-          </p>
+            <p className="mt-1 text-sm text-slate-500">
+              {t("reports.overviewDescription")}
+            </p>
+          </div>
         </div>
+      </section>
 
-        <div className="divide-y divide-slate-100">
+      {/* Statistics Cards */}
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {statistics.map((stat) => {
+          const Icon = stat.icon;
 
-          {services.map((service) => (
+          return (
             <div
-              key={service.name}
-              className="p-5 flex items-center justify-between gap-4 hover:bg-slate-50 transition"
+              key={stat.title}
+              className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
             >
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-slate-800">
-                  {service.name}
-                </p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-slate-500">
+                    {stat.title}
+                  </p>
 
-                <p className="text-xs text-slate-400 mt-1">
-                  {service.nepali}
-                </p>
-              </div>
+                  <p className="mt-2 text-2xl font-bold text-blue-950">
+                    {stat.value}
+                  </p>
+                </div>
 
-              <div className="text-right shrink-0">
-                <p className="text-lg font-bold text-blue-700">
-                  {service.count}
-                </p>
-
-                <p className="text-[10px] text-slate-400">
-                  applications
-                </p>
+                <div
+                  className={`rounded-lg p-3 ${stat.iconStyle}`}
+                >
+                  <Icon size={21} />
+                </div>
               </div>
             </div>
-          ))}
+          );
+        })}
+      </section>
 
+      {/* Main Reports */}
+      <section className="grid gap-6 lg:grid-cols-2">
+        {/* Applications by Status */}
+        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div>
+            <h2 className="font-bold text-blue-950">
+              {t("reports.applicationsByStatus")}
+            </h2>
+
+            <p className="mt-1 text-sm text-slate-500">
+              {t("reports.applicationsByStatusDescription")}
+            </p>
+          </div>
+
+          <div className="mt-6 space-y-5">
+            {statusReports.map((report) => (
+              <div key={report.label}>
+                <div className="mb-2 flex items-center justify-between">
+                  <span className="text-sm font-medium text-slate-700">
+                    {report.label}
+                  </span>
+
+                  <span className="text-sm font-bold text-blue-950">
+                    {report.value}
+                  </span>
+                </div>
+
+                <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+                  <div
+                    className={`h-full rounded-full ${report.color}`}
+                    style={{ width: `${report.percentage}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
+        {/* Applications by Service */}
+        <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div>
+            <h2 className="font-bold text-blue-950">
+              {t("reports.applicationsByService")}
+            </h2>
+
+            <p className="mt-1 text-sm text-slate-500">
+              {t("reports.applicationsByServiceDescription")}
+            </p>
+          </div>
+
+          <div className="mt-5 divide-y divide-slate-100">
+            {serviceReports.map((report) => (
+              <div
+                key={report.service}
+                className="flex items-center justify-between py-4"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="rounded-lg bg-blue-50 p-2 text-blue-900">
+                    <FileText size={17} />
+                  </div>
+
+                  <span className="text-sm font-medium text-slate-700">
+                    {report.service}
+                  </span>
+                </div>
+
+                <span className="text-sm font-bold text-blue-950">
+                  {report.applications}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Report Insight */}
+      <section className="rounded-xl border border-blue-100 bg-blue-50 p-5">
+        <div className="flex gap-4">
+          <div className="rounded-lg bg-white p-2 text-blue-900 shadow-sm">
+            <TrendingUp size={20} />
+          </div>
+
+          <div>
+            <h3 className="font-bold text-blue-950">
+              {t("reports.insight")}
+            </h3>
+
+            <p className="mt-1 text-sm leading-6 text-slate-600">
+              {t("reports.insightDescription")}
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
-}
+};
 
 export default Reports;

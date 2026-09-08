@@ -1,469 +1,382 @@
-import { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-function FrontOfficeDashboard() {
+import {
+  FileText,
+  Clock3,
+  CheckCircle2,
+  Bell,
+  ArrowRight,
+  ClipboardCheck,
+  Users,
+  AlertCircle,
+} from "lucide-react";
+
+const FrontOfficeDashboard = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [search, setSearch] = useState("");
-
-  // Temporary data
-  // Later this will come from our backend/database.
-  const applications = [
+  const stats = [
     {
-      id: "EW-2026-00124",
-      applicant: "Srijana Bhakri",
-      service: "Residence Recommendation",
-      nepaliService: "बसोबास प्रमाणित सिफारिस",
-      submitted: "Today, 9:30 AM",
-      status: "Pending",
+      title: t("frontOfficeDashboard.totalApplications"),
+      value: "24",
+      icon: FileText,
     },
     {
-      id: "EW-2026-00123",
-      applicant: "Ram Sharma",
-      service: "Relationship Certificate",
-      nepaliService: "नाता प्रमाणित सिफारिस",
-      submitted: "Today, 8:45 AM",
-      status: "Pending",
+      title: t("frontOfficeDashboard.pendingApplications"),
+      value: "8",
+      icon: Clock3,
     },
     {
-      id: "EW-2026-00121",
-      applicant: "Mina Thapa",
-      service: "Land Recommendation",
-      nepaliService: "जग्गा सम्बन्धी सिफारिस",
-      submitted: "Yesterday",
-      status: "Verified",
+      title: t("frontOfficeDashboard.verifiedApplications"),
+      value: "14",
+      icon: CheckCircle2,
     },
     {
-      id: "EW-2026-00119",
-      applicant: "Bikash KC",
-      service: "Residence Recommendation",
-      nepaliService: "बसोबास प्रमाणित सिफारिस",
-      submitted: "Yesterday",
-      status: "Rejected",
+      title: t("frontOfficeDashboard.newNotifications"),
+      value: "3",
+      icon: Bell,
     },
   ];
 
-  // Filter + Search
-  const filteredApplications = applications.filter((application) => {
-    const matchesFilter =
-      activeFilter === "All" ||
-      application.status === activeFilter;
+  const recentApplications = [
+    {
+      id: "EW-2026-001",
+      applicant: "Ram Sharma",
+      service: "Residence Recommendation",
+      date: "2026-09-04",
+      status: "Pending",
+    },
+    {
+      id: "EW-2026-002",
+      applicant: "Sita Thapa",
+      service: "Personal & Civil Recommendation",
+      date: "2026-09-03",
+      status: "Pending",
+    },
+    {
+      id: "EW-2026-003",
+      applicant: "Hari Karki",
+      service: "Business Recommendation",
+      date: "2026-09-02",
+      status: "Verified",
+    },
+  ];
 
-    const searchText = search.toLowerCase();
-
-    const matchesSearch =
-      application.applicant.toLowerCase().includes(searchText) ||
-      application.id.toLowerCase().includes(searchText) ||
-      application.service.toLowerCase().includes(searchText);
-
-    return matchesFilter && matchesSearch;
-  });
-
-  // Status styling
-  const getStatusStyle = (status) => {
-    if (status === "Verified") {
-      return "bg-green-50 text-green-700 border-green-200";
-    }
-
-    if (status === "Rejected") {
-      return "bg-red-50 text-red-700 border-red-200";
-    }
-
-    return "bg-amber-50 text-amber-700 border-amber-200";
-  };
+  const quickActions = [
+    {
+      title: t("frontOfficeDashboard.reviewApplications"),
+      description: t(
+        "frontOfficeDashboard.reviewApplicationsDescription"
+      ),
+      icon: ClipboardCheck,
+      path: "/frontoffice/pending",
+    },
+    {
+      title: t("frontOfficeDashboard.verifiedApplications"),
+      description: t(
+        "frontOfficeDashboard.verifiedApplicationsDescription"
+      ),
+      icon: CheckCircle2,
+      path: "/frontoffice/verified",
+    },
+    {
+      title: t("frontOfficeDashboard.viewNotifications"),
+      description: t(
+        "frontOfficeDashboard.viewNotificationsDescription"
+      ),
+      icon: Bell,
+      path: "/frontoffice/notifications",
+    },
+    {
+      title: t("frontOfficeDashboard.viewReports"),
+      description: t(
+        "frontOfficeDashboard.viewReportsDescription"
+      ),
+      icon: FileText,
+      path: "/frontoffice/reports",
+    },
+  ];
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="space-y-6">
 
-      {/* =========================================
-          PAGE HEADER
-      ========================================== */}
+      {/* Welcome Section */}
+      <section className="overflow-hidden rounded-2xl bg-gradient-to-r from-blue-950 mt-10 via-blue-900 to-slate-900">
+        <div className="flex flex-col gap-6 p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
 
-      <div className="mb-7 ">
-
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
-
-          <div>
-            <p className="text-sm font-medium text-blue-700">
-              Ward Administration
+          <div className="max-w-2xl text-white">
+            <p className="mb-2 text-sm font-semibold text-red-300">
+              {t("frontOfficeDashboard.welcomeLabel")}
             </p>
 
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
-              Front Office Dashboard
+            <h1 className="text-2xl font-bold sm:text-3xl">
+              {t("frontOfficeDashboard.welcomeTitle")}
             </h1>
 
-            <p className="text-sm text-slate-500 mt-1">
-              आवेदन प्रमाणीकरण तथा व्यवस्थापन
+            <p className="mt-3 text-sm leading-6 text-blue-100 sm:text-base">
+              {t("frontOfficeDashboard.welcomeDescription")}
             </p>
           </div>
 
-          {/* Date */}
+          <button
+            onClick={() => navigate("/frontoffice/pending")}
+            className="flex shrink-0 items-center justify-center gap-2 rounded-lg bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-700"
+          >
+            <ClipboardCheck size={18} />
 
-          <div className="bg-white border border-slate-200 rounded-xl px-4 py-3">
-
-            <p className="text-xs text-slate-400">
-              Today's Date
-            </p>
-
-            <p className="text-sm font-semibold text-slate-700 mt-1">
-              September 1, 2026
-            </p>
-
-          </div>
+            {t("frontOfficeDashboard.reviewNow")}
+          </button>
 
         </div>
+      </section>
 
-      </div>
+      {/* Statistics */}
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
+        {stats.map((stat) => {
+          const Icon = stat.icon;
 
-      {/* =========================================
-          STAT CARDS
-      ========================================== */}
+          return (
+            <div
+              key={stat.title}
+              className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+            >
+              <div className="flex items-center justify-between">
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+                <div>
+                  <p className="text-sm font-medium text-slate-500">
+                    {stat.title}
+                  </p>
 
-        {/* Total */}
+                  <p className="mt-2 text-2xl font-bold text-blue-950">
+                    {stat.value}
+                  </p>
+                </div>
 
-        <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5">
+                <div className="rounded-lg bg-slate-100 p-3 text-blue-950">
+                  <Icon size={21} />
+                </div>
 
-          <p className="text-xs sm:text-sm text-slate-500">
-            Total Applications
-          </p>
+              </div>
+            </div>
+          );
+        })}
 
-          <div className="flex items-end justify-between mt-3">
+      </section>
 
-            <p className="text-2xl sm:text-3xl font-bold text-slate-900">
-              124
+      {/* Recent Applications */}
+      <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+
+        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+
+          <div>
+            <h2 className="text-base font-bold text-blue-950">
+              {t("frontOfficeDashboard.recentApplications")}
+            </h2>
+
+            <p className="mt-1 text-xs text-slate-500">
+              {t("frontOfficeDashboard.recentApplicationsDescription")}
             </p>
-
-            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-700">
-              📋
-            </div>
-
           </div>
+
+          <button
+            onClick={() => navigate("/frontoffice/pending")}
+            className="text-sm font-semibold text-blue-900 transition hover:text-red-600"
+          >
+            {t("frontOfficeDashboard.viewAll")}
+          </button>
 
         </div>
-
-
-        {/* Pending */}
-
-        <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5">
-
-          <p className="text-xs sm:text-sm text-slate-500">
-            Pending Verification
-          </p>
-
-          <div className="flex items-end justify-between mt-3">
-
-            <p className="text-2xl sm:text-3xl font-bold text-amber-600">
-              18
-            </p>
-
-            <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-700">
-              ⏳
-            </div>
-
-          </div>
-
-        </div>
-
-
-        {/* Verified */}
-
-        <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5">
-
-          <p className="text-xs sm:text-sm text-slate-500">
-            Verified
-          </p>
-
-          <div className="flex items-end justify-between mt-3">
-
-            <p className="text-2xl sm:text-3xl font-bold text-green-600">
-              91
-            </p>
-
-            <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-700">
-              ✓
-            </div>
-
-          </div>
-
-        </div>
-
-
-        {/* Rejected */}
-
-        <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5">
-
-          <p className="text-xs sm:text-sm text-slate-500">
-            Rejected
-          </p>
-
-          <div className="flex items-end justify-between mt-3">
-
-            <p className="text-2xl sm:text-3xl font-bold text-red-600">
-              15
-            </p>
-
-            <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center text-red-700">
-              !
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      {/* =========================================
-          APPLICATION SECTION
-      ========================================== */}
-
-      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
-
-        {/* Section Header */}
-
-        <div className="p-5 sm:p-6 border-b border-slate-100">
-
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-
-            {/* Title */}
-
-            <div>
-
-              <h2 className="text-lg font-bold text-slate-900">
-                Applications
-              </h2>
-
-              <p className="text-xs text-slate-400 mt-1">
-                आवेदनहरूको सूची
-              </p>
-
-            </div>
-
-
-            {/* Search */}
-
-            <div className="relative w-full lg:w-72">
-
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-                🔍
-              </span>
-
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search application..."
-                className="
-                  w-full
-                  pl-10
-                  pr-4
-                  py-2.5
-                  rounded-xl
-                  border
-                  border-slate-200
-                  bg-slate-50
-                  text-sm
-                  outline-none
-                  focus:bg-white
-                  focus:border-blue-500
-                  focus:ring-2
-                  focus:ring-blue-100
-                  transition
-                "
-              />
-
-            </div>
-
-          </div>
-
-
-          {/* Filters */}
-
-          <div className="flex gap-2 overflow-x-auto mt-5">
-
-            {["All", "Pending", "Verified", "Rejected"].map(
-              (filter) => (
-
-                <button
-                  key={filter}
-                  onClick={() => setActiveFilter(filter)}
-                  className={`
-                    px-4
-                    py-2
-                    rounded-lg
-                    text-xs
-                    font-semibold
-                    whitespace-nowrap
-                    transition
-
-                    ${
-                      activeFilter === filter
-                        ? "bg-blue-700 text-white"
-                        : "bg-slate-50 text-slate-600 hover:bg-slate-100"
-                    }
-                  `}
-                >
-                  {filter}
-                </button>
-
-              )
-            )}
-
-          </div>
-
-        </div>
-
-
-        {/* =========================================
-            APPLICATION LIST
-        ========================================== */}
 
         <div className="divide-y divide-slate-100">
 
-          {filteredApplications.map((application) => (
-
+          {recentApplications.map((application) => (
             <div
               key={application.id}
-              className="p-5 sm:p-6 hover:bg-slate-50 transition"
+              className="flex flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
             >
 
-              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+              <div className="flex items-center gap-4">
 
-                {/* Applicant Information */}
-
-                <div className="flex gap-4 min-w-0">
-
-                  {/* Avatar */}
-
-                  <div className="w-11 h-11 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold shrink-0">
-                    {application.applicant.charAt(0)}
-                  </div>
-
-
-                  {/* Details */}
-
-                  <div className="min-w-0">
-
-                    <h3 className="font-semibold text-slate-800">
-                      {application.applicant}
-                    </h3>
-
-                    <p className="text-sm text-slate-600 mt-1">
-                      {application.service}
-                    </p>
-
-                    <p className="text-xs text-slate-400 mt-1">
-                      {application.nepaliService}
-                    </p>
-
-
-                    <div className="flex flex-wrap gap-3 mt-2">
-
-                      <span className="text-xs text-slate-400">
-                        {application.id}
-                      </span>
-
-                      <span className="text-xs text-slate-400">
-                        {application.submitted}
-                      </span>
-
-                    </div>
-
-                  </div>
-
+                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-blue-50 text-blue-900">
+                  <FileText size={20} />
                 </div>
 
+                <div>
+                  <p className="text-sm font-semibold text-blue-950">
+                    {application.applicant}
+                  </p>
 
-                {/* Status + Review */}
+                  <p className="mt-1 text-xs text-slate-500">
+                    {application.service}
+                  </p>
 
-                <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-
-                  {/* Status */}
-
-                  <span
-                    className={`
-                      self-start
-                      px-3
-                      py-1.5
-                      rounded-full
-                      border
-                      text-xs
-                      font-semibold
-                      ${getStatusStyle(application.status)}
-                    `}
-                  >
-
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-current mr-2" />
-
-                    {application.status}
-
-                  </span>
-
-
-                  {/* Review Button */}
-
-                  <button
-                    onClick={() =>
-                      navigate(
-                        `/frontoffice/applications/${application.id}`
-                      )
-                    }
-                    className="
-                      px-5
-                      py-2.5
-                      rounded-lg
-                      bg-blue-700
-                      hover:bg-blue-800
-                      text-white
-                      text-xs
-                      font-semibold
-                      transition
-                    "
-                  >
-                    Review Application
-                  </button>
-
+                  <p className="mt-1 text-xs text-slate-400">
+                    {application.id} • {application.date}
+                  </p>
                 </div>
 
               </div>
 
-            </div>
+              <StatusBadge status={application.status} />
 
+            </div>
           ))}
 
+        </div>
 
-          {/* Empty State */}
+      </section>
 
-          {filteredApplications.length === 0 && (
+      {/* Quick Actions */}
+      <section>
 
-            <div className="py-16 text-center px-5">
+        <div className="mb-4">
 
-              <div className="text-3xl mb-3">
-                🔍
-              </div>
+          <h2 className="text-lg font-bold text-blue-950">
+            {t("frontOfficeDashboard.quickActions")}
+          </h2>
 
-              <h3 className="font-semibold text-slate-700">
-                No applications found
-              </h3>
+          <p className="mt-1 text-sm text-slate-500">
+            {t("frontOfficeDashboard.quickActionsDescription")}
+          </p>
 
-              <p className="text-sm text-slate-400 mt-1">
-                Try changing your search or filter.
-              </p>
+        </div>
 
-            </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
 
-          )}
+          {quickActions.map((action) => {
+            const Icon = action.icon;
 
+            return (
+              <button
+                key={action.title}
+                onClick={() => navigate(action.path)}
+                className="group rounded-xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md"
+              >
+
+                <div className="mb-4 flex items-center justify-between">
+
+                  <div className="rounded-lg bg-blue-50 p-3 text-blue-900">
+                    <Icon size={20} />
+                  </div>
+
+                  <ArrowRight
+                    size={18}
+                    className="text-slate-400 transition group-hover:translate-x-1 group-hover:text-red-600"
+                  />
+
+                </div>
+
+                <h3 className="text-sm font-bold text-blue-950">
+                  {action.title}
+                </h3>
+
+                <p className="mt-2 text-xs leading-5 text-slate-500">
+                  {action.description}
+                </p>
+
+              </button>
+            );
+          })}
+
+        </div>
+
+      </section>
+
+      {/* Work Summary */}
+      <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+
+        <div className="mb-5">
+
+          <h2 className="text-lg font-bold text-blue-950">
+            {t("frontOfficeDashboard.workSummary")}
+          </h2>
+
+          <p className="mt-1 text-sm text-slate-500">
+            {t("frontOfficeDashboard.workSummaryDescription")}
+          </p>
+
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+
+          <SummaryCard
+            icon={Clock3}
+            title={t("frontOfficeDashboard.pendingReview")}
+            value="8"
+          />
+
+          <SummaryCard
+            icon={CheckCircle2}
+            title={t("frontOfficeDashboard.completedToday")}
+            value="5"
+          />
+
+          <SummaryCard
+            icon={AlertCircle}
+            title={t("frontOfficeDashboard.requiresAttention")}
+            value="2"
+          />
+
+        </div>
+
+      </section>
+
+    </div>
+  );
+};
+
+
+/* Status Badge */
+
+const StatusBadge = ({ status }) => {
+
+  const isVerified = status === "Verified";
+
+  return (
+    <span
+      className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+        isVerified
+          ? "bg-green-50 text-green-700"
+          : "bg-amber-50 text-amber-700"
+      }`}
+    >
+      {status}
+    </span>
+  );
+};
+
+
+/* Summary Card */
+
+const SummaryCard = ({ icon: Icon, title, value }) => {
+
+  return (
+    <div className="rounded-xl bg-slate-50 p-5">
+
+      <div className="flex items-center justify-between">
+
+        <div>
+          <p className="text-sm font-medium text-slate-500">
+            {title}
+          </p>
+
+          <p className="mt-2 text-2xl font-bold text-blue-950">
+            {value}
+          </p>
+        </div>
+
+        <div className="rounded-lg bg-white p-3 text-blue-900 shadow-sm">
+          <Icon size={20} />
         </div>
 
       </div>
 
     </div>
   );
-}
+};
+
 
 export default FrontOfficeDashboard;

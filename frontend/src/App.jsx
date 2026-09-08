@@ -1,155 +1,109 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 // Layouts
-import PublicLayout from "./layouts/PublicLayout";
-import CitizenLayout from "./layouts/CitizenLayout";
-import AdminLayout from "./layouts/AdminLayout";
+import MainLayout from "./layouts/MainLayout";
+import CitizenDashboardLayout from "./layouts/CitizenDashboardLayout";
+import FrontOfficeLayout from "./layouts/FrontOfficeLayout";
 
-// Public
+// Public Pages
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
-// Citizen
+// Citizen Pages
 import CitizenDashboard from "./pages/citizen/CitizenDashboard";
 import NewApplication from "./pages/citizen/NewApplication";
-import MyApplications from "./pages/citizen/MyApplications";
 import ApplicationDetails from "./pages/citizen/ApplicationDetails";
+import Documents from "./pages/citizen/Documents";
+import Payment from "./pages/citizen/Payment";
+import ReviewSubmit from "./pages/citizen/ReviewSubmit";
+import MyApplications from "./pages/citizen/MyApplications";
 
-// Front Office
+// Front Office Pages
 import FrontOfficeDashboard from "./pages/frontoffice/FrontOfficeDashboard";
-import FrontOfficeApplicationDetails from "./pages/frontoffice/FrontOfficeApplicationDetails";
-import Applications from "./pages/frontoffice/Applications";
-
+import PendingApplications from "./pages/frontoffice/PendingApplications";
+import VerifiedApplications from "./pages/frontoffice/VerifiedApplications";
 import Notifications from "./pages/frontoffice/Notifications";
-import PendingReview from "./pages/frontoffice/PendingReview";
 import Reports from "./pages/frontoffice/Reports";
 import Settings from "./pages/frontoffice/Settings";
-import Verified from "./pages/frontoffice/Verified";
-
-
-
+import FrontOfficeApplicationDetails from "./pages/frontoffice/FrontOfficeApplicationDetails";
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <Routes>
+      {/* ================= PUBLIC ROUTES ================= */}
 
-        {/* =========================
-            PUBLIC
-        ========================== */}
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Route>
 
-        <Route element={<PublicLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Route>
+      {/* ================= CITIZEN PORTAL ================= */}
 
+      <Route
+        path="/citizen"
+        element={<CitizenDashboardLayout />}
+      >
+        <Route index element={<CitizenDashboard />} />
 
-        {/* =========================
-            CITIZEN
-        ========================== */}
+        {/* Application Flow */}
+        <Route path="apply" element={<NewApplication />} />
+        <Route
+          path="apply/details"
+          element={<ApplicationDetails />}
+        />
+        <Route
+          path="apply/documents"
+          element={<Documents />}
+        />
+        <Route
+          path="apply/payment"
+          element={<Payment />}
+        />
+        <Route
+          path="apply/review"
+          element={<ReviewSubmit />}
+        />
 
-        <Route element={<CitizenLayout />}>
-          <Route
-            path="/citizen/dashboard"
-            element={<CitizenDashboard />}
-          />
+        {/* My Applications */}
+        <Route
+          path="applications"
+          element={<MyApplications />}
+        />
 
-          <Route
-            path="/citizen/new-application"
-            element={<NewApplication />}
-          />
+        {/* Payment Voucher */}
+        <Route path="payments" element={<Payment />} />
+      </Route>
 
-          <Route
-            path="/citizen/applications"
-            element={<MyApplications />}
-          />
+      {/* ============== FRONT OFFICE PORTAL ============== */}
 
-          <Route
-            path="/citizen/applications/:id"
-            element={<ApplicationDetails />}
-          />
-        </Route>
+     <Route path="/frontoffice" element={<FrontOfficeLayout />}>
+  <Route index element={<FrontOfficeDashboard />} />
 
+  <Route path="pending" element={<PendingApplications />} />
 
-        {/* =========================
-            FRONT OFFICE
-        ========================== */}
+  <Route path="verified" element={<VerifiedApplications />} />
 
- <Route path="/frontoffice" element={<AdminLayout />}>
-
-  {/* Dashboard */}
   <Route
-    path="dashboard"
-    element={<FrontOfficeDashboard />}
-  />
-
-  {/* All Applications */}
-  <Route
-    path="applications"
-    element={<Applications />}
-  />
-
-  {/* Application Details */}
-  <Route
-    path="applications/:id"
+    path="application/:id"
     element={<FrontOfficeApplicationDetails />}
   />
 
-  {/* Notifications */}
-  <Route
-    path="notifications"
-    element={<Notifications />}
-  />
+  <Route path="notifications" element={<Notifications />} />
 
-  {/* Pending Review */}
-  <Route
-    path="pending"
-    element={<PendingReview />}
-  />
+  <Route path="reports" element={<Reports />} />
 
-  {/* Reports */}
-  <Route
-    path="reports"
-    element={<Reports />}
-  />
-
-  {/* Verified Applications */}
-  <Route
-    path="verified"
-    element={<Verified />}
-  />
-
-  {/* Settings */}
-  <Route
-    path="settings"
-    element={<Settings />}
-  />
-
+  <Route path="settings" element={<Settings />} />
 </Route>
-        {/* =========================
-            404
-        ========================== */}
 
-        <Route
-          path="*"
-          element={
-            <div className="min-h-screen flex items-center justify-center bg-slate-50">
-              <div className="text-center">
-                <h1 className="text-5xl font-bold text-slate-800">
-                  404
-                </h1>
+      {/* ================= FALLBACK ================= */}
 
-                <p className="text-slate-500 mt-2">
-                  Page not found
-                </p>
-              </div>
-            </div>
-          }
-        />
-
-      </Routes>
-    </BrowserRouter>
+      <Route
+        path="*"
+        element={<Navigate to="/" replace />}
+      />
+    </Routes>
   );
 }
 

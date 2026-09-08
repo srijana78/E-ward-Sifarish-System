@@ -1,1185 +1,398 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import {
+  Search,
+  FileText,
+  Home,
+  GraduationCap,
+  BriefcaseBusiness,
+  Users,
+  Building2,
+  ArrowRight,
+  CheckCircle2,
+  Info,
+} from "lucide-react";
 
-function NewApplication() {
+// Recommendation data
+const recommendationServices = [
+  {
+    id: "residence",
+    category: "residence",
+    titleKey: "residence",
+    descriptionKey: "residenceDescription",
+    icon: Home,
+  },
+  {
+    id: "personal",
+    category: "personal",
+    titleKey: "personal",
+    descriptionKey: "personalDescription",
+    icon: Users,
+  },
+  {
+    id: "education",
+    category: "education",
+    titleKey: "education",
+    descriptionKey: "educationDescription",
+    icon: GraduationCap,
+  },
+  {
+    id: "business",
+    category: "business",
+    titleKey: "business",
+    descriptionKey: "businessDescription",
+    icon: BriefcaseBusiness,
+  },
+  {
+    id: "property",
+    category: "property",
+    titleKey: "property",
+    descriptionKey: "propertyDescription",
+    icon: Building2,
+  },
+  {
+    id: "other",
+    category: "other",
+    titleKey: "other",
+    descriptionKey: "otherDescription",
+    icon: FileText,
+  },
+];
 
+const categories = [
+  { id: "all", labelKey: "all" },
+  { id: "personal", labelKey: "personal" },
+  { id: "residence", labelKey: "residence" },
+  { id: "education", labelKey: "education" },
+  { id: "business", labelKey: "business" },
+  { id: "property", labelKey: "property" },
+  { id: "other", labelKey: "other" },
+];
+
+const NewApplication = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    service: "",
-    fullName: "Srijana Bhakri",
-    citizenshipNumber: "",
-    phone: "",
-    province: "",
-    district: "",
-    municipality: "",
-    wardNumber: "",
-    address: "",
-    purpose: "",
-    paymentMethod: "",
-    paymentVoucher: null,
-    citizenshipDocument: null,
-    supportingDocument: null,
+  const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedService, setSelectedService] = useState(null);
+
+  const filteredServices = recommendationServices.filter((service) => {
+    const matchesCategory =
+      selectedCategory === "all" ||
+      service.category === selectedCategory;
+
+    const title = t(
+      `newApplication.services.${service.titleKey}`
+    ).toLowerCase();
+
+    const description = t(
+      `newApplication.services.${service.descriptionKey}`
+    ).toLowerCase();
+
+    const searchText = search.toLowerCase();
+
+    return (
+      matchesCategory &&
+      (title.includes(searchText) ||
+        description.includes(searchText))
+    );
   });
 
-  const [currentStep, setCurrentStep] = useState(1);
+  const handleContinue = () => {
+    if (!selectedService) return;
 
-
-  // ==========================
-  // FORM CHANGE
-  // ==========================
-
-  const handleChange = (e) => {
-
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
+    navigate(
+      `/citizen/apply/details?service=${selectedService.id}`
+    );
   };
-
-
-  // ==========================
-  // FILE CHANGE
-  // ==========================
-
-  const handleFileChange = (e) => {
-
-    const { name, files } = e.target;
-
-    if (files && files[0]) {
-
-      setFormData((prev) => ({
-        ...prev,
-        [name]: files[0],
-      }));
-
-    }
-
-  };
-
-
-  // ==========================
-  // NEXT STEP
-  // ==========================
-
-  const handleNext = () => {
-
-    if (currentStep < 4) {
-      setCurrentStep(currentStep + 1);
-    }
-
-  };
-
-
-  // ==========================
-  // PREVIOUS STEP
-  // ==========================
-
-  const handlePrevious = () => {
-
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
-
-  };
-
-
-  // ==========================
-  // SUBMIT
-  // ==========================
-
-  const handleSubmit = (e) => {
-
-    e.preventDefault();
-
-    console.log("Application:", formData);
-
-    alert("Application submitted successfully!");
-
-    navigate("/citizen/applications");
-
-  };
-
-
-  // ==========================
-  // STEPS
-  // ==========================
-
-  const steps = [
-    {
-      number: 1,
-      title: "Service",
-      nepali: "सेवा",
-    },
-    {
-      number: 2,
-      title: "Information",
-      nepali: "विवरण",
-    },
-    {
-      number: 3,
-      title: "Documents",
-      nepali: "कागजात",
-    },
-    {
-      number: 4,
-      title: "Review",
-      nepali: "समीक्षा",
-    },
-  ];
-
 
   return (
+    <div className="mx-auto max-w-7xl space-y-8 pb-24">
 
-    <div className="max-w-7xl mx-auto">
-
-      {/* ==========================
-          PAGE HEADER
-      =========================== */}
-
-      <div className="mb-6">
-
-        <button
-          onClick={() => navigate("/citizen/dashboard")}
-          className="text-sm text-slate-500 hover:text-blue-700 mb-3 transition"
-        >
-          ← Back to Dashboard
-        </button>
-
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
-          New Application
-        </h1>
-
-        <p className="text-sm text-slate-500 mt-1">
-          नयाँ सिफारिसको लागि आवेदन दिनुहोस्
-        </p>
-
-      </div>
-
-
-      {/* ==========================
-          MAIN CARD
-      =========================== */}
-
-      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
-
-
-        {/* ==========================
-            PROGRESS BAR
-        =========================== */}
-
-        <div className="px-5 sm:px-8 py-6 border-b border-slate-100">
-
-          <div className="flex items-center justify-between">
-
-            {steps.map((step, index) => (
-
-              <div
-                key={step.number}
-                className="flex items-center flex-1"
-              >
-
-                {/* Step */}
-                <div className="flex items-center gap-2">
-
-                  <div
-                    className={`
-                      w-9 h-9 rounded-full flex items-center justify-center
-                      text-sm font-bold shrink-0
-                      ${
-                        currentStep >= step.number
-                          ? "bg-blue-700 text-white"
-                          : "bg-slate-100 text-slate-400"
-                      }
-                    `}
-                  >
-                    {currentStep > step.number
-                      ? "✓"
-                      : step.number}
-                  </div>
-
-                  <div className="hidden sm:block">
-
-                    <p
-                      className={`text-xs font-semibold ${
-                        currentStep >= step.number
-                          ? "text-blue-700"
-                          : "text-slate-400"
-                      }`}
-                    >
-                      {step.title}
-                    </p>
-
-                    <p className="text-[10px] text-slate-400">
-                      {step.nepali}
-                    </p>
-
-                  </div>
-
-                </div>
-
-
-                {/* Connector */}
-                {index < steps.length - 1 && (
-
-                  <div className="flex-1 mx-3 sm:mx-5">
-
-                    <div
-                      className={`h-0.5 ${
-                        currentStep > step.number
-                          ? "bg-blue-700"
-                          : "bg-slate-200"
-                      }`}
-                    />
-
-                  </div>
-
-                )}
-
-              </div>
-
-            ))}
-
-          </div>
-
+      {/* Page Header */}
+      <section>
+        <div className="flex items-center gap-2 text-xs font-medium text-slate-500 sm:text-sm">
+          <span>{t("citizenSidebar.dashboard")}</span>
+          <span>/</span>
+          <span className="text-blue-900">
+            {t("citizenSidebar.newApplication")}
+          </span>
         </div>
 
-
-        {/* ==========================
-            FORM
-        =========================== */}
-
-        <form onSubmit={handleSubmit}>
-
-          <div className="p-5 sm:p-8">
-
-
-            {/* =====================================
-                STEP 1 — SERVICE
-            ====================================== */}
-
-            {currentStep === 1 && (
-
-              <div className="max-w-3xl">
-
-                <div className="mb-7">
-
-                  <h2 className="text-lg sm:text-xl font-bold text-slate-900">
-                    Select a Service
-                  </h2>
-
-                  <p className="text-sm text-slate-500 mt-1">
-                    तपाईंलाई आवश्यक पर्ने सिफारिस सेवा छान्नुहोस्।
-                  </p>
-
-                </div>
-
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-
-                  {/* Residence */}
-                  <label
-                    className={`
-                      cursor-pointer border rounded-xl p-5 transition
-                      ${
-                        formData.service === "residence"
-                          ? "border-blue-600 bg-blue-50 ring-1 ring-blue-600"
-                          : "border-slate-200 hover:border-blue-300 hover:bg-slate-50"
-                      }
-                    `}
-                  >
-
-                    <input
-                      type="radio"
-                      name="service"
-                      value="residence"
-                      checked={formData.service === "residence"}
-                      onChange={handleChange}
-                      className="sr-only"
-                    />
-
-                    <div className="flex items-start gap-4">
-
-                      <div className="w-11 h-11 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold shrink-0">
-                        🏠
-                      </div>
-
-                      <div>
-
-                        <h3 className="font-semibold text-slate-900">
-                          Residence Recommendation
-                        </h3>
-
-                        <p className="text-xs text-slate-400 mt-1">
-                          बसोबास प्रमाणित सिफारिस
-                        </p>
-
-                      </div>
-
-                    </div>
-
-                  </label>
-
-
-                  {/* Relationship */}
-                  <label
-                    className={`
-                      cursor-pointer border rounded-xl p-5 transition
-                      ${
-                        formData.service === "relationship"
-                          ? "border-blue-600 bg-blue-50 ring-1 ring-blue-600"
-                          : "border-slate-200 hover:border-blue-300 hover:bg-slate-50"
-                      }
-                    `}
-                  >
-
-                    <input
-                      type="radio"
-                      name="service"
-                      value="relationship"
-                      checked={formData.service === "relationship"}
-                      onChange={handleChange}
-                      className="sr-only"
-                    />
-
-                    <div className="flex items-start gap-4">
-
-                      <div className="w-11 h-11 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold shrink-0">
-                        👨‍👩‍👧
-                      </div>
-
-                      <div>
-
-                        <h3 className="font-semibold text-slate-900">
-                          Relationship Certificate
-                        </h3>
-
-                        <p className="text-xs text-slate-400 mt-1">
-                          नाता प्रमाणित
-                        </p>
-
-                      </div>
-
-                    </div>
-
-                  </label>
-
-
-                  {/* Land */}
-                  <label
-                    className={`
-                      cursor-pointer border rounded-xl p-5 transition
-                      ${
-                        formData.service === "land"
-                          ? "border-blue-600 bg-blue-50 ring-1 ring-blue-600"
-                          : "border-slate-200 hover:border-blue-300 hover:bg-slate-50"
-                      }
-                    `}
-                  >
-
-                    <input
-                      type="radio"
-                      name="service"
-                      value="land"
-                      checked={formData.service === "land"}
-                      onChange={handleChange}
-                      className="sr-only"
-                    />
-
-                    <div className="flex items-start gap-4">
-
-                      <div className="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold shrink-0">
-                        📄
-                      </div>
-
-                      <div>
-
-                        <h3 className="font-semibold text-slate-900">
-                          Land Recommendation
-                        </h3>
-
-                        <p className="text-xs text-slate-400 mt-1">
-                          जग्गा सम्बन्धी सिफारिस
-                        </p>
-
-                      </div>
-
-                    </div>
-
-                  </label>
-
-
-                  {/* Other */}
-                  <label
-                    className={`
-                      cursor-pointer border rounded-xl p-5 transition
-                      ${
-                        formData.service === "other"
-                          ? "border-blue-600 bg-blue-50 ring-1 ring-blue-600"
-                          : "border-slate-200 hover:border-blue-300 hover:bg-slate-50"
-                      }
-                    `}
-                  >
-
-                    <input
-                      type="radio"
-                      name="service"
-                      value="other"
-                      checked={formData.service === "other"}
-                      onChange={handleChange}
-                      className="sr-only"
-                    />
-
-                    <div className="flex items-start gap-4">
-
-                      <div className="w-11 h-11 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold shrink-0">
-                        ⋯
-                      </div>
-
-                      <div>
-
-                        <h3 className="font-semibold text-slate-900">
-                          Other Recommendation
-                        </h3>
-
-                        <p className="text-xs text-slate-400 mt-1">
-                          अन्य सिफारिस
-                        </p>
-
-                      </div>
-
-                    </div>
-
-                  </label>
-
-                </div>
-
-              </div>
-
-            )}
-
-
-            {/* =====================================
-                STEP 2 — INFORMATION
-            ====================================== */}
-
-            {currentStep === 2 && (
-
-              <div className="max-w-4xl">
-
-                <div className="mb-7">
-
-                  <h2 className="text-lg sm:text-xl font-bold text-slate-900">
-                    Applicant Information
-                  </h2>
-
-                  <p className="text-sm text-slate-500 mt-1">
-                    आवेदकको विवरण भर्नुहोस्।
-                  </p>
-
-                </div>
-
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-
-                  {/* Full Name */}
-                  <div>
-
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Full Name
-                    </label>
-
-                    <input
-                      name="fullName"
-                      value={formData.fullName}
-                      onChange={handleChange}
-                      type="text"
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                    />
-
-                  </div>
-
-
-                  {/* Citizenship */}
-                  <div>
-
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Citizenship Number
-                    </label>
-
-                    <input
-                      name="citizenshipNumber"
-                      value={formData.citizenshipNumber}
-                      onChange={handleChange}
-                      type="text"
-                      placeholder="XX-XX-XXXXXXX"
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                    />
-
-                  </div>
-
-
-                  {/* Phone */}
-                  <div>
-
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Phone Number
-                    </label>
-
-                    <input
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      type="tel"
-                      placeholder="98XXXXXXXX"
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                    />
-
-                  </div>
-
-
-                  {/* Province */}
-                  <div>
-
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Province
-                    </label>
-
-                    <select
-                      name="province"
-                      value={formData.province}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                    >
-
-                      <option value="">
-                        Select Province
-                      </option>
-
-                      <option value="koshi">
-                        Koshi Province
-                      </option>
-
-                      <option value="madhesh">
-                        Madhesh Province
-                      </option>
-
-                      <option value="bagmati">
-                        Bagmati Province
-                      </option>
-
-                      <option value="gandaki">
-                        Gandaki Province
-                      </option>
-
-                      <option value="lumbini">
-                        Lumbini Province
-                      </option>
-
-                      <option value="karnali">
-                        Karnali Province
-                      </option>
-
-                      <option value="sudurpaschim">
-                        Sudurpashchim Province
-                      </option>
-
-                    </select>
-
-                  </div>
-
-
-                  {/* District */}
-                  <div>
-
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      District
-                    </label>
-
-                    <input
-                      name="district"
-                      value={formData.district}
-                      onChange={handleChange}
-                      type="text"
-                      placeholder="Enter district"
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                    />
-
-                  </div>
-
-
-                  {/* Municipality */}
-                  <div>
-
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Municipality / Rural Municipality
-                    </label>
-
-                    <input
-                      name="municipality"
-                      value={formData.municipality}
-                      onChange={handleChange}
-                      type="text"
-                      placeholder="Enter municipality"
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                    />
-
-                  </div>
-
-
-                  {/* Ward */}
-                  <div>
-
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Ward Number
-                    </label>
-
-                    <input
-                      name="wardNumber"
-                      value={formData.wardNumber}
-                      onChange={handleChange}
-                      type="number"
-                      min="1"
-                      max="32"
-                      placeholder="Ward No."
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                    />
-
-                  </div>
-
-
-                  {/* Address */}
-                  <div className="md:col-span-2">
-
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Current Address
-                    </label>
-
-                    <textarea
-                      name="address"
-                      value={formData.address}
-                      onChange={handleChange}
-                      rows="3"
-                      placeholder="Enter your complete address"
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg outline-none resize-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                    />
-
-                  </div>
-
-
-                  {/* Purpose */}
-                  <div className="md:col-span-2">
-
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Purpose of Recommendation
-                    </label>
-
-                    <textarea
-                      name="purpose"
-                      value={formData.purpose}
-                      onChange={handleChange}
-                      rows="3"
-                      placeholder="Explain why you need this recommendation..."
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg outline-none resize-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                    />
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            )}
-
-
-            {/* =====================================
-                STEP 3 — DOCUMENTS
-            ====================================== */}
-
-            {currentStep === 3 && (
-
-              <div className="max-w-3xl">
-
-                <div className="mb-7">
-
-                  <h2 className="text-lg sm:text-xl font-bold text-slate-900">
-                    Upload Documents
-                  </h2>
-
-                  <p className="text-sm text-slate-500 mt-1">
-                    आवश्यक कागजातहरू अपलोड गर्नुहोस्।
-                  </p>
-
-                </div>
-
-
-                <div className="space-y-5">
-
-
-                  {/* Citizenship */}
-                  <div>
-
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Citizenship Certificate
-                      <span className="text-red-500 ml-1">*</span>
-                    </label>
-
-                    <label className="flex flex-col sm:flex-row sm:items-center gap-4 border-2 border-dashed border-slate-200 rounded-xl p-5 cursor-pointer hover:border-blue-300 hover:bg-blue-50/30 transition">
-
-                      <div className="w-11 h-11 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center text-lg">
-                        📄
-                      </div>
-
-                      <div className="flex-1">
-
-                        <p className="text-sm font-semibold text-slate-700">
-                          {formData.citizenshipDocument
-                            ? formData.citizenshipDocument.name
-                            : "Choose citizenship document"}
-                        </p>
-
-                        <p className="text-xs text-slate-400 mt-1">
-                          PDF, JPG or PNG · Maximum 5MB
-                        </p>
-
-                      </div>
-
-                      <span className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-700">
-                        Browse
-                      </span>
-
-                      <input
-                        type="file"
-                        name="citizenshipDocument"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        onChange={handleFileChange}
-                        className="hidden"
-                      />
-
-                    </label>
-
-                  </div>
-
-
-                  {/* Supporting Document */}
-                  <div>
-
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Supporting Document
-                      <span className="text-slate-400 ml-1">
-                        (Optional)
-                      </span>
-                    </label>
-
-                    <label className="flex flex-col sm:flex-row sm:items-center gap-4 border-2 border-dashed border-slate-200 rounded-xl p-5 cursor-pointer hover:border-blue-300 hover:bg-blue-50/30 transition">
-
-                      <div className="w-11 h-11 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-lg">
-                        📎
-                      </div>
-
-                      <div className="flex-1">
-
-                        <p className="text-sm font-semibold text-slate-700">
-                          {formData.supportingDocument
-                            ? formData.supportingDocument.name
-                            : "Choose supporting document"}
-                        </p>
-
-                        <p className="text-xs text-slate-400 mt-1">
-                          PDF, JPG or PNG · Maximum 5MB
-                        </p>
-
-                      </div>
-
-                      <span className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-700">
-                        Browse
-                      </span>
-
-                      <input
-                        type="file"
-                        name="supportingDocument"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        onChange={handleFileChange}
-                        className="hidden"
-                      />
-
-                    </label>
-
-                  </div>
-
-
-                  {/* Payment */}
-                  <div className="pt-5 border-t border-slate-100">
-
-                    <h3 className="font-semibold text-slate-900">
-                      Payment Voucher
-                    </h3>
-
-                    <p className="text-sm text-slate-500 mt-1">
-                      Upload your bank or mobile wallet payment receipt.
-                    </p>
-
-
-                    <div className="mt-4">
-
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
-                        Payment Method
-                      </label>
-
-                      <select
-                        name="paymentMethod"
-                        value={formData.paymentMethod}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 border border-slate-300 rounded-lg outline-none bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-                      >
-
-                        <option value="">
-                          Select payment method
-                        </option>
-
-                        <option value="bank">
-                          Bank Transfer
-                        </option>
-
-                        <option value="esewa">
-                          eSewa
-                        </option>
-
-                        <option value="khalti">
-                          Khalti
-                        </option>
-
-                      </select>
-
-                    </div>
-
-
-                    <label className="mt-4 flex flex-col sm:flex-row sm:items-center gap-4 border-2 border-dashed border-slate-200 rounded-xl p-5 cursor-pointer hover:border-blue-300 hover:bg-blue-50/30 transition">
-
-                      <div className="w-11 h-11 rounded-xl bg-green-50 text-green-700 flex items-center justify-center text-lg">
-                        💳
-                      </div>
-
-                      <div className="flex-1">
-
-                        <p className="text-sm font-semibold text-slate-700">
-                          {formData.paymentVoucher
-                            ? formData.paymentVoucher.name
-                            : "Upload payment voucher"}
-                        </p>
-
-                        <p className="text-xs text-slate-400 mt-1">
-                          Screenshot, PDF, JPG or PNG
-                        </p>
-
-                      </div>
-
-                      <span className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-700">
-                        Browse
-                      </span>
-
-                      <input
-                        type="file"
-                        name="paymentVoucher"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        onChange={handleFileChange}
-                        className="hidden"
-                      />
-
-                    </label>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            )}
-
-
-            {/* =====================================
-                STEP 4 — REVIEW
-            ====================================== */}
-
-            {currentStep === 4 && (
-
-              <div className="max-w-4xl">
-
-                <div className="mb-7">
-
-                  <h2 className="text-lg sm:text-xl font-bold text-slate-900">
-                    Review Application
-                  </h2>
-
-                  <p className="text-sm text-slate-500 mt-1">
-                    आवेदन पेश गर्नु अघि आफ्नो विवरण जाँच गर्नुहोस्।
-                  </p>
-
-                </div>
-
-
-                {/* Service */}
-                <div className="border border-slate-200 rounded-xl overflow-hidden">
-
-                  <div className="bg-slate-50 px-5 py-4 border-b border-slate-200">
-
-                    <h3 className="font-semibold text-slate-800">
-                      Service Information
-                    </h3>
-
-                  </div>
-
-                  <div className="p-5">
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-
-                      <div>
-
-                        <p className="text-xs text-slate-400">
-                          Service
-                        </p>
-
-                        <p className="text-sm font-semibold text-slate-800 mt-1">
-                          {formData.service || "Not selected"}
-                        </p>
-
-                      </div>
-
-                      <div>
-
-                        <p className="text-xs text-slate-400">
-                          Application Fee
-                        </p>
-
-                        <p className="text-sm font-semibold text-slate-800 mt-1">
-                          Rs. 100
-                        </p>
-
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-
-                {/* Applicant */}
-                <div className="mt-5 border border-slate-200 rounded-xl overflow-hidden">
-
-                  <div className="bg-slate-50 px-5 py-4 border-b border-slate-200">
-
-                    <h3 className="font-semibold text-slate-800">
-                      Applicant Information
-                    </h3>
-
-                  </div>
-
-                  <div className="p-5 grid grid-cols-1 sm:grid-cols-2 gap-5">
-
-                    <div>
-                      <p className="text-xs text-slate-400">
-                        Full Name
-                      </p>
-
-                      <p className="text-sm font-semibold text-slate-800 mt-1">
-                        {formData.fullName || "-"}
-                      </p>
-                    </div>
-
-
-                    <div>
-                      <p className="text-xs text-slate-400">
-                        Citizenship Number
-                      </p>
-
-                      <p className="text-sm font-semibold text-slate-800 mt-1">
-                        {formData.citizenshipNumber || "-"}
-                      </p>
-                    </div>
-
-
-                    <div>
-                      <p className="text-xs text-slate-400">
-                        Phone
-                      </p>
-
-                      <p className="text-sm font-semibold text-slate-800 mt-1">
-                        {formData.phone || "-"}
-                      </p>
-                    </div>
-
-
-                    <div>
-                      <p className="text-xs text-slate-400">
-                        Ward
-                      </p>
-
-                      <p className="text-sm font-semibold text-slate-800 mt-1">
-                        {formData.wardNumber || "-"}
-                      </p>
-                    </div>
-
-
-                    <div className="sm:col-span-2">
-
-                      <p className="text-xs text-slate-400">
-                        Address
-                      </p>
-
-                      <p className="text-sm font-semibold text-slate-800 mt-1">
-                        {formData.address || "-"}
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-
-                {/* Documents */}
-                <div className="mt-5 border border-slate-200 rounded-xl overflow-hidden">
-
-                  <div className="bg-slate-50 px-5 py-4 border-b border-slate-200">
-
-                    <h3 className="font-semibold text-slate-800">
-                      Documents
-                    </h3>
-
-                  </div>
-
-                  <div className="p-5 space-y-3">
-
-                    <div className="flex items-center justify-between gap-4">
-
-                      <div className="flex items-center gap-3">
-
-                        <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center">
-                          📄
-                        </div>
-
-                        <span className="text-sm text-slate-700">
-                          Citizenship Certificate
-                        </span>
-
-                      </div>
-
-                      <span className="text-xs font-semibold text-green-600">
-                        {formData.citizenshipDocument
-                          ? "Uploaded ✓"
-                          : "Not uploaded"}
-                      </span>
-
-                    </div>
-
-
-                    <div className="flex items-center justify-between gap-4">
-
-                      <div className="flex items-center gap-3">
-
-                        <div className="w-9 h-9 rounded-lg bg-green-50 flex items-center justify-center">
-                          💳
-                        </div>
-
-                        <span className="text-sm text-slate-700">
-                          Payment Voucher
-                        </span>
-
-                      </div>
-
-                      <span className="text-xs font-semibold text-green-600">
-                        {formData.paymentVoucher
-                          ? "Uploaded ✓"
-                          : "Not uploaded"}
-                      </span>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-
-                {/* Declaration */}
-                <div className="mt-5 p-4 bg-blue-50 border border-blue-100 rounded-xl">
-
-                  <div className="flex items-start gap-3">
-
-                    <input
-                      type="checkbox"
-                      required
-                      className="mt-1 w-4 h-4 accent-blue-700"
-                    />
-
-                    <p className="text-sm text-blue-900 leading-relaxed">
-                      I confirm that the information and documents
-                      provided in this application are true and
-                      accurate to the best of my knowledge.
-                    </p>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            )}
-
+        <div className="mt-5">
+          <p className="text-sm font-semibold uppercase tracking-wider text-red-600">
+            {t("newApplication.stepOne")}
+          </p>
+
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-blue-950 sm:text-4xl">
+            {t("newApplication.title")}
+          </h1>
+
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-500 sm:text-base">
+            {t("newApplication.description")}
+          </p>
+        </div>
+      </section>
+
+      {/* Progress */}
+      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="h-1 bg-red-600" />
+
+        <div className="flex items-center gap-4 p-5 sm:p-6">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-600 text-base font-bold text-white shadow-sm">
+            1
           </div>
 
+          <div>
+            <p className="text-sm font-bold text-blue-950 sm:text-base">
+              {t("newApplication.stepOne")}
+            </p>
 
-          {/* ==========================
-              FOOTER ACTIONS
-          =========================== */}
+            <p className="mt-1 text-xs leading-5 text-slate-500 sm:text-sm">
+              {t("newApplication.stepOneDescription")}
+            </p>
+          </div>
 
-          <div className="px-5 sm:px-8 py-5 border-t border-slate-100 bg-slate-50 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="ml-auto hidden rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-500 sm:block">
+            1 / 5
+          </div>
+        </div>
+      </section>
 
-            <button
-              type="button"
-              onClick={handlePrevious}
-              disabled={currentStep === 1}
-              className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              ← Previous
-            </button>
+      {/* Search & Categories */}
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+        <div>
+          <h2 className="text-xl font-bold text-blue-950 sm:text-2xl">
+            {t("newApplication.selectService")}
+          </h2>
 
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+            {t("newApplication.selectServiceDescription")}
+          </p>
+        </div>
 
-            {currentStep < 4 ? (
+        {/* Search */}
+        <div className="relative mt-6">
+          <Search
+            size={20}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+          />
 
-              <button
-                type="button"
-                onClick={handleNext}
-                className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold transition shadow-sm"
-              >
-                Continue →
-              </button>
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder={t("newApplication.searchPlaceholder")}
+            className="w-full rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-11 pr-4 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-blue-900 focus:bg-white focus:ring-4 focus:ring-blue-100"
+          />
+        </div>
 
+        {/* Categories */}
+        <div className="mt-5">
+          <p className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-400">
+            Categories
+          </p>
+
+          <div className="flex gap-2 overflow-x-auto pb-1">
+            {categories.map((category) => {
+              const isActive =
+                selectedCategory === category.id;
+
+              return (
+                <button
+                  key={category.id}
+                  onClick={() =>
+                    setSelectedCategory(category.id)
+                  }
+                  className={`whitespace-nowrap rounded-lg border px-4 py-2.5 text-xs font-semibold transition ${
+                    isActive
+                      ? "border-blue-950 bg-blue-950 text-white shadow-sm"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-900"
+                  }`}
+                >
+                  {t(
+                    `newApplication.categories.${category.labelKey}`
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section>
+        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="text-xl font-bold text-blue-950 sm:text-2xl">
+              {t("newApplication.availableServices")}
+            </h2>
+
+            <p className="mt-1.5 text-sm text-slate-500">
+              {t(
+                "newApplication.availableServicesDescription"
+              )}
+            </p>
+          </div>
+
+          <span className="w-fit rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-500">
+            {filteredServices.length}{" "}
+            {t("newApplication.servicesFound")}
+          </span>
+        </div>
+
+        {filteredServices.length > 0 ? (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredServices.map((service) => {
+              const Icon = service.icon;
+              const isSelected =
+                selectedService?.id === service.id;
+
+              return (
+                <button
+                  key={service.id}
+                  onClick={() => setSelectedService(service)}
+                  className={`group relative rounded-2xl border bg-white p-6 text-left transition-all duration-200 ${
+                    isSelected
+                      ? "border-red-600 bg-red-50/30 shadow-md ring-2 ring-red-100"
+                      : "border-slate-200 shadow-sm hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg"
+                  }`}
+                >
+                  {/* Selected */}
+                  {isSelected && (
+                    <div className="absolute right-5 top-5">
+                      <CheckCircle2
+                        size={22}
+                        className="text-red-600"
+                      />
+                    </div>
+                  )}
+
+                  {/* Icon */}
+                  <div
+                    className={`flex h-14 w-14 items-center justify-center rounded-xl transition ${
+                      isSelected
+                        ? "bg-red-100 text-red-600"
+                        : "bg-blue-50 text-blue-900 group-hover:bg-blue-100"
+                    }`}
+                  >
+                    <Icon size={25} strokeWidth={1.8} />
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="mt-5 pr-8 text-base font-bold leading-6 text-blue-950 sm:text-lg">
+                    {t(
+                      `newApplication.services.${service.titleKey}`
+                    )}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="mt-2.5 text-sm leading-6 text-slate-500">
+                    {t(
+                      `newApplication.services.${service.descriptionKey}`
+                    )}
+                  </p>
+
+                  {/* Action */}
+                  <div
+                    className={`mt-5 flex items-center gap-1.5 text-sm font-bold ${
+                      isSelected
+                        ? "text-red-600"
+                        : "text-blue-900"
+                    }`}
+                  >
+                    {isSelected
+                      ? t("newApplication.selected")
+                      : t("newApplication.select")}
+
+                    <ArrowRight
+                      size={16}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-5 py-14 text-center">
+            <FileText
+              size={34}
+              className="mx-auto text-slate-400"
+            />
+
+            <p className="mt-4 text-base font-bold text-slate-700">
+              {t("newApplication.noServices")}
+            </p>
+
+            <p className="mt-2 text-sm text-slate-500">
+              {t(
+                "newApplication.noServicesDescription"
+              )}
+            </p>
+          </div>
+        )}
+      </section>
+
+      {/* Information Note */}
+      <section className="flex gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4 sm:p-5">
+        <Info
+          size={19}
+          className="mt-0.5 shrink-0 text-blue-800"
+        />
+
+        <div>
+          <p className="text-sm font-bold text-blue-950">
+            Before you continue
+          </p>
+
+          <p className="mt-1 text-xs leading-5 text-blue-800 sm:text-sm">
+            Select the recommendation service that matches
+            your requirement. You can review your information
+            and documents before final submission.
+          </p>
+        </div>
+      </section>
+
+      {/* Continue Footer */}
+      <section className="fixed bottom-0 left-0 right-0 z-20 border-t border-slate-200 bg-white/95 shadow-[0_-4px_15px_rgba(0,0,0,0.05)] backdrop-blur lg:left-[270px]">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+          <div className="hidden sm:block">
+            {selectedService ? (
+              <div>
+                <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
+                  {t("newApplication.selectedService")}
+                </p>
+
+                <p className="mt-0.5 text-sm font-bold text-blue-950">
+                  {t(
+                    `newApplication.services.${selectedService.titleKey}`
+                  )}
+                </p>
+              </div>
             ) : (
-
-              <button
-                type="submit"
-                className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold transition shadow-sm"
-              >
-                Submit Application
-              </button>
-
+              <p className="text-sm text-slate-500">
+                {t(
+                  "newApplication.selectServiceToContinue"
+                )}
+              </p>
             )}
-
           </div>
 
-        </form>
-
-      </div>
-
+          <button
+            onClick={handleContinue}
+            disabled={!selectedService}
+            className="ml-auto inline-flex items-center gap-2 rounded-xl bg-red-600 px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-red-700 hover:shadow-md disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+          >
+            {t("newApplication.continue")}
+            <ArrowRight size={18} />
+          </button>
+        </div>
+      </section>
     </div>
-
   );
-}
+};
 
 export default NewApplication;

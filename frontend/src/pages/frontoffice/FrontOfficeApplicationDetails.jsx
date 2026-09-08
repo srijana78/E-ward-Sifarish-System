@@ -1,560 +1,319 @@
-import { useState } from "react";
+
+import React from "react";
+
 import { useNavigate, useParams } from "react-router-dom";
 
-function FrontOfficeApplicationDetails() {
-  const { id } = useParams();
+import { useTranslation } from "react-i18next";
+
+import {
+  ArrowLeft,
+  User,
+  FileText,
+  CalendarDays,
+  CreditCard,
+  CheckCircle2,
+  Clock3,
+  ShieldCheck,
+  Download,
+} from "lucide-react";
+
+const FrontOfficeApplicationDetails = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
 
-  const [status, setStatus] = useState("Pending");
-  const [showRejectBox, setShowRejectBox] = useState(false);
-  const [rejectReason, setRejectReason] = useState("");
+  const { id } = useParams();
 
-  // Temporary application data
+  // Temporary data
+  // Later this will come from the backend
   const application = {
-    id: id,
-    applicant: "Srijana Bhakri",
-    email: "srijana@example.com",
-    phone: "98XXXXXXXX",
-    address: "Nepalgunj, Banke",
+    id: id || "EW-2026-001",
+    applicant: "Ram Sharma",
     service: "Residence Recommendation",
-    nepaliService: "बसोबास प्रमाणित सिफारिस",
-    submitted: "September 1, 2026, 9:30 AM",
-    purpose: "For official documentation purpose.",
-  };
-
-  // ==============================
-  // VERIFY APPLICATION
-  // ==============================
-
-  const handleVerify = () => {
-    setStatus("Verified");
-    setShowRejectBox(false);
-  };
-
-  // ==============================
-  // REJECT APPLICATION
-  // ==============================
-
-  const handleReject = () => {
-    if (!rejectReason.trim()) {
-      alert("Please provide a reason for rejection.");
-      return;
-    }
-
-    setStatus("Rejected");
-    setShowRejectBox(false);
-  };
-
-  // ==============================
-  // STATUS STYLE
-  // ==============================
-
-  const getStatusStyle = () => {
-    if (status === "Verified") {
-      return "bg-green-50 text-green-700 border-green-200";
-    }
-
-    if (status === "Rejected") {
-      return "bg-red-50 text-red-700 border-red-200";
-    }
-
-    return "bg-amber-50 text-amber-700 border-amber-200";
+    submittedDate: "2026-09-04",
+    citizenshipNumber: "12-01-78-12345",
+    phone: "9800000000",
+    email: "ram@example.com",
+    address: "Nepalgunj, Banke",
+    status: "Pending",
+    documents: [
+      "Citizenship Certificate.pdf",
+      "Ward Recommendation.pdf",
+    ],
+    paymentStatus: "Paid",
   };
 
   return (
-    <div className="max-w-6xl mx-auto">
-
-      {/* =====================================
-          BACK BUTTON
-      ====================================== */}
-
-      <button
-        onClick={() => navigate(-1)}
-        className="mb-5 text-sm font-semibold text-blue-700 hover:text-blue-800"
-      >
-        ← Back to Applications
-      </button>
-
-
-      {/* =====================================
-          PAGE HEADER
-      ====================================== */}
-
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-7">
-
+    <div className="mx-auto max-w-7xl space-y-6 mt-9">
+      
+      {/* Header */}
+      <section className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
+          <button
+            onClick={() => navigate(-1)}
+            className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-blue-900"
+          >
+            <ArrowLeft size={18} />
 
-          <p className="text-sm font-medium text-blue-700">
-            Ward Administration
+            {t("frontOfficeApplicationDetails.back")}
+          </button>
+
+          <p className="text-sm font-semibold text-red-600">
+            {t("frontOfficeApplicationDetails.label")}
           </p>
 
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
-            Application Details
+          <h1 className="mt-1 text-2xl font-bold text-blue-950 sm:text-3xl">
+            {t("frontOfficeApplicationDetails.title")}
           </h1>
 
-          <p className="text-sm text-slate-500 mt-1">
-            आवेदन विवरण तथा प्रमाणीकरण
+          <p className="mt-2 text-sm leading-6 text-slate-500 sm:text-base">
+            {t("frontOfficeApplicationDetails.description")}
           </p>
-
         </div>
-
 
         {/* Status */}
+        <div className="inline-flex items-center gap-2 rounded-full bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700">
+          <Clock3 size={17} />
 
-        <div
-          className={`
-            self-start
-            px-4
-            py-2
-            rounded-full
-            border
-            text-xs
-            font-semibold
-            ${getStatusStyle()}
-          `}
-        >
-          <span className="mr-2">●</span>
-          {status}
+          {t("frontOfficeApplicationDetails.pending")}
         </div>
+      </section>
 
-      </div>
 
-
-      {/* =====================================
-          APPLICATION ID
-      ====================================== */}
-
-      <div className="bg-white border border-slate-200 rounded-2xl p-5 mb-5">
-
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-
+      {/* Application ID */}
+      <section className="rounded-xl border border-blue-100 bg-blue-50 p-5">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
-
-            <p className="text-xs text-slate-400">
-              Application ID
+            <p className="text-sm font-medium text-blue-700">
+              {t("frontOfficeApplicationDetails.applicationId")}
             </p>
 
-            <p className="text-lg font-bold text-slate-900 mt-1">
+            <h2 className="mt-1 text-xl font-bold text-blue-950">
               {application.id}
-            </p>
-
+            </h2>
           </div>
 
+          <div className="flex items-center gap-2 text-sm text-slate-600">
+            <CalendarDays size={17} />
 
-          <div>
+            <span>
+              {t("frontOfficeApplicationDetails.submittedOn")}{" "}
+              {application.submittedDate}
+            </span>
+          </div>
+        </div>
+      </section>
 
-            <p className="text-xs text-slate-400">
-              Submitted
-            </p>
 
-            <p className="text-sm font-semibold text-slate-700 mt-1">
-              {application.submitted}
-            </p>
-
+      {/* Applicant Information */}
+      <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="flex items-center gap-3 border-b border-slate-200 p-5">
+          <div className="rounded-lg bg-blue-50 p-2.5 text-blue-900">
+            <User size={21} />
           </div>
 
-        </div>
-
-      </div>
-
-
-      {/* =====================================
-          APPLICANT INFORMATION
-      ====================================== */}
-
-      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden mb-5">
-
-        <div className="p-5 border-b border-slate-100">
-
-          <h2 className="text-lg font-bold text-slate-900">
-            Applicant Information
-          </h2>
-
-          <p className="text-xs text-slate-400 mt-1">
-            आवेदकको विवरण
-          </p>
-
-        </div>
-
-
-        <div className="p-5 grid grid-cols-1 sm:grid-cols-2 gap-5">
-
           <div>
-            <p className="text-xs text-slate-400">
-              Full Name
+            <h2 className="font-bold text-blue-950">
+              {t("frontOfficeApplicationDetails.applicantInformation")}
+            </h2>
+
+            <p className="text-sm text-slate-500">
+              {t("frontOfficeApplicationDetails.applicantInformationDescription")}
+            </p>
+          </div>
+        </div>
+
+        <div className="grid gap-5 p-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div>
+            <p className="text-xs font-medium text-slate-400">
+              {t("frontOfficeApplicationDetails.fullName")}
             </p>
 
-            <p className="text-sm font-semibold text-slate-800 mt-1">
+            <p className="mt-1 font-semibold text-slate-800">
               {application.applicant}
             </p>
           </div>
 
-
           <div>
-            <p className="text-xs text-slate-400">
-              Phone Number
+            <p className="text-xs font-medium text-slate-400">
+              {t("frontOfficeApplicationDetails.citizenshipNumber")}
             </p>
 
-            <p className="text-sm font-semibold text-slate-800 mt-1">
+            <p className="mt-1 font-semibold text-slate-800">
+              {application.citizenshipNumber}
+            </p>
+          </div>
+
+          <div>
+            <p className="text-xs font-medium text-slate-400">
+              {t("frontOfficeApplicationDetails.phone")}
+            </p>
+
+            <p className="mt-1 font-semibold text-slate-800">
               {application.phone}
             </p>
           </div>
 
-
           <div>
-            <p className="text-xs text-slate-400">
-              Email Address
+            <p className="text-xs font-medium text-slate-400">
+              {t("frontOfficeApplicationDetails.email")}
             </p>
 
-            <p className="text-sm font-semibold text-slate-800 mt-1">
+            <p className="mt-1 font-semibold text-slate-800">
               {application.email}
             </p>
           </div>
 
-
           <div>
-            <p className="text-xs text-slate-400">
-              Address
+            <p className="text-xs font-medium text-slate-400">
+              {t("frontOfficeApplicationDetails.address")}
             </p>
 
-            <p className="text-sm font-semibold text-slate-800 mt-1">
+            <p className="mt-1 font-semibold text-slate-800">
               {application.address}
             </p>
           </div>
-
         </div>
-
-      </div>
-
-
-      {/* =====================================
-          SERVICE INFORMATION
-      ====================================== */}
-
-      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden mb-5">
-
-        <div className="p-5 border-b border-slate-100">
-
-          <h2 className="text-lg font-bold text-slate-900">
-            Service Information
-          </h2>
-
-          <p className="text-xs text-slate-400 mt-1">
-            सेवाको विवरण
-          </p>
-
-        </div>
+      </section>
 
 
-        <div className="p-5 grid grid-cols-1 sm:grid-cols-2 gap-5">
+      {/* Application Information */}
+      <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="flex items-center gap-3 border-b border-slate-200 p-5">
+          <div className="rounded-lg bg-red-50 p-2.5 text-red-600">
+            <FileText size={21} />
+          </div>
 
           <div>
-            <p className="text-xs text-slate-400">
-              Requested Service
-            </p>
+            <h2 className="font-bold text-blue-950">
+              {t("frontOfficeApplicationDetails.applicationInformation")}
+            </h2>
 
-            <p className="text-sm font-semibold text-slate-800 mt-1">
-              {application.service}
-            </p>
-          </div>
-
-
-          <div>
-            <p className="text-xs text-slate-400">
-              Nepali Service
-            </p>
-
-            <p className="text-sm font-semibold text-slate-800 mt-1">
-              {application.nepaliService}
+            <p className="text-sm text-slate-500">
+              {t("frontOfficeApplicationDetails.applicationInformationDescription")}
             </p>
           </div>
-
-
-          <div className="sm:col-span-2">
-
-            <p className="text-xs text-slate-400">
-              Purpose
-            </p>
-
-            <p className="text-sm text-slate-700 mt-1">
-              {application.purpose}
-            </p>
-
-          </div>
-
         </div>
 
-      </div>
-
-
-      {/* =====================================
-          DOCUMENTS
-      ====================================== */}
-
-      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden mb-5">
-
-        <div className="p-5 border-b border-slate-100">
-
-          <h2 className="text-lg font-bold text-slate-900">
-            Submitted Documents
-          </h2>
-
-          <p className="text-xs text-slate-400 mt-1">
-            पेश गरिएका कागजातहरू
+        <div className="p-5">
+          <p className="text-xs font-medium text-slate-400">
+            {t("frontOfficeApplicationDetails.requestedService")}
           </p>
 
+          <p className="mt-1 text-lg font-semibold text-blue-950">
+            {application.service}
+          </p>
         </div>
+      </section>
 
 
-        <div className="p-5 space-y-3">
-
-          {/* Citizenship */}
-
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
-
-            <div className="flex items-center gap-3">
-
-              <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
-                📄
-              </div>
-
-              <div>
-
-                <p className="text-sm font-semibold text-slate-800">
-                  Citizenship Certificate
-                </p>
-
-                <p className="text-xs text-slate-400">
-                  citizenship.pdf
-                </p>
-
-              </div>
-
-            </div>
-
-
-            <button className="px-4 py-2 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-100">
-              View Document
-            </button>
-
+      {/* Documents */}
+      <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="flex items-center gap-3 border-b border-slate-200 p-5">
+          <div className="rounded-lg bg-blue-50 p-2.5 text-blue-900">
+            <FileText size={21} />
           </div>
 
+          <div>
+            <h2 className="font-bold text-blue-950">
+              {t("frontOfficeApplicationDetails.documents")}
+            </h2>
 
-          {/* Recommendation */}
-
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
-
-            <div className="flex items-center gap-3">
-
-              <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
-                📄
-              </div>
-
-              <div>
-
-                <p className="text-sm font-semibold text-slate-800">
-                  Ward Recommendation Form
-                </p>
-
-                <p className="text-xs text-slate-400">
-                  recommendation.pdf
-                </p>
-
-              </div>
-
-            </div>
-
-
-            <button className="px-4 py-2 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-100">
-              View Document
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      {/* =====================================
-          REVIEW SECTION
-      ====================================== */}
-
-      <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6">
-
-        <h2 className="text-lg font-bold text-slate-900">
-          Application Review
-        </h2>
-
-        <p className="text-sm text-slate-500 mt-1">
-          Verify the submitted information before approving this application.
-        </p>
-
-
-        {/* =================================
-            REJECT REASON
-        ================================== */}
-
-        {showRejectBox && status === "Pending" && (
-
-          <div className="mt-5">
-
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              Reason for Rejection
-            </label>
-
-            <textarea
-              value={rejectReason}
-              onChange={(e) => setRejectReason(e.target.value)}
-              placeholder="Enter the reason for rejecting this application..."
-              rows="4"
-              className="
-                w-full
-                rounded-xl
-                border
-                border-slate-200
-                bg-slate-50
-                px-4
-                py-3
-                text-sm
-                outline-none
-                resize-none
-                focus:bg-white
-                focus:border-red-400
-                focus:ring-2
-                focus:ring-red-100
-              "
-            />
-
-          </div>
-
-        )}
-
-
-        {/* =================================
-            ACTION BUTTONS
-        ================================== */}
-
-        {status === "Pending" ? (
-
-          <div className="flex flex-col sm:flex-row gap-3 mt-6">
-
-            <button
-              onClick={handleVerify}
-              className="
-                flex-1
-                px-5
-                py-3
-                rounded-xl
-                bg-green-600
-                hover:bg-green-700
-                text-white
-                text-sm
-                font-semibold
-                transition
-              "
-            >
-              ✓ Verify Application
-            </button>
-
-
-            {!showRejectBox ? (
-
-              <button
-                onClick={() => setShowRejectBox(true)}
-                className="
-                  flex-1
-                  px-5
-                  py-3
-                  rounded-xl
-                  bg-red-600
-                  hover:bg-red-700
-                  text-white
-                  text-sm
-                  font-semibold
-                  transition
-                "
-              >
-                ✕ Reject Application
-              </button>
-
-            ) : (
-
-              <button
-                onClick={handleReject}
-                className="
-                  flex-1
-                  px-5
-                  py-3
-                  rounded-xl
-                  bg-red-600
-                  hover:bg-red-700
-                  text-white
-                  text-sm
-                  font-semibold
-                  transition
-                "
-              >
-                Confirm Rejection
-              </button>
-
-            )}
-
-          </div>
-
-        ) : (
-
-          /* =================================
-             COMPLETED STATE
-          ================================== */
-
-          <div
-            className={`
-              mt-6
-              p-4
-              rounded-xl
-              border
-              ${
-                status === "Verified"
-                  ? "bg-green-50 border-green-200"
-                  : "bg-red-50 border-red-200"
-              }
-            `}
-          >
-
-            <p
-              className={`
-                text-sm
-                font-semibold
-                ${
-                  status === "Verified"
-                    ? "text-green-700"
-                    : "text-red-700"
-                }
-              `}
-            >
-              {status === "Verified"
-                ? "✓ This application has been verified successfully."
-                : "✕ This application has been rejected."}
+            <p className="text-sm text-slate-500">
+              {t("frontOfficeApplicationDetails.documentsDescription")}
             </p>
+          </div>
+        </div>
+
+        <div className="divide-y divide-slate-100">
+          {application.documents.map((document, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-between gap-4 p-5"
+            >
+              <div className="flex items-center gap-3">
+                <div className="rounded-lg bg-slate-100 p-2 text-slate-600">
+                  <FileText size={18} />
+                </div>
+
+                <p className="text-sm font-medium text-slate-700">
+                  {document}
+                </p>
+              </div>
+
+              <button className="rounded-lg border border-slate-200 p-2 text-blue-900 transition hover:bg-blue-50">
+                <Download size={18} />
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
 
 
-            {status === "Rejected" && rejectReason && (
+      {/* Payment */}
+      <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="flex items-center gap-3 border-b border-slate-200 p-5">
+          <div className="rounded-lg bg-green-50 p-2.5 text-green-600">
+            <CreditCard size={21} />
+          </div>
 
-              <p className="text-xs text-red-600 mt-2">
-                Reason: {rejectReason}
+          <div>
+            <h2 className="font-bold text-blue-950">
+              {t("frontOfficeApplicationDetails.paymentInformation")}
+            </h2>
+
+            <p className="text-sm text-slate-500">
+              {t("frontOfficeApplicationDetails.paymentInformationDescription")}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between p-5">
+          <p className="font-medium text-slate-700">
+            {t("frontOfficeApplicationDetails.paymentStatus")}
+          </p>
+
+          <span className="inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1.5 text-sm font-semibold text-green-700">
+            <CheckCircle2 size={16} />
+
+            {t("frontOfficeApplicationDetails.paid")}
+          </span>
+        </div>
+      </section>
+
+
+      {/* Verification Action */}
+      <section className="rounded-xl border border-blue-100 bg-blue-50 p-6">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex gap-3">
+            <div className="rounded-lg bg-white p-2.5 text-blue-900">
+              <ShieldCheck size={22} />
+            </div>
+
+            <div>
+              <h2 className="font-bold text-blue-950">
+                {t("frontOfficeApplicationDetails.verification")}
+              </h2>
+
+              <p className="mt-1 max-w-xl text-sm leading-6 text-slate-600">
+                {t("frontOfficeApplicationDetails.verificationDescription")}
               </p>
-
-            )}
-
+            </div>
           </div>
 
-        )}
+          <button
+            onClick={() => alert("Application verified successfully!")}
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-700"
+          >
+            <CheckCircle2 size={18} />
 
-      </div>
+            {t("frontOfficeApplicationDetails.verifyApplication")}
+          </button>
+        </div>
+      </section>
 
     </div>
   );
-}
+};
 
 export default FrontOfficeApplicationDetails;

@@ -1,759 +1,358 @@
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import {
+  ArrowLeft,
+  ArrowRight,
+  UserRound,
+  MapPin,
+  Phone,
+  Mail,
+  CreditCard,
+  FileText,
+} from "lucide-react";
 
-function ApplicationDetails() {
-
+const ApplicationDetails = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const { id } = useParams();
+  const location = useLocation();
 
-  // Temporary application data
-  // Later this information will come from our backend.
+  const params = new URLSearchParams(location.search);
+  const service = params.get("service");
 
-  const application = {
-    id: id || "EW-2026-00124",
+  const [formData, setFormData] = useState({
+    fullName: "",
+    citizenshipNumber: "",
+    dateOfBirth: "",
+    phone: "",
+    email: "",
+    province: "",
+    district: "",
+    municipality: "",
+    wardNumber: "",
+    tole: "",
+  });
 
-    service: "Residence Recommendation",
-    nepaliService: "बसोबास प्रमाणित सिफारिस",
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
-    submittedDate: "September 1, 2026",
-
-    status: "Pending",
-
-    currentStage: "Document Verification",
-
-    applicant: {
-      name: "Srijana Bhakri",
-      citizenship: "68-01-78-12345",
-      phone: "98XXXXXXXX",
-      province: "Lumbini Province",
-      district: "Banke",
-      municipality: "Nepalgunj Sub-Metropolitan City",
-      ward: "Ward No. 10",
-      address: "Nepalgunj, Banke",
-      purpose: "For official documentation purpose",
-    },
-
-    documents: [
-      {
-        name: "Citizenship Certificate",
-        status: "Uploaded",
-        type: "PDF",
-      },
-      {
-        name: "Payment Voucher",
-        status: "Uploaded",
-        type: "JPG",
-      },
-    ],
-
-    payment: {
-      method: "eSewa",
-      amount: "Rs. 100",
-      status: "Pending Verification",
-    },
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
+  const handleContinue = (e) => {
+    e.preventDefault();
 
-  // =====================================
-  // APPLICATION TIMELINE
-  // =====================================
-
-  const timeline = [
-    {
-      title: "Application Submitted",
-      nepali: "आवेदन पेश गरिएको",
-      date: "September 1, 2026",
-      status: "completed",
-    },
-
-    {
-      title: "Document Verification",
-      nepali: "कागजात प्रमाणीकरण",
-      date: "In Progress",
-      status: "current",
-    },
-
-    {
-      title: "Secretary Review",
-      nepali: "सचिव समीक्षा",
-      date: "Waiting",
-      status: "waiting",
-    },
-
-    {
-      title: "Chairperson Approval",
-      nepali: "वडा अध्यक्ष स्वीकृति",
-      date: "Waiting",
-      status: "waiting",
-    },
-
-    {
-      title: "Certificate Issued",
-      nepali: "प्रमाणपत्र जारी",
-      date: "Waiting",
-      status: "waiting",
-    },
-  ];
-
-
-  // =====================================
-  // TIMELINE ICON
-  // =====================================
-
-  const getTimelineIcon = (status) => {
-
-    if (status === "completed") {
-      return "✓";
-    }
-
-    if (status === "current") {
-      return "●";
-    }
-
-    return "○";
+    // Temporary navigation for the next step
+    navigate(
+      `/citizen/apply/documents?service=${service}`
+    );
   };
-
 
   return (
+    <div className="max-w-6xl mx-auto space-y-6">
 
-    <div className="max-w-7xl mx-auto">
+      {/* Breadcrumb */}
+      <div className="flex items-center gap-2 text-sm text-slate-500">
+        <button
+          onClick={() => navigate("/citizen/apply")}
+          className="hover:text-blue-700 transition"
+        >
+          {t("newApplication.title")}
+        </button>
 
-      {/* =====================================
-          BACK BUTTON
-      ====================================== */}
+        <span>/</span>
 
-      <button
-        onClick={() => navigate("/citizen/applications")}
-        className="mb-5 text-sm text-slate-500 hover:text-blue-700 transition"
-      >
-        ← Back to My Applications
-      </button>
-
-
-      {/* =====================================
-          APPLICATION HEADER
-      ====================================== */}
-
-      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
-
-        <div className="p-5 sm:p-7">
-
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
-
-            <div className="flex gap-4">
-
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center text-2xl shrink-0">
-                📄
-              </div>
-
-              <div>
-
-                <p className="text-xs font-medium text-slate-400 mb-1">
-                  Application ID
-                </p>
-
-                <h1 className="text-xl sm:text-2xl font-bold text-slate-900">
-                  {application.id}
-                </h1>
-
-                <h2 className="text-sm sm:text-base font-semibold text-slate-700 mt-2">
-                  {application.service}
-                </h2>
-
-                <p className="text-xs text-slate-400 mt-1">
-                  {application.nepaliService}
-                </p>
-
-              </div>
-
-            </div>
-
-
-            {/* Status */}
-
-            <span className="self-start inline-flex items-center px-4 py-2 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-sm font-semibold">
-
-              <span className="w-2 h-2 rounded-full bg-current mr-2" />
-
-              {application.status}
-
-            </span>
-
-          </div>
-
-
-          {/* Submitted information */}
-
-          <div className="mt-6 pt-5 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-8">
-
-            <div>
-
-              <p className="text-xs text-slate-400">
-                Submitted On
-              </p>
-
-              <p className="text-sm font-semibold text-slate-700 mt-1">
-                {application.submittedDate}
-              </p>
-
-            </div>
-
-
-            <div>
-
-              <p className="text-xs text-slate-400">
-                Current Stage
-              </p>
-
-              <p className="text-sm font-semibold text-amber-600 mt-1">
-                {application.currentStage}
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-
+        <span className="text-slate-700 font-medium">
+          {t("applicationDetails.title")}
+        </span>
       </div>
 
-
-      {/* =====================================
-          MAIN GRID
-      ====================================== */}
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-5">
-
-
-        {/* =====================================
-            LEFT — TIMELINE
-        ====================================== */}
-
-        <div className="lg:col-span-2 bg-white border border-slate-200 rounded-2xl p-5 sm:p-7">
-
-          <div className="mb-7">
-
-            <h2 className="text-lg font-bold text-slate-900">
-              Application Progress
-            </h2>
-
-            <p className="text-sm text-slate-500 mt-1">
-              आवेदनको प्रगति
-            </p>
-
+      {/* Header */}
+      <div>
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-11 h-11 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center">
+            <UserRound size={22} />
           </div>
-
 
           <div>
-
-            {timeline.map((item, index) => (
-
-              <div
-                key={item.title}
-                className="flex gap-4"
-              >
-
-                {/* Timeline column */}
-
-                <div className="flex flex-col items-center">
-
-                  {/* Circle */}
-
-                  <div
-                    className={`
-                      w-9 h-9
-                      rounded-full
-                      flex items-center justify-center
-                      text-sm font-bold
-                      shrink-0
-                      ${
-                        item.status === "completed"
-                          ? "bg-green-100 text-green-700"
-                          : item.status === "current"
-                          ? "bg-blue-100 text-blue-700 ring-4 ring-blue-50"
-                          : "bg-slate-100 text-slate-400"
-                      }
-                    `}
-                  >
-
-                    {getTimelineIcon(item.status)}
-
-                  </div>
-
-
-                  {/* Line */}
-
-                  {index < timeline.length - 1 && (
-
-                    <div
-                      className={`
-                        w-0.5 h-16 sm:h-20
-                        ${
-                          item.status === "completed"
-                            ? "bg-green-200"
-                            : "bg-slate-200"
-                        }
-                      `}
-                    />
-
-                  )}
-
-                </div>
-
-
-                {/* Content */}
-
-                <div className="pb-7">
-
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-
-                    <h3
-                      className={`
-                        text-sm sm:text-base font-semibold
-                        ${
-                          item.status === "waiting"
-                            ? "text-slate-400"
-                            : "text-slate-800"
-                        }
-                      `}
-                    >
-                      {item.title}
-                    </h3>
-
-
-                    {item.status === "current" && (
-
-                      <span className="self-start px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold uppercase">
-                        Current
-                      </span>
-
-                    )}
-
-                  </div>
-
-
-                  <p className="text-xs text-slate-400 mt-1">
-                    {item.nepali}
-                  </p>
-
-                  <p
-                    className={`
-                      text-xs mt-2
-                      ${
-                        item.status === "current"
-                          ? "text-blue-600 font-medium"
-                          : "text-slate-400"
-                      }
-                    `}
-                  >
-                    {item.date}
-                  </p>
-
-                </div>
-
-              </div>
-
-            ))}
-
-          </div>
-
-        </div>
-
-
-        {/* =====================================
-            RIGHT — SUMMARY
-        ====================================== */}
-
-        <div className="space-y-5">
-
-
-          {/* Application summary */}
-
-          <div className="bg-white border border-slate-200 rounded-2xl p-5">
-
-            <h2 className="font-bold text-slate-900">
-              Application Summary
-            </h2>
-
-            <p className="text-xs text-slate-400 mt-1">
-              आवेदन सारांश
+            <p className="text-sm font-semibold text-red-600">
+              {t("applicationDetails.stepTwo")}
             </p>
 
-
-            <div className="mt-5 space-y-4">
-
-              <div>
-
-                <p className="text-xs text-slate-400">
-                  Service
-                </p>
-
-                <p className="text-sm font-semibold text-slate-700 mt-1">
-                  {application.service}
-                </p>
-
-              </div>
-
-
-              <div>
-
-                <p className="text-xs text-slate-400">
-                  Application ID
-                </p>
-
-                <p className="text-sm font-semibold text-slate-700 mt-1 break-all">
-                  {application.id}
-                </p>
-
-              </div>
-
-
-              <div>
-
-                <p className="text-xs text-slate-400">
-                  Submitted
-                </p>
-
-                <p className="text-sm font-semibold text-slate-700 mt-1">
-                  {application.submittedDate}
-                </p>
-
-              </div>
-
-
-              <div>
-
-                <p className="text-xs text-slate-400">
-                  Status
-                </p>
-
-                <p className="text-sm font-semibold text-amber-600 mt-1">
-                  {application.status}
-                </p>
-
-              </div>
-
-            </div>
-
+            <h1 className="text-2xl md:text-3xl font-bold text-blue-950">
+              {t("applicationDetails.title")}
+            </h1>
           </div>
-
-
-          {/* Payment */}
-
-          <div className="bg-white border border-slate-200 rounded-2xl p-5">
-
-            <h2 className="font-bold text-slate-900">
-              Payment Information
-            </h2>
-
-            <p className="text-xs text-slate-400 mt-1">
-              भुक्तानी विवरण
-            </p>
-
-
-            <div className="mt-5 space-y-4">
-
-              <div className="flex items-center justify-between">
-
-                <span className="text-sm text-slate-500">
-                  Method
-                </span>
-
-                <span className="text-sm font-semibold text-slate-800">
-                  {application.payment.method}
-                </span>
-
-              </div>
-
-
-              <div className="flex items-center justify-between">
-
-                <span className="text-sm text-slate-500">
-                  Amount
-                </span>
-
-                <span className="text-sm font-semibold text-slate-800">
-                  {application.payment.amount}
-                </span>
-
-              </div>
-
-
-              <div className="flex items-center justify-between gap-3">
-
-                <span className="text-sm text-slate-500">
-                  Verification
-                </span>
-
-                <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-1 rounded-full">
-                  Pending
-                </span>
-
-              </div>
-
-            </div>
-
-          </div>
-
         </div>
 
+        <p className="text-slate-600 max-w-3xl">
+          {t("applicationDetails.description")}
+        </p>
       </div>
 
+      {/* Progress */}
+      <div className="bg-white border border-slate-200 rounded-2xl p-5">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-sm font-semibold text-slate-700">
+            {t("applicationDetails.progress")}
+          </span>
 
-      {/* =====================================
-          APPLICANT INFORMATION
-      ====================================== */}
-
-      <div className="mt-5 bg-white border border-slate-200 rounded-2xl overflow-hidden">
-
-        <div className="p-5 sm:p-7">
-
-          <div className="mb-6">
-
-            <h2 className="text-lg font-bold text-slate-900">
-              Applicant Information
-            </h2>
-
-            <p className="text-sm text-slate-500 mt-1">
-              आवेदकको विवरण
-            </p>
-
-          </div>
-
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-6">
-
-            <div>
-
-              <p className="text-xs text-slate-400">
-                Full Name
-              </p>
-
-              <p className="text-sm font-semibold text-slate-800 mt-1">
-                {application.applicant.name}
-              </p>
-
-            </div>
-
-
-            <div>
-
-              <p className="text-xs text-slate-400">
-                Citizenship Number
-              </p>
-
-              <p className="text-sm font-semibold text-slate-800 mt-1">
-                {application.applicant.citizenship}
-              </p>
-
-            </div>
-
-
-            <div>
-
-              <p className="text-xs text-slate-400">
-                Phone Number
-              </p>
-
-              <p className="text-sm font-semibold text-slate-800 mt-1">
-                {application.applicant.phone}
-              </p>
-
-            </div>
-
-
-            <div>
-
-              <p className="text-xs text-slate-400">
-                Province
-              </p>
-
-              <p className="text-sm font-semibold text-slate-800 mt-1">
-                {application.applicant.province}
-              </p>
-
-            </div>
-
-
-            <div>
-
-              <p className="text-xs text-slate-400">
-                District
-              </p>
-
-              <p className="text-sm font-semibold text-slate-800 mt-1">
-                {application.applicant.district}
-              </p>
-
-            </div>
-
-
-            <div>
-
-              <p className="text-xs text-slate-400">
-                Municipality
-              </p>
-
-              <p className="text-sm font-semibold text-slate-800 mt-1">
-                {application.applicant.municipality}
-              </p>
-
-            </div>
-
-
-            <div>
-
-              <p className="text-xs text-slate-400">
-                Ward
-              </p>
-
-              <p className="text-sm font-semibold text-slate-800 mt-1">
-                {application.applicant.ward}
-              </p>
-
-            </div>
-
-
-            <div className="sm:col-span-2">
-
-              <p className="text-xs text-slate-400">
-                Address
-              </p>
-
-              <p className="text-sm font-semibold text-slate-800 mt-1">
-                {application.applicant.address}
-              </p>
-
-            </div>
-
-
-            <div className="sm:col-span-2 lg:col-span-3">
-
-              <p className="text-xs text-slate-400">
-                Purpose
-              </p>
-
-              <p className="text-sm font-semibold text-slate-800 mt-1">
-                {application.applicant.purpose}
-              </p>
-
-            </div>
-
-          </div>
-
+          <span className="text-sm font-bold text-blue-700">
+            2 / 5
+          </span>
         </div>
 
+        <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+          <div className="h-full w-2/5 bg-red-600 rounded-full" />
+        </div>
+
+        <div className="grid grid-cols-5 mt-4 text-xs text-slate-500">
+          <span className="text-blue-700 font-semibold">
+            {t("applicationDetails.application")}
+          </span>
+
+          <span className="text-blue-700 font-semibold">
+            {t("applicationDetails.applicant")}
+          </span>
+
+          <span>{t("applicationDetails.documents")}</span>
+          <span>{t("applicationDetails.payment")}</span>
+          <span>{t("applicationDetails.review")}</span>
+        </div>
       </div>
 
+      {/* Selected Service */}
+      <div className="bg-blue-50 border border-blue-100 rounded-2xl p-5">
+        <div className="flex items-start gap-3">
+          <FileText
+            size={20}
+            className="text-blue-700 mt-0.5"
+          />
 
-      {/* =====================================
-          DOCUMENTS
-      ====================================== */}
-
-      <div className="mt-5 bg-white border border-slate-200 rounded-2xl overflow-hidden">
-
-        <div className="p-5 sm:p-7">
-
-          <div className="mb-6">
-
-            <h2 className="text-lg font-bold text-slate-900">
-              Submitted Documents
-            </h2>
-
-            <p className="text-sm text-slate-500 mt-1">
-              पेश गरिएका कागजातहरू
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
+              {t("applicationDetails.selectedService")}
             </p>
 
+            <p className="font-bold text-blue-950 mt-1">
+              {service
+                ? t(`newApplication.services.${service}`)
+                : t("applicationDetails.recommendationService")}
+            </p>
           </div>
+        </div>
+      </div>
 
+      {/* Form */}
+      <form onSubmit={handleContinue} className="space-y-6">
 
-          <div className="space-y-3">
+        {/* Personal Information */}
+        <section className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+          <div className="px-6 py-5 border-b border-slate-200">
+            <div className="flex items-center gap-3">
+              <UserRound size={20} className="text-blue-700" />
 
-            {application.documents.map((document) => (
+              <div>
+                <h2 className="font-bold text-lg text-blue-950">
+                  {t("applicationDetails.personalInformation")}
+                </h2>
 
-              <div
-                key={document.name}
-                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 border border-slate-100 rounded-xl bg-slate-50"
-              >
-
-                <div className="flex items-center gap-3">
-
-                  <div className="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center">
-                    📄
-                  </div>
-
-                  <div>
-
-                    <p className="text-sm font-semibold text-slate-800">
-                      {document.name}
-                    </p>
-
-                    <p className="text-xs text-slate-400 mt-1">
-                      {document.type}
-                    </p>
-
-                  </div>
-
-                </div>
-
-
-                <span className="self-start sm:self-auto px-3 py-1 rounded-full bg-green-50 border border-green-200 text-green-700 text-xs font-semibold">
-                  ✓ {document.status}
-                </span>
-
+                <p className="text-sm text-slate-500">
+                  {t("applicationDetails.personalInformationDescription")}
+                </p>
               </div>
-
-            ))}
-
+            </div>
           </div>
 
-        </div>
+          <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
 
-      </div>
+            <InputField
+              label={t("applicationDetails.fullName")}
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              placeholder={t("applicationDetails.fullNamePlaceholder")}
+              required
+            />
 
+            <InputField
+              label={t("applicationDetails.citizenshipNumber")}
+              name="citizenshipNumber"
+              value={formData.citizenshipNumber}
+              onChange={handleChange}
+              placeholder={t(
+                "applicationDetails.citizenshipNumberPlaceholder"
+              )}
+              required
+            />
 
-      {/* =====================================
-          CERTIFICATE
-      ====================================== */}
+            <InputField
+              label={t("applicationDetails.dateOfBirth")}
+              name="dateOfBirth"
+              type="date"
+              value={formData.dateOfBirth}
+              onChange={handleChange}
+              required
+            />
 
-      <div className="mt-5 bg-slate-100 border border-slate-200 rounded-2xl p-5 sm:p-7">
+            <InputField
+              label={t("applicationDetails.phone")}
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder={t("applicationDetails.phonePlaceholder")}
+              required
+              icon={<Phone size={16} />}
+            />
 
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+            <InputField
+              label={t("applicationDetails.email")}
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder={t("applicationDetails.emailPlaceholder")}
+              icon={<Mail size={16} />}
+            />
+          </div>
+        </section>
 
-          <div className="flex gap-4">
+        {/* Address Information */}
+        <section className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+          <div className="px-6 py-5 border-b border-slate-200">
+            <div className="flex items-center gap-3">
+              <MapPin size={20} className="text-blue-700" />
 
-            <div className="w-11 h-11 rounded-xl bg-white flex items-center justify-center text-xl">
-              📜
+              <div>
+                <h2 className="font-bold text-lg text-blue-950">
+                  {t("applicationDetails.addressInformation")}
+                </h2>
+
+                <p className="text-sm text-slate-500">
+                  {t("applicationDetails.addressInformationDescription")}
+                </p>
+              </div>
             </div>
-
-            <div>
-
-              <h2 className="font-bold text-slate-800">
-                Digital Certificate
-              </h2>
-
-              <p className="text-sm text-slate-500 mt-1">
-                Your certificate will appear here after final approval.
-              </p>
-
-            </div>
-
           </div>
 
+          <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <InputField
+              label={t("applicationDetails.province")}
+              name="province"
+              value={formData.province}
+              onChange={handleChange}
+              placeholder={t("applicationDetails.provincePlaceholder")}
+              required
+            />
+
+            <InputField
+              label={t("applicationDetails.district")}
+              name="district"
+              value={formData.district}
+              onChange={handleChange}
+              placeholder={t("applicationDetails.districtPlaceholder")}
+              required
+            />
+
+            <InputField
+              label={t("applicationDetails.municipality")}
+              name="municipality"
+              value={formData.municipality}
+              onChange={handleChange}
+              placeholder={t("applicationDetails.municipalityPlaceholder")}
+              required
+            />
+
+            <InputField
+              label={t("applicationDetails.wardNumber")}
+              name="wardNumber"
+              value={formData.wardNumber}
+              onChange={handleChange}
+              placeholder={t("applicationDetails.wardNumberPlaceholder")}
+              required
+            />
+
+            <InputField
+              label={t("applicationDetails.tole")}
+              name="tole"
+              value={formData.tole}
+              onChange={handleChange}
+              placeholder={t("applicationDetails.tolePlaceholder")}
+              required
+            />
+          </div>
+        </section>
+
+        {/* Bottom Actions */}
+        <div className="flex flex-col sm:flex-row justify-between gap-3 pb-6">
 
           <button
-            disabled
-            className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-400 text-sm font-semibold cursor-not-allowed"
+            type="button"
+            onClick={() => navigate("/citizen/apply")}
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-300 bg-white text-slate-700 font-semibold hover:bg-slate-50 transition"
           >
-            Download Certificate
+            <ArrowLeft size={18} />
+            {t("applicationDetails.back")}
+          </button>
+
+          <button
+            type="submit"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 transition shadow-sm"
+          >
+            {t("applicationDetails.continue")}
+            <ArrowRight size={18} />
           </button>
 
         </div>
-
-      </div>
-
+      </form>
     </div>
-
   );
-}
+};
+
+/* Reusable input */
+
+const InputField = ({
+  label,
+  name,
+  type = "text",
+  value,
+  onChange,
+  placeholder,
+  required = false,
+  icon,
+}) => {
+  return (
+    <div>
+      <label className="block text-sm font-semibold text-slate-700 mb-2">
+        {label}
+        {required && <span className="text-red-600 ml-1">*</span>}
+      </label>
+
+      <div className="relative">
+        {icon && (
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+            {icon}
+          </span>
+        )}
+
+        <input
+          type={type}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          required={required}
+          className={`w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-slate-800 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 ${
+            icon ? "pl-10" : ""
+          }`}
+        />
+      </div>
+    </div>
+  );
+};
 
 export default ApplicationDetails;

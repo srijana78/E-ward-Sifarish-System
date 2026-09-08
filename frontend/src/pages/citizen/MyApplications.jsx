@@ -1,402 +1,151 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Search, FileText, Eye } from "lucide-react";
 
-function MyApplications() {
+const MyApplications = () => {
+  const { t } = useTranslation();
+  const [search, setSearch] = useState("");
 
-  const navigate = useNavigate();
-
-  const [activeFilter, setActiveFilter] = useState("All");
-
-  // Temporary data
-  // Later this will come from MongoDB through our API.
-
+  // Temporary sample data
   const applications = [
     {
-      id: "EW-2026-00124",
+      id: "EW-2026-001",
       service: "Residence Recommendation",
-      nepaliService: "बसोबास प्रमाणित सिफारिस",
-      submittedDate: "Sep 1, 2026",
-      status: "Pending",
-      stage: "Document Verification",
+      date: "2026-09-02",
+      status: "Pending Review",
     },
     {
-      id: "EW-2026-00118",
-      service: "Relationship Certificate",
-      nepaliService: "नाता प्रमाणित",
-      submittedDate: "Aug 28, 2026",
+      id: "EW-2026-002",
+      service: "Personal & Civil Recommendation",
+      date: "2026-08-28",
       status: "Approved",
-      stage: "Certificate Ready",
-    },
-    {
-      id: "EW-2026-00097",
-      service: "Land Recommendation",
-      nepaliService: "जग्गा सम्बन्धी सिफारिस",
-      submittedDate: "Aug 20, 2026",
-      status: "Rejected",
-      stage: "Application Rejected",
     },
   ];
 
-
-  // Filter applications
-
-  const filteredApplications =
-    activeFilter === "All"
-      ? applications
-      : applications.filter(
-          (application) => application.status === activeFilter
-        );
-
-
-  // Status styles
-
-  const getStatusStyle = (status) => {
-
-    switch (status) {
-
-      case "Approved":
-        return "bg-green-50 text-green-700 border-green-200";
-
-      case "Rejected":
-        return "bg-red-50 text-red-700 border-red-200";
-
-      case "Pending":
-      default:
-        return "bg-amber-50 text-amber-700 border-amber-200";
-    }
-
-  };
-
+  const filteredApplications = applications.filter(
+    (app) =>
+      app.id.toLowerCase().includes(search.toLowerCase()) ||
+      app.service.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
+    <div className="mx-auto max-w-6xl space-y-8 pb-6">
 
-    <div className="max-w-7xl mx-auto">
+      {/* Header */}
+      <section>
+        <p className="text-sm font-semibold uppercase tracking-wider text-red-600">
+          {t("myApplications.label")}
+        </p>
 
-      {/* =====================================
-          PAGE HEADER
-      ====================================== */}
+        <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-blue-950 sm:text-4xl">
+          {t("myApplications.title")}
+        </h1>
 
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-7">
+        <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base">
+          {t("myApplications.description")}
+        </p>
+      </section>
 
-        <div>
+      {/* Search */}
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="relative max-w-xl">
+          <Search
+            size={19}
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+          />
 
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
-            My Applications
-          </h1>
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder={t("myApplications.searchPlaceholder")}
+            className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-700 outline-none transition focus:border-blue-600 focus:bg-white focus:ring-2 focus:ring-blue-100"
+          />
+        </div>
+      </section>
 
-          <p className="text-sm text-slate-500 mt-1">
-            मेरा आवेदनहरू
-          </p>
-
+      {/* Applications */}
+      <section>
+        <div className="mb-4">
+          <h2 className="text-xl font-bold text-blue-950 sm:text-2xl">
+            {t("myApplications.applicationList")}
+          </h2>
         </div>
 
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
 
-        <button
-          onClick={() => navigate("/citizen/new-application")}
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm font-semibold transition shadow-sm"
-        >
-          <span className="text-lg leading-none">
-            +
-          </span>
+          {filteredApplications.map((app) => (
+            <div
+              key={app.id}
+              className="border-b border-slate-100 p-5 last:border-b-0 sm:p-6"
+            >
+              <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
 
-          New Application
-        </button>
-
-      </div>
-
-
-      {/* =====================================
-          SUMMARY CARDS
-      ====================================== */}
-
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-
-        {/* Total */}
-
-        <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5">
-
-          <p className="text-xs sm:text-sm text-slate-500">
-            Total Applications
-          </p>
-
-          <p className="text-2xl font-bold text-slate-900 mt-2">
-            3
-          </p>
-
-        </div>
-
-
-        {/* Pending */}
-
-        <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5">
-
-          <p className="text-xs sm:text-sm text-slate-500">
-            Pending
-          </p>
-
-          <p className="text-2xl font-bold text-amber-600 mt-2">
-            1
-          </p>
-
-        </div>
-
-
-        {/* Approved */}
-
-        <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5">
-
-          <p className="text-xs sm:text-sm text-slate-500">
-            Approved
-          </p>
-
-          <p className="text-2xl font-bold text-green-600 mt-2">
-            1
-          </p>
-
-        </div>
-
-
-        {/* Rejected */}
-
-        <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5">
-
-          <p className="text-xs sm:text-sm text-slate-500">
-            Rejected
-          </p>
-
-          <p className="text-2xl font-bold text-red-600 mt-2">
-            1
-          </p>
-
-        </div>
-
-      </div>
-
-
-      {/* =====================================
-          FILTERS
-      ====================================== */}
-
-      <div className="bg-white border border-slate-200 rounded-xl p-3 mb-5">
-
-        <div className="flex items-center gap-2 overflow-x-auto">
-
-          {["All", "Pending", "Approved", "Rejected"].map(
-            (filter) => (
-
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`
-                  whitespace-nowrap
-                  px-4 py-2
-                  rounded-lg
-                  text-sm
-                  font-medium
-                  transition
-                  ${
-                    activeFilter === filter
-                      ? "bg-blue-700 text-white"
-                      : "text-slate-600 hover:bg-slate-100"
-                  }
-                `}
-              >
-                {filter}
-              </button>
-
-            )
-          )}
-
-        </div>
-
-      </div>
-
-
-      {/* =====================================
-          APPLICATION LIST
-      ====================================== */}
-
-      <div className="space-y-4">
-
-        {filteredApplications.map((application) => (
-
-          <div
-            key={application.id}
-            className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 hover:border-blue-200 hover:shadow-sm transition"
-          >
-
-            {/* Top section */}
-
-            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-
-
-              {/* Application information */}
-
-              <div className="flex gap-4">
-
-                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center text-xl shrink-0">
-                  📄
-                </div>
-
-
-                <div>
-
-                  <h2 className="font-bold text-slate-900">
-                    {application.service}
-                  </h2>
-
-                  <p className="text-xs text-slate-400 mt-1">
-                    {application.nepaliService}
-                  </p>
-
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3">
-
-                    <p className="text-xs text-slate-500">
-                      Application ID:
-                      <span className="font-semibold text-slate-700 ml-1">
-                        {application.id}
-                      </span>
-                    </p>
-
-                    <p className="text-xs text-slate-500">
-                      Submitted:
-                      <span className="font-semibold text-slate-700 ml-1">
-                        {application.submittedDate}
-                      </span>
-                    </p>
-
+                {/* Application Info */}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-900">
+                    <FileText size={21} />
                   </div>
 
+                  <div>
+                    <h3 className="font-bold text-blue-950">
+                      {app.service}
+                    </h3>
+
+                    <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-500">
+                      <span>{app.id}</span>
+                      <span>•</span>
+                      <span>{app.date}</span>
+                    </div>
+                  </div>
                 </div>
 
-              </div>
+                {/* Status + Action */}
+                <div className="flex items-center gap-3 md:shrink-0">
+                  <span
+                    className={`rounded-full px-3 py-1.5 text-xs font-bold ${
+                      app.status === "Approved"
+                        ? "bg-emerald-50 text-emerald-700"
+                        : "bg-amber-50 text-amber-700"
+                    }`}
+                  >
+                    {app.status}
+                  </span>
 
-
-              {/* Status */}
-
-              <span
-                className={`
-                  self-start
-                  inline-flex
-                  items-center
-                  px-3
-                  py-1.5
-                  rounded-full
-                  border
-                  text-xs
-                  font-semibold
-                  ${getStatusStyle(application.status)}
-                `}
-              >
-
-                <span className="w-1.5 h-1.5 rounded-full bg-current mr-2" />
-
-                {application.status}
-
-              </span>
-
-            </div>
-
-
-            {/* Progress */}
-
-            <div className="mt-6 pt-5 border-t border-slate-100">
-
-              <div className="flex items-center justify-between mb-3">
-
-                <p className="text-xs font-semibold text-slate-700">
-                  Current Stage
-                </p>
-
-                <p className="text-xs text-slate-500">
-                  {application.stage}
-                </p>
-
-              </div>
-
-
-              {/* Progress line */}
-
-              <div className="relative">
-
-                <div className="h-1.5 bg-slate-100 rounded-full" />
-
-                <div
-                  className={`
-                    absolute
-                    top-0
-                    left-0
-                    h-1.5
-                    rounded-full
-                    ${
-                      application.status === "Approved"
-                        ? "w-full bg-green-500"
-                        : application.status === "Rejected"
-                        ? "w-1/2 bg-red-500"
-                        : "w-1/3 bg-amber-500"
+                  <button
+                    onClick={() =>
+                      alert(`Application: ${app.id}`)
                     }
-                  `}
-                />
+                    className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-blue-950 transition hover:bg-slate-50"
+                  >
+                    <Eye size={16} />
+                    {t("myApplications.view")}
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
 
+          {/* No Results */}
+          {filteredApplications.length === 0 && (
+            <div className="px-5 py-14 text-center">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
+                <FileText size={28} className="text-slate-400" />
               </div>
 
+              <p className="mt-4 font-semibold text-slate-700">
+                {t("myApplications.noApplications")}
+              </p>
 
-              {/* Bottom actions */}
-
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-5">
-
-                <p className="text-xs text-slate-400">
-                  Last updated recently
-                </p>
-
-
-                <button
-                  onClick={() =>
-                    navigate(
-                      `/citizen/applications/${application.id}`
-                    )
-                  }
-                  className="w-full sm:w-auto px-4 py-2 border border-slate-200 hover:border-blue-300 hover:bg-blue-50 text-slate-700 hover:text-blue-700 rounded-lg text-sm font-semibold transition"
-                >
-                  View Details →
-                </button>
-
-              </div>
-
+              <p className="mt-1 text-sm text-slate-500">
+                {t("myApplications.noApplicationsDescription")}
+              </p>
             </div>
-
-          </div>
-
-        ))}
-
-
-        {/* Empty state */}
-
-        {filteredApplications.length === 0 && (
-
-          <div className="bg-white border border-slate-200 rounded-xl p-10 text-center">
-
-            <div className="text-4xl mb-3">
-              📄
-            </div>
-
-            <h3 className="font-semibold text-slate-800">
-              No applications found
-            </h3>
-
-            <p className="text-sm text-slate-500 mt-1">
-              You don't have any applications in this category.
-            </p>
-
-          </div>
-
-        )}
-
-      </div>
-
+          )}
+        </div>
+      </section>
     </div>
-
   );
-}
+};
 
 export default MyApplications;

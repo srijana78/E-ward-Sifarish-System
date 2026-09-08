@@ -1,264 +1,242 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import {
+  Bell,
+  CheckCircle2,
+  Clock3,
+  FileText,
+  AlertCircle,
+  Check,
+} from "lucide-react";
 
-function Notifications() {
+const Notifications = () => {
+  const { t } = useTranslation();
+
   const [notifications, setNotifications] = useState([
     {
       id: 1,
       type: "application",
       title: "New Application Received",
-      message:
-        "A new Residence Recommendation application has been submitted.",
-      applicationId: "EW-2026-00124",
+      message: "A new residence recommendation application has been submitted.",
       time: "10 minutes ago",
-      unread: true,
-      icon: "📋",
+      read: false,
     },
     {
       id: 2,
-      type: "application",
-      title: "New Application Received",
-      message:
-        "Ram Sharma submitted a Relationship Certificate application.",
-      applicationId: "EW-2026-00123",
-      time: "45 minutes ago",
-      unread: true,
-      icon: "📋",
+      type: "verified",
+      title: "Application Verified",
+      message: "Application EW-2026-002 has been successfully verified.",
+      time: "1 hour ago",
+      read: false,
     },
     {
       id: 3,
-      type: "system",
-      title: "Application Verification Pending",
-      message:
-        "There are 18 applications waiting for verification.",
-      time: "1 hour ago",
-      unread: true,
-      icon: "⏳",
+      type: "pending",
+      title: "Application Requires Review",
+      message: "An application is waiting for additional verification.",
+      time: "3 hours ago",
+      read: true,
     },
     {
       id: 4,
-      type: "success",
-      title: "Application Verified",
-      message:
-        "Application EW-2026-00121 has been successfully verified.",
-      applicationId: "EW-2026-00121",
+      type: "system",
+      title: "System Update",
+      message: "The E-Ward Sifarish system has been updated successfully.",
       time: "Yesterday",
-      unread: false,
-      icon: "✓",
-    },
-    {
-      id: 5,
-      type: "warning",
-      title: "Application Rejected",
-      message:
-        "Application EW-2026-00119 was rejected after review.",
-      applicationId: "EW-2026-00119",
-      time: "Yesterday",
-      unread: false,
-      icon: "!",
+      read: true,
     },
   ]);
 
-  const markAsRead = (id) => {
-    setNotifications((current) =>
-      current.map((notification) =>
-        notification.id === id
-          ? { ...notification, unread: false }
-          : notification
-      )
+  const unreadCount = notifications.filter((n) => !n.read).length;
+
+  const markAsRead = (id) =>
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
     );
+
+  const markAllAsRead = () =>
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+
+  const types = {
+    application: {
+      icon: FileText,
+      style: "bg-blue-50 text-blue-700",
+    },
+    verified: {
+      icon: CheckCircle2,
+      style: "bg-green-50 text-green-600",
+    },
+    pending: {
+      icon: Clock3,
+      style: "bg-amber-50 text-amber-600",
+    },
+    system: {
+      icon: AlertCircle,
+      style: "bg-red-50 text-red-600",
+    },
   };
 
-  const markAllAsRead = () => {
-    setNotifications((current) =>
-      current.map((notification) => ({
-        ...notification,
-        unread: false,
-      }))
-    );
-  };
-
-  const unreadCount = notifications.filter(
-    (notification) => notification.unread
-  ).length;
+  const summary = [
+    {
+      label: t("notifications.total"),
+      value: notifications.length,
+      icon: Bell,
+      style: "bg-blue-50 text-blue-900",
+      valueStyle: "text-blue-950",
+    },
+    {
+      label: t("notifications.unread"),
+      value: unreadCount,
+      icon: AlertCircle,
+      style: "bg-red-50 text-red-600",
+      valueStyle: "text-red-600",
+    },
+    {
+      label: t("notifications.read"),
+      value: notifications.length - unreadCount,
+      icon: CheckCircle2,
+      style: "bg-green-50 text-green-600",
+      valueStyle: "text-green-600",
+    },
+  ];
 
   return (
-    <div className="max-w-5xl mx-auto">
-
-      {/* Page Header */}
-      <div className="mb-7">
-        <p className="text-sm font-medium text-blue-700">
-          Ward Administration
+    <div className="mx-auto max-w-6xl space-y-6  mt-9">
+      {/* Header */}
+      <section>
+        <p className="text-sm font-bold text-red-600">
+          {t("notifications.label")}
         </p>
 
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="mt-1 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
-              Notifications
+            <h1 className="text-2xl font-bold text-blue-950 sm:text-3xl">
+              {t("notifications.title")}
             </h1>
 
-            <p className="text-sm text-slate-500 mt-1">
-              प्रणालीका सूचना तथा आवेदन सम्बन्धी जानकारी
+            <p className="mt-2 text-sm leading-6 text-slate-500">
+              {t("notifications.description")}
             </p>
           </div>
 
           {unreadCount > 0 && (
             <button
               onClick={markAllAsRead}
-              className="
-                text-sm
-                font-semibold
-                text-blue-700
-                hover:text-blue-800
-                transition
-              "
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-blue-950 hover:bg-slate-50"
             >
-              Mark all as read
+              <Check size={17} />
+              {t("notifications.markAllRead")}
             </button>
           )}
         </div>
-      </div>
+      </section>
 
-      {/* Notification Summary */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-5 mb-5">
-        <div className="flex items-center gap-4">
+      {/* Summary */}
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {summary.map((item) => {
+          const Icon = item.icon;
 
-          <div className="
-            w-12
-            h-12
-            rounded-xl
-            bg-blue-50
-            text-blue-700
-            flex
-            items-center
-            justify-center
-            text-xl
-          ">
-            🔔
-          </div>
+          return (
+            <div
+              key={item.label}
+              className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-slate-500">
+                    {item.label}
+                  </p>
 
-          <div>
-            <p className="font-bold text-slate-800">
-              {unreadCount} Unread Notifications
-            </p>
-
-            <p className="text-sm text-slate-400 mt-1">
-              तपाईंका नयाँ सूचनाहरू
-            </p>
-          </div>
-
-        </div>
-      </div>
-
-      {/* Notifications */}
-      <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
-
-        {notifications.map((notification) => (
-
-          <div
-            key={notification.id}
-            onClick={() => markAsRead(notification.id)}
-            className={`
-              p-5
-              sm:p-6
-              border-b
-              border-slate-100
-              last:border-b-0
-              cursor-pointer
-              transition
-              ${
-                notification.unread
-                  ? "bg-blue-50/40 hover:bg-blue-50"
-                  : "hover:bg-slate-50"
-              }
-            `}
-          >
-
-            <div className="flex gap-4">
-
-              {/* Icon */}
-              <div className={`
-                w-11
-                h-11
-                rounded-xl
-                flex
-                items-center
-                justify-center
-                shrink-0
-                text-base
-                ${
-                  notification.type === "success"
-                    ? "bg-green-50 text-green-700"
-                    : notification.type === "warning"
-                    ? "bg-red-50 text-red-700"
-                    : notification.type === "system"
-                    ? "bg-amber-50 text-amber-700"
-                    : "bg-blue-50 text-blue-700"
-                }
-              `}>
-                {notification.icon}
-              </div>
-
-              {/* Content */}
-              <div className="flex-1 min-w-0">
-
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-
-                  <div className="flex items-center gap-2">
-
-                    <h3 className="text-sm font-semibold text-slate-800">
-                      {notification.title}
-                    </h3>
-
-                    {notification.unread && (
-                      <span className="
-                        w-2
-                        h-2
-                        rounded-full
-                        bg-blue-600
-                        shrink-0
-                      " />
-                    )}
-
-                  </div>
-
-                  <span className="text-xs text-slate-400">
-                    {notification.time}
-                  </span>
-
+                  <p className={`mt-2 text-2xl font-bold ${item.valueStyle}`}>
+                    {item.value}
+                  </p>
                 </div>
 
-                <p className="text-sm text-slate-500 mt-1 leading-relaxed">
-                  {notification.message}
-                </p>
-
-                {notification.applicationId && (
-                  <span className="
-                    inline-block
-                    mt-2
-                    text-xs
-                    font-semibold
-                    text-blue-700
-                    bg-blue-50
-                    px-2.5
-                    py-1
-                    rounded-lg
-                  ">
-                    {notification.applicationId}
-                  </span>
-                )}
-
+                <div className={`rounded-lg p-3 ${item.style}`}>
+                  <Icon size={21} />
+                </div>
               </div>
-
             </div>
+          );
+        })}
+      </section>
 
+      {/* Notifications */}
+      <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+          <div>
+            <h2 className="font-bold text-blue-950">
+              {t("notifications.recentNotifications")}
+            </h2>
+
+            <p className="mt-1 text-xs text-slate-500">
+              {t("notifications.recentNotificationsDescription")}
+            </p>
           </div>
 
-        ))}
+          {unreadCount > 0 && (
+            <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-600">
+              {unreadCount} {t("notifications.new")}
+            </span>
+          )}
+        </div>
 
-      </div>
+        <div className="divide-y divide-slate-100">
+          {notifications.map((notification) => {
+            const { icon: Icon, style } = types[notification.type];
 
+            return (
+              <div
+                key={notification.id}
+                className={`flex gap-4 px-5 py-5 ${
+                  notification.read ? "bg-white" : "bg-blue-50/40"
+                }`}
+              >
+                <div
+                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ${style}`}
+                >
+                  <Icon size={20} />
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-sm font-bold text-blue-950">
+                          {notification.title}
+                        </h3>
+
+                        {!notification.read && (
+                          <span className="h-2 w-2 rounded-full bg-red-600" />
+                        )}
+                      </div>
+
+                      <p className="mt-1 text-sm leading-6 text-slate-500">
+                        {notification.message}
+                      </p>
+                    </div>
+
+                    <span className="text-xs text-slate-400">
+                      {notification.time}
+                    </span>
+                  </div>
+
+                  {!notification.read && (
+                    <button
+                      onClick={() => markAsRead(notification.id)}
+                      className="mt-3 text-xs font-semibold text-blue-900 hover:text-red-600"
+                    >
+                      {t("notifications.markAsRead")}
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
     </div>
   );
-}
+};
 
 export default Notifications;
