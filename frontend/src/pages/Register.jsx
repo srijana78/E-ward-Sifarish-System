@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-
 import { useNavigate, Link } from "react-router-dom";
-
 import { useTranslation } from "react-i18next";
 
 import {
@@ -18,13 +16,10 @@ import {
 
 function Register() {
   const { t } = useTranslation();
-
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-
   const [loading, setLoading] = useState(false);
-
   const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
@@ -43,56 +38,55 @@ function Register() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // ================= REGISTER =================
 
-    setError("");
-    setLoading(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await fetch(
-        "http://localhost:5000/api/auth/register",
-        {
-          method: "POST",
+  setError("");
+  setLoading(true);
 
-          headers: {
-            "Content-Type": "application/json",
-          },
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/auth/register",
+      {
+        method: "POST",
 
-          body: JSON.stringify({
-            name: formData.fullName,
-            phone: formData.phone,
-            citizenshipNo: formData.citizenshipNo,
-            password: formData.password,
-          }),
-        }
-      );
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
+        body: JSON.stringify({
+          name: formData.fullName,
+          phone: formData.phone,
+          citizenshipNo: formData.citizenshipNo,
+          password: formData.password,
+        }),
       }
+    );
 
-      console.log("Registered User:", data);
+    const data = await response.json();
 
-      alert("Registration successful! Please login.");
-
-      navigate("/login");
-    } catch (error) {
-      console.error(error);
-
-      setError(error.message);
-    } finally {
-      setLoading(false);
+    if (!response.ok) {
+      throw new Error(data.message || "Registration failed");
     }
-  };
 
+    alert(data.message || "Registration successful! Please login.");
+
+    navigate("/login");
+
+  } catch (error) {
+    console.error("Registration error:", error);
+
+    setError(error.message || "Failed to connect to server");
+
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <main className="min-h-[calc(100vh-72px)] bg-slate-50 px-3 py-5 sm:px-5 sm:py-6 md:px-6">
-
       <div className="flex min-h-[calc(100vh-112px)] items-center justify-center">
-
         <div className="w-full max-w-[440px]">
 
           {/* Main Card */}
@@ -102,7 +96,6 @@ function Register() {
             {/* Header */}
 
             <div className="bg-teal-700 px-5 pb-5 pt-6 text-center text-white sm:px-7 sm:pb-6 sm:pt-7">
-
               <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 sm:mb-4 sm:h-14 sm:w-14 sm:rounded-2xl">
 
                 <UserPlus
@@ -120,7 +113,6 @@ function Register() {
               <p className="mx-auto mt-1.5 max-w-[350px] text-xs leading-5 text-white/75 sm:text-sm">
                 {t("auth.registerSubtitle")}
               </p>
-
             </div>
 
             {/* Form */}
@@ -141,7 +133,6 @@ function Register() {
               {/* Full Name */}
 
               <div className="mb-4">
-
                 <label
                   htmlFor="fullName"
                   className="mb-1.5 block text-xs font-semibold text-slate-700 sm:text-sm"
@@ -168,13 +159,11 @@ function Register() {
                   />
 
                 </div>
-
               </div>
 
               {/* Phone */}
 
               <div className="mb-4">
-
                 <label
                   htmlFor="phone"
                   className="mb-1.5 block text-xs font-semibold text-slate-700 sm:text-sm"
@@ -202,13 +191,11 @@ function Register() {
                   />
 
                 </div>
-
               </div>
 
               {/* Citizenship Number */}
 
               <div className="mb-4">
-
                 <label
                   htmlFor="citizenshipNo"
                   className="mb-1.5 block text-xs font-semibold text-slate-700 sm:text-sm"
@@ -235,13 +222,11 @@ function Register() {
                   />
 
                 </div>
-
               </div>
 
               {/* Password */}
 
               <div className="mb-5">
-
                 <label
                   htmlFor="password"
                   className="mb-1.5 block text-xs font-semibold text-slate-700 sm:text-sm"
@@ -280,7 +265,6 @@ function Register() {
                   </button>
 
                 </div>
-
               </div>
 
               {/* Register Button */}
@@ -290,7 +274,6 @@ function Register() {
                 disabled={loading}
                 className="flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-teal-600 px-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-teal-700 hover:shadow-md active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 sm:h-11 sm:rounded-xl"
               >
-
                 <span className="truncate">
                   {loading
                     ? "Creating Account..."
@@ -298,7 +281,6 @@ function Register() {
                 </span>
 
                 <ArrowRight size={17} className="shrink-0" />
-
               </button>
 
             </form>
@@ -329,7 +311,6 @@ function Register() {
             className="mt-4 flex items-center justify-center gap-1.5 text-sm font-medium text-teal-700 transition hover:text-teal-800"
           >
             <ArrowLeft size={16} />
-
             <span>Back to Home</span>
           </Link>
 
@@ -338,9 +319,7 @@ function Register() {
           </p>
 
         </div>
-
       </div>
-
     </main>
   );
 }
