@@ -70,51 +70,52 @@
     "terms": "Terms & Conditions"
   }
 
-  ,
-"auth": {
-  "loginTitle": "Welcome Back",
-  "loginSubtitle": "Sign in to access the E-Sifarish Portal",
+,
 
-  "citizen": "Citizen",
-  "admin": "Admin",
+  "auth": {
+    "loginTitle": "Welcome Back",
+    "citizenLoginSubtitle": "Access your citizen account",
+    "staffLoginSubtitle": "Access your government staff account",
 
-  "citizenLoginTitle": "Citizen Login",
-  "citizenLoginSubtitle": "Access your applications and ward services",
+    "citizen": "Citizen",
+    "staff": "Staff",
 
-  "adminLoginTitle": "Admin Login",
-  "adminLoginSubtitle": "Access the Ward Front Office Management System",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "Enter your phone number",
 
-  "phoneLabel": "Mobile Number",
-  "phonePlaceholder": "98XXXXXXXX",
+    "emailLabel": "Official Email",
+    "emailPlaceholder": "Enter your official email",
 
-  "adminEmailLabel": "Admin Email",
-  "adminEmailPlaceholder": "Enter admin email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
 
-  "passwordLabel": "Password",
-  "passwordPlaceholder": "Enter your password",
+    "loginButton": "Login",
+    "loggingIn": "Logging in...",
 
-  "rememberMe": "Remember me",
-  "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "register": "Register",
 
-  "citizenLoginButton": "Login as Citizen",
-  "adminLoginButton": "Login as Admin",
+    "staffInfo": "Staff accounts are created by the system administrator. Please use your official email and assigned password.",
 
-  "noAccount": "Don't have an account?",
-  "registerLink": "Register Now",
+    "backHome": "Back to Home",
 
-  "registerTitle": "New Citizen Registration",
-  "registerSubtitle": "Fill in details to access digital ward services",
-  "fullNameLabel": "Full Name",
-  "fullNamePlaceholder": "Srijana Bhakri",
-  "citizenshipLabel": "Citizenship Number",
-  "citizenshipPlaceholder": "64-01-75-XXXXX",
-  "registerButton": "Register Account",
-  "hasAccount": "Already have an account?",
-  "loginLink": "Login here",
+    "registerTitle": "Create Citizen Account",
+    "registerSubtitle": "Register to access online ward recommendation services.",
 
-  "showPassword": "Show password",
-  "hidePassword": "Hide password"
-},
+    "fullNameLabel": "Full Name",
+    "fullNamePlaceholder": "Enter your full name",
+
+    "citizenshipLabel": "Citizenship Number",
+    "citizenshipPlaceholder": "Enter your citizenship number",
+
+    "registerButton": "Create Account",
+    "creatingAccount": "Creating Account...",
+
+    "hasAccount": "Already have an account?",
+    "loginLink": "Login"
+  }
+,
+
 
 "citizenLayout": {
   "portalName": "E-WARD SIFARISH",
@@ -194,53 +195,51 @@
   }
 ,
 
-
   "citizenDashboard": {
-  "welcomeLabel": "Citizen Service Portal",
-  "welcomeTitle": "Welcome to E-Ward Sifarish",
-  "welcomeDescription": "Apply for ward recommendation services online, submit required documents and payment vouchers, and track your application status from anywhere.",
-  "newApplication": "New Application",
+    "welcomeLabel": "Citizen Service Portal",
+    "welcomeTitle": "Welcome to E-Ward Sifarish",
+    "welcomeDescription": "Apply for ward recommendation services online, submit required documents and payment vouchers, and track your application status from anywhere.",
+    "newApplication": "New Application",
 
-  "totalApplications": "Total Applications",
-  "pending": "Pending Review",
-  "approved": "Approved",
-  "actionRequired": "Action Required",
+    "totalApplications": "Total Applications",
+    "pending": "Pending Review",
+    "approved": "Approved",
+    "actionRequired": "Action Required",
 
-  "recentApplications": "Recent Applications",
-  "recentApplicationsDescription": "View the latest status of your submitted applications.",
-  "viewAll": "View All",
-  "applicationId": "Application ID",
+    "recentApplications": "Recent Applications",
+    "recentApplicationsDescription": "View the latest status of your submitted applications.",
+    "viewAll": "View All",
+    "applicationId": "Application ID",
 
-  "quickServices": "Quick Services",
-  "quickServicesDescription": "Access commonly used citizen services.",
-  "applyForRecommendation": "Apply for Recommendation",
-  "applyForRecommendationDescription": "Start a new ward recommendation application.",
-  "trackApplication": "Track Application",
-  "trackApplicationDescription": "Check the current status of your application.",
-  "documents": "Documents",
-  "documentsDescription": "View and manage your submitted documents.",
-  "paymentVoucher": "Payment Voucher",
-  "paymentVoucherDescription": "Upload or view your payment voucher.",
+    "quickServices": "Quick Services",
+    "quickServicesDescription": "Access commonly used citizen services.",
+    "applyForRecommendation": "Apply for Recommendation",
+    "applyForRecommendationDescription": "Start a new ward recommendation application.",
+    "trackApplication": "Track Application",
+    "trackApplicationDescription": "Check the current status of your application.",
+    "documents": "Documents",
+    "documentsDescription": "View and manage your submitted documents.",
+    "paymentVoucher": "Payment Voucher",
+    "paymentVoucherDescription": "Upload or view your payment voucher.",
 
-  "applicationProcess": "Application Process",
-  "applicationProcessDescription": "Follow these steps to complete your ward recommendation application.",
+    "applicationProcess": "Application Process",
+    "applicationProcessDescription": "Follow these steps to complete your ward recommendation application.",
 
-  "stepApplication": "Application",
-  "stepApplicationDescription": "Select the recommendation service and complete the application form.",
+    "stepApplication": "Application",
+    "stepApplicationDescription": "Select the recommendation service and complete the application form.",
 
-  "stepDocuments": "Documents",
-  "stepDocumentsDescription": "Upload the required supporting documents.",
+    "stepDocuments": "Documents",
+    "stepDocumentsDescription": "Upload the required supporting documents.",
 
-  "stepPayment": "Payment",
-  "stepPaymentDescription": "Upload the required payment voucher.",
+    "stepPayment": "Payment",
+    "stepPaymentDescription": "Upload the required payment voucher.",
 
-  "stepReview": "Review",
-  "stepReviewDescription": "Your application and documents are reviewed by the ward office.",
+    "stepReview": "Review",
+    "stepReviewDescription": "Your application and documents are reviewed by the ward office.",
 
-  "stepCertificate": "Certificate",
-  "stepCertificateDescription": "Receive your approved recommendation and download the certificate."
-}
-,
+    "stepCertificate": "Certificate",
+    "stepCertificateDescription": "Receive your approved recommendation and download the certificate."
+  },
 "newApplication": {
   "title": "New Application",
   "description": "Apply online for a ward recommendation service. Select the service you need to continue.",
@@ -262,6 +261,11 @@
   "selectServiceToContinue": "Select a recommendation service to continue.",
   "continue": "Continue",
 
+  "free": "Free",
+
+  "beforeContinue": "Before you continue",
+  "beforeContinueDescription": "Select the recommendation service that matches your requirement. Free services will not require a payment voucher, while paid services will require payment verification.",
+
   "noServices": "No services found",
   "noServicesDescription": "Try another search or select a different category.",
 
@@ -276,137 +280,94 @@
   },
 
   "services": {
-    "residence": "Residence Recommendation",
-    "residenceDescription": "Apply for a recommendation related to residence or address.",
+    "permanentResidence": "Permanent Residence Recommendation",
+    "permanentResidenceDescription": "Apply for a recommendation confirming your permanent residence.",
 
-    "personal": "Personal & Civil Recommendation",
-    "personalDescription": "Apply for a recommendation related to personal or civil matters.",
+    "temporaryResidence": "Temporary Residence Recommendation",
+    "temporaryResidenceDescription": "Apply for a recommendation confirming your temporary residence.",
+
+    "citizenship": "Citizenship Recommendation",
+    "citizenshipDescription": "Apply for a recommendation related to citizenship matters.",
+
+    "relationship": "Relationship Verification Recommendation",
+    "relationshipDescription": "Apply for a recommendation to verify family or personal relationships.",
 
     "education": "Education Recommendation",
-    "educationDescription": "Apply for a recommendation related to education and academic matters.",
+    "educationDescription": "Apply for a recommendation related to education and academic purposes.",
 
     "business": "Business Recommendation",
-    "businessDescription": "Apply for a recommendation related to business or commercial activities.",
+    "businessDescription": "Apply for a recommendation related to business activities.",
 
-    "property": "Property Recommendation",
-    "propertyDescription": "Apply for a recommendation related to property matters.",
+    "property": "Property / House Recommendation",
+    "propertyDescription": "Apply for a recommendation related to property or house matters.",
 
     "other": "Other Recommendation",
     "otherDescription": "Apply for other ward recommendation services."
   }
-}
-,
-"applicationDetails": {
-  "title": "Applicant Information",
-  "description": "Provide your personal and address information to continue with your recommendation application.",
-  "stepTwo": "Step 2 of 5",
-  "progress": "Application Progress",
-  "application": "Application",
-  "applicant": "Applicant",
-  "documents": "Documents",
-  "payment": "Payment",
-  "review": "Review",
-  "selectedService": "Selected Recommendation Service",
-  "recommendationService": "Recommendation Service",
-
-  "personalInformation": "Personal Information",
-  "personalInformationDescription": "Enter your basic personal information as provided in your official documents.",
-  "fullName": "Full Name",
-  "fullNamePlaceholder": "Enter your full name",
-  "citizenshipNumber": "Citizenship Number",
-  "citizenshipNumberPlaceholder": "Enter your citizenship number",
-  "dateOfBirth": "Date of Birth",
-  "phone": "Mobile Number",
-  "phonePlaceholder": "Enter your mobile number",
-  "email": "Email Address",
-  "emailPlaceholder": "Enter your email address",
-
-  "addressInformation": "Address Information",
-  "addressInformationDescription": "Provide your current residential address details.",
-  "province": "Province",
-  "provincePlaceholder": "Enter your province",
-  "district": "District",
-  "districtPlaceholder": "Enter your district",
-  "municipality": "Municipality",
-  "municipalityPlaceholder": "Enter your municipality",
-  "wardNumber": "Ward Number",
-  "wardNumberPlaceholder": "Enter your ward number",
-  "tole": "Tole / Locality",
-  "tolePlaceholder": "Enter your tole or locality",
-
-  "back": "Back",
-  "continue": "Continue"
-}
-,
-"paymentPage": {
-  "title": "Payment Voucher",
-  "description": "Upload the payment voucher required for your recommendation application.",
-  "stepFour": "Step 4 of 5",
-  "progress": "Application Progress",
-
-  "application": "Application",
-  "applicant": "Applicant",
-  "documents": "Documents",
-  "payment": "Payment",
-  "review": "Review",
-
-  "selectedService": "Selected Recommendation Service",
-  "recommendationService": "Recommendation Service",
-
-  "paymentInformation": "Payment Information",
-  "service": "Service",
-  "paymentStatus": "Payment Status",
-  "pending": "Pending",
-  "voucherStatus": "Voucher Status",
-  "notUploaded": "Not Uploaded",
-
-  "uploadVoucher": "Upload Payment Voucher",
-  "uploadVoucherDescription": "Upload a clear copy of your payment voucher.",
-  "chooseVoucher": "Choose your payment voucher",
-  "voucherFormats": "PDF, JPG, JPEG or PNG",
-  "upload": "Upload Voucher",
-  "uploaded": "Voucher Uploaded",
-  "remove": "Remove",
-
-  "noteTitle": "Important",
-  "note": "Make sure the payment voucher is clear and readable before submitting your application.",
-
-  "back": "Back",
-  "continue": "Continue"
-}
-,
-"myApplications": {
-  "label": "Citizen Applications",
-  "title": "My Applications",
-  "description": "View and manage your submitted ward recommendation applications.",
-  "searchPlaceholder": "Search by application ID or recommendation type...",
-  "applicationList": "Submitted Applications",
-  "view": "View",
-  "noApplications": "No applications found",
-  "noApplicationsDescription": "You have not submitted any applications matching your search."
 },
-"reviewPage": {
-  "title": "Review & Submit Application",
-  "description": "Review your application details, documents and payment information before submitting.",
-  "stepFive": "Step 5 of 5",
-  "progress": "Application Progress",
-  "recommendation": "Recommendation Service",
-  "applicantInformation": "Applicant Information",
-  "applicantInformationDescription": "Applicant details have been provided.",
-  "documents": "Documents",
-  "documentsUploaded": "Required documents have been uploaded.",
-  "payment": "Payment",
-  "paymentVoucherUploaded": "Payment voucher has been uploaded.",
-  "reviewBeforeSubmit": "Please review your application carefully",
-  "reviewBeforeSubmitDescription": "Make sure all information and uploaded documents are correct. Once submitted, your application will be sent to the ward office for review.",
-  "confirmation": "I confirm that the information and documents provided in this application are true and correct.",
-  "back": "Back",
-  "submit": "Submit Application"
-},
+
+  "applicationDetails": {
+    "title": "Applicant Information",
+    "description": "Provide your personal and address information to continue with your recommendation application.",
+    "stepTwo": "Step 2 of 5",
+    "progress": "Application Progress",
+
+    "application": "Application",
+    "applicant": "Applicant",
+    "documents": "Documents",
+    "payment": "Payment",
+    "review": "Review",
+
+    "selectedService": "Selected Recommendation Service",
+    "recommendationService": "Recommendation Service",
+
+    "personalInformation": "Personal Information",
+    "personalInformationDescription": "Enter your basic personal information as provided in your official documents.",
+
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Enter your full name",
+
+    "citizenshipNumber": "Citizenship Number",
+    "citizenshipNumberPlaceholder": "Enter your citizenship number",
+
+    "dateOfBirth": "Date of Birth",
+
+    "phone": "Mobile Number",
+    "phonePlaceholder": "Enter your mobile number",
+
+    "email": "Email Address",
+    "emailPlaceholder": "Enter your email address",
+
+    "addressInformation": "Address Information",
+    "addressInformationDescription": "Provide your current residential address details.",
+
+    "province": "Province",
+    "provincePlaceholder": "Enter your province",
+
+    "district": "District",
+    "districtPlaceholder": "Enter your district",
+
+    "municipality": "Municipality",
+    "municipalityPlaceholder": "Enter your municipality",
+
+    "wardNumber": "Ward Number",
+    "wardNumberPlaceholder": "Enter your ward number",
+
+    "tole": "Tole / Locality",
+    "tolePlaceholder": "Enter your tole or locality",
+
+    "back": "Back",
+    "continue": "Continue"
+  },
+
+  
+
+
+
 "documentsPage": {
-  "title": "Required Documents",
-  "description": "Upload the documents required to process your selected recommendation service.",
-  "stepThree": "Step 3 of 5",
+  "title": "Upload Documents",
+  "stepThree": "STEP 3 OF 5",
+  "description": "Upload the required documents to support your application.",
   "progress": "Application Progress",
 
   "application": "Application",
@@ -415,32 +376,115 @@
   "payment": "Payment",
   "review": "Review",
 
-  "selectedService": "Selected Recommendation Service",
+  "selectedService": "SELECTED SERVICE",
   "recommendationService": "Recommendation Service",
+  "freeService": "Free Service",
 
   "requiredDocuments": "Required Documents",
-  "requiredDocumentsDescription": "Upload clear and readable copies of the required documents.",
-
-  "upload": "Upload Document",
-  "uploaded": "Uploaded",
-
-  "uploadNoteTitle": "Document Upload Guidelines",
-  "uploadNote": "Accepted formats: PDF, JPG, JPEG and PNG. Make sure the uploaded documents are clear and readable.",
-
-  "back": "Back",
-  "continue": "Continue",
+  "requiredDocumentsDescription": "Please upload all required documents before continuing.",
 
   "documents": {
     "citizenship": "Citizenship Certificate",
     "citizenshipDescription": "Upload a clear copy of your citizenship certificate.",
 
-    "application": "Application Document",
-    "applicationDescription": "Upload the required application or supporting application document.",
+    "application": "Application Letter",
+    "applicationDescription": "Upload your completed application letter.",
 
     "supporting": "Supporting Document",
-    "supportingDescription": "Upload any additional document required for your selected recommendation service."
+    "supportingDescription": "Upload any additional supporting document if available."
+  },
+
+  "upload": "Upload",
+  "uploaded": "Uploaded",
+
+  "requiredError": "Please upload all required documents.",
+  "invalidFile": "Please upload only PDF, JPG, JPEG, or PNG files.",
+
+  "uploadNoteTitle": "Upload Instructions",
+  "uploadNote": "Accepted formats: PDF, JPG, JPEG, and PNG. Please upload clear and readable documents.",
+
+  "back": "Back",
+  "continue": "Continue"
+}
+,
+
+
+  "paymentPage": {
+    "title": "Payment Voucher",
+    "description": "Upload the payment voucher required for your recommendation application.",
+    "stepFour": "Step 4 of 5",
+    "progress": "Application Progress",
+
+    "application": "Application",
+    "applicant": "Applicant",
+    "documents": "Documents",
+    "payment": "Payment",
+    "review": "Review",
+
+    "selectedService": "Selected Recommendation Service",
+    "recommendationService": "Recommendation Service",
+
+    "paymentInformation": "Payment Information",
+    "service": "Service",
+    "paymentStatus": "Payment Status",
+    "pending": "Pending",
+    "voucherStatus": "Voucher Status",
+    "notUploaded": "Not Uploaded",
+
+    "uploadVoucher": "Upload Payment Voucher",
+    "uploadVoucherDescription": "Upload a clear copy of your payment voucher.",
+    "chooseVoucher": "Choose your payment voucher",
+    "voucherFormats": "PDF, JPG, JPEG or PNG",
+    "upload": "Upload Voucher",
+    "uploaded": "Voucher Uploaded",
+    "remove": "Remove",
+
+    "noteTitle": "Important",
+    "note": "Make sure the payment voucher is clear and readable before submitting your application.",
+
+    "back": "Back",
+    "continue": "Continue"
+  },
+
+  "myApplications": {
+    "label": "Citizen Applications",
+    "title": "My Applications",
+    "description": "View and manage your submitted ward recommendation applications.",
+    "searchPlaceholder": "Search by application ID or recommendation type...",
+    "applicationList": "Submitted Applications",
+    "view": "View",
+    "noApplications": "No applications found",
+    "noApplicationsDescription": "You have not submitted any applications matching your search."
+  },
+
+  "reviewPage": {
+    "title": "Review & Submit Application",
+    "description": "Review your application details, documents and payment information before submitting.",
+    "stepFive": "Step 5 of 5",
+    "progress": "Application Progress",
+
+    "recommendation": "Recommendation Service",
+
+    "applicantInformation": "Applicant Information",
+    "applicantInformationDescription": "Applicant details have been provided.",
+
+    "documents": "Documents",
+    "documentsUploaded": "Required documents have been uploaded.",
+
+    "payment": "Payment",
+    "paymentVoucherUploaded": "Payment voucher has been uploaded.",
+
+    "reviewBeforeSubmit": "Please review your application carefully",
+    "reviewBeforeSubmitDescription": "Make sure all information and uploaded documents are correct. Once submitted, your application will be sent to the ward office for review.",
+
+    "confirmation": "I confirm that the information and documents provided in this application are true and correct.",
+
+    "back": "Back",
+    "submit": "Submit Application"
   }
-},
+,
+
+
 "frontOfficeLayout": {
   "eWardSifarish": "E-WARD SIFARISH",
   "portal": "Front Office Portal",
@@ -655,6 +699,364 @@
     "verification": "Application Verification",
     "verificationDescription": "Please review all applicant information, submitted documents, and payment details before verifying this application.",
     "verifyApplication": "Verify Application"
+  }
+,
+ 
+
+  "secretarySidebar": {
+    "portal": "Ward Secretary Portal",
+    "secretary": "Ward Secretary",
+    "account": "Secretary Account",
+
+    "mainMenu": "Main Menu",
+
+    "dashboard": "Dashboard",
+    "applications": "Applications",
+    "recommended": "Recommended Applications",
+
+    "publicHome": "Public Home",
+    "logout": "Logout"
+  }
+,
+  "secretaryDashboard": {
+    "welcomeLabel": "Secretary Portal",
+    "welcomeTitle": "Welcome to the Secretary Dashboard",
+    "welcomeDescription": "Review verified applications, check submitted information, and recommend eligible applications for the next approval process.",
+    "reviewNow": "Review Applications",
+
+    "totalVerified": "Verified Applications",
+    "waitingReview": "Waiting for Review",
+    "recommended": "Recommended",
+    "attentionRequired": "Attention Required",
+
+    "applicationsForReview": "Applications for Review",
+    "applicationsForReviewDescription": "Verified applications waiting for secretary review.",
+    "viewAll": "View All",
+    "loading": "Loading applications...",
+    "noApplications": "No applications available for review.",
+    "review": "Review",
+
+    "quickActions": "Quick Actions",
+    "quickActionsDescription": "Manage your secretary tasks quickly.",
+    "reviewApplications": "Review Applications",
+    "reviewApplicationsDescription": "Review verified applications and check their details.",
+    "recommendedApplications": "Recommended Applications",
+    "recommendedApplicationsDescription": "View applications that have already been recommended.",
+
+    "reviewProcess": "Secretary Workflow",
+    "reviewProcessDescription": "Follow these steps to process applications.",
+    "stepVerified": "Verified Application",
+    "stepVerifiedDescription": "Receive applications that have been verified by the Front Office.",
+    "stepReview": "Review Details",
+    "stepReviewDescription": "Check applicant information, documents, and application details.",
+    "stepRecommend": "Recommend Application",
+    "stepRecommendDescription": "Recommend eligible applications for the next approval process."
+  }
+
+,
+
+  "secretaryApplications": {
+    "label": "SECRETARY PORTAL",
+    "title": "Applications for Review",
+    "description": "Review verified applications and prepare recommendations for the next approval process.",
+
+    "total": "Total Applications",
+    "waitingReview": "Waiting for Review",
+    "recommended": "Recommended",
+
+    "listTitle": "Application List",
+    "listDescription": "View and review applications assigned to the secretary.",
+
+    "search": "Search by name, application ID or service",
+
+    "loading": "Loading applications...",
+    "noApplications": "No applications found.",
+    "unknownApplicant": "Unknown Applicant",
+
+    "review": "Review",
+
+    "status": {
+      "verified": "Verified",
+      "recommended": "Recommended"
+    }
+  }
+
+
+,
+  "secretaryDetails": {
+    "label": "Secretary Review",
+    "loading": "Loading application...",
+
+    "applicant": "Applicant Information",
+    "address": "Address Information",
+    "ward": "Ward",
+
+    "documents": "Submitted Documents",
+    "view": "View",
+    "noDocuments": "No documents available",
+
+    "payment": "Payment Information",
+    "status": "Status",
+    "noVoucher": "No payment voucher uploaded",
+
+    "frontOfficeReview": "Front Office Verification",
+    "verifiedByFrontOffice": "Verified by Front Office",
+    "noRemarks": "No remarks available",
+
+    "secretaryReview": "Secretary Review & Recommendation",
+    "reviewDescription": "Cross-check the application and provide your recommendation before forwarding it to the Ward Chairperson.",
+
+    "remarksPlaceholder": "Write your review or recommendation...",
+    "remarksRequired": "Please provide remarks before recommending.",
+
+    "recommend": "Recommend to Chairperson"
+  }
+
+,
+
+  "chairpersonSidebar": {
+    "title": "Chairperson Panel",
+    "dashboard": "Dashboard",
+    "applications": "Applications",
+    "approved": "Approved Applications",
+    "rejected": "Rejected Applications",
+    "logout": "Logout"
+  },
+
+  "chairpersonDashboard": {
+    "label": "CHAIRPERSON PANEL",
+    "title": "Chairperson Dashboard",
+    "description": "Review recommended applications and make the final approval or rejection decision.",
+    "reviewNow": "Review Applications",
+
+    "waitingDecision": "Waiting for Decision",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "total": "Total Applications",
+
+    "pendingTitle": "Applications Waiting for Decision",
+    "pendingDescription": "Recommended applications that require your final decision.",
+    "viewAll": "View All",
+
+    "loading": "Loading applications...",
+    "noApplications": "No applications are waiting for your decision.",
+    "unknownApplicant": "Unknown Applicant",
+
+    "review": "Review",
+
+    "quickActions": "Quick Actions",
+
+    "reviewApplications": "Review Applications",
+    "reviewApplicationsDescription": "Review recommended applications and make final decisions.",
+
+    "approvedApplications": "Approved Applications",
+    "approvedApplicationsDescription": "View applications that have been approved."
+  }
+,
+"chairpersonApplications": {
+  "label": "CHAIRPERSON PANEL",
+  "title": "Applications",
+  "description": "Review recommended applications and view final application decisions.",
+
+  "recommended": "Waiting for Decision",
+  "approved": "Approved",
+  "rejected": "Rejected",
+
+  "listTitle": "Application List",
+  "listDescription": "Manage applications and make final decisions.",
+  "search": "Search applications...",
+
+  "loading": "Loading applications...",
+  "noApplications": "No applications found.",
+  "unknownApplicant": "Unknown Applicant",
+
+  "review": "Review",
+
+  "status": {
+    "recommended": "Recommended",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  }
+}
+,
+"chairpersonDetails": {
+  "back": "Back to Applications",
+
+  "submittedOn": "Submitted on",
+
+  "notFound": "Application not found.",
+
+  "applicantInformation": "Applicant Information",
+  "fullName": "Full Name",
+  "citizenshipNumber": "Citizenship Number",
+  "dateOfBirth": "Date of Birth",
+  "phone": "Phone Number",
+  "email": "Email Address",
+
+  "address": "Address Information",
+  "province": "Province",
+  "district": "District",
+  "municipality": "Municipality",
+  "wardNumber": "Ward Number",
+  "tole": "Tole",
+
+  "documents": "Uploaded Documents",
+  "document": "Document",
+  "noDocuments": "No documents uploaded.",
+  "view": "View",
+
+  "paymentInformation": "Payment Information",
+  "paymentStatus": "Payment Status",
+  "voucher": "Payment Voucher",
+
+  "reviewHistory": "Review History",
+  "reviewHistoryDescription": "Review remarks provided by previous officials.",
+
+  "frontOfficeRemarks": "Front Office Remarks",
+  "secretaryRemarks": "Secretary Remarks",
+
+  "finalDecision": "Final Decision",
+  "finalDecisionDescription": "Review the application and make the final decision.",
+  "finalDecisionCompleted": "The final decision has already been made.",
+
+  "chairpersonRemarks": "Chairperson Remarks",
+  "remarksPlaceholder": "Write your remarks or decision details here...",
+  "noRemarks": "No remarks provided.",
+
+  "approve": "Approve Application",
+  "reject": "Reject Application",
+
+  "rejectRemarksRequired": "Please provide remarks before rejecting the application.",
+
+  "status": {
+    "recommended": "Recommended",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  }
+}
+
+,
+
+
+  "staffManagement": {
+    "label": "ADMINISTRATION",
+    "title": "Staff Management",
+    "description": "Manage ward staff and their system access.",
+    "addStaff": "Add Staff",
+
+    "staffList": "Staff Members",
+    "totalStaff": "Staff Members",
+
+    "search": "Search staff...",
+    "loading": "Loading staff...",
+    "noStaff": "No staff found.",
+
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+
+    "roles": {
+      "frontoffice": "Front Office",
+      "secretary": "Secretary",
+      "chairperson": "Chairperson"
+    }
+  }
+
+
+ ,
+
+  "createStaff": {
+    "label": "ADMINISTRATION",
+    "title": "Create Staff Account",
+    "description": "Create a new staff account and assign the appropriate role for the E-Ward Sifarish system.",
+
+    "back": "Back to Staff Management",
+
+    "chooseRole": "Choose Staff Role",
+    "chooseRoleDescription": "Select the role and responsibilities for this staff member.",
+
+    "accountInformation": "Account Information",
+    "accountInformationDescription": "Enter the required information to create the staff account.",
+
+    "name": "Full Name",
+    "namePlaceholder": "Enter staff full name",
+
+    "email": "Email Address",
+    "emailPlaceholder": "Enter staff email address",
+
+    "password": "Password",
+    "passwordPlaceholder": "Create a secure password",
+
+    "cancel": "Cancel",
+    "creating": "Creating Account...",
+    "createButton": "Create Staff Account",
+
+    "roles": {
+      "frontoffice": "Front Office",
+      "secretary": "Secretary",
+      "chairperson": "Chairperson"
+    },
+
+    "roleDescriptions": {
+      "frontoffice": "Review and verify applications submitted by citizens.",
+      "secretary": "Process verified applications and prepare them for approval.",
+      "chairperson": "Review final applications and provide final approval."
+    }
+  }
+
+,
+  "adminSidebar": {
+    "adminPortal": "Administration Portal",
+    "admin": "Administrator",
+    "administrator": "System Administrator",
+    "mainMenu": "Main Menu",
+
+    "dashboard": "Dashboard",
+    "staffManagement": "Staff Management",
+    "createStaff": "Create Staff",
+
+    "publicHome": "Public Home",
+    "logout": "Logout"
+  }
+,
+
+  "adminDashboard": {
+    "label": "ADMIN PORTAL",
+    "title": "Administration Dashboard",
+    "description": "Manage applications, staff members and ward system activities from one place.",
+
+    "totalApplications": "Total Applications",
+    "pendingApplications": "Pending Applications",
+    "approvedApplications": "Approved Applications",
+    "totalStaff": "Total Staff",
+
+    "quickActions": "Quick Actions",
+    "quickActionsDescription": "Manage important administrative activities.",
+
+    "manageStaff": "Manage Staff",
+    "manageStaffDescription": "View and manage Front Office, Secretary and Chairperson accounts.",
+
+    "createStaff": "Create Staff",
+    "createStaffDescription": "Create a new staff account and assign a system role.",
+
+    "recentStaff": "Recent Staff",
+    "recentStaffDescription": "Recently added staff members in the system.",
+
+    "viewAll": "View All",
+    "loading": "Loading dashboard...",
+    "noStaff": "No staff members found."
+  }
+  ,
+  
+  "staffDetails": {
+    "loading": "Loading staff details...",
+    "notFound": "Staff member not found.",
+    "back": "Back to Staff Management",
+    "staffProfile": "STAFF PROFILE",
+    "email": "Email Address",
+    "role": "Role",
+    "joined": "Joined Date",
+    "editStaff": "Edit Staff"
   }
 
 }

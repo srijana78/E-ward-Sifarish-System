@@ -71,57 +71,49 @@
   }
 
   ,
+  "auth": {
+    "loginTitle": "फेरि स्वागत छ",
+    "citizenLoginSubtitle": "आफ्नो नागरिक खाता पहुँच गर्नुहोस्",
+    "staffLoginSubtitle": "आफ्नो सरकारी कर्मचारी खाता पहुँच गर्नुहोस्",
 
-  
- "auth": {
-  "loginTitle": "पुनः स्वागत छ",
-  "loginSubtitle": "ई-सिफारिस पोर्टलमा पहुँच गर्न लगइन गर्नुहोस्",
+    "citizen": "नागरिक",
+    "staff": "कर्मचारी",
 
-  "citizen": "नागरिक",
-  "admin": "प्रशासक",
+    "phoneLabel": "फोन नम्बर",
+    "phonePlaceholder": "आफ्नो फोन नम्बर लेख्नुहोस्",
 
-  "citizenLoginTitle": "नागरिक लगइन",
-  "citizenLoginSubtitle": "आफ्ना आवेदन तथा वडा सेवाहरूमा पहुँच गर्नुहोस्",
+    "emailLabel": "आधिकारिक इमेल",
+    "emailPlaceholder": "आफ्नो आधिकारिक इमेल लेख्नुहोस्",
 
-  "adminLoginTitle": "प्रशासक लगइन",
-  "adminLoginSubtitle": "वडा कार्यालयको व्यवस्थापन प्रणालीमा पहुँच गर्नुहोस्",
+    "passwordLabel": "पासवर्ड",
+    "passwordPlaceholder": "आफ्नो पासवर्ड लेख्नुहोस्",
 
-  "phoneLabel": "मोबाइल नम्बर",
-  "phonePlaceholder": "98XXXXXXXX",
+    "loginButton": "लगइन गर्नुहोस्",
+    "loggingIn": "लगइन हुँदैछ...",
 
-  "adminEmailLabel": "प्रशासक इमेल",
-  "adminEmailPlaceholder": "प्रशासक इमेल प्रविष्ट गर्नुहोस्",
+    "noAccount": "खाता छैन?",
+    "register": "दर्ता गर्नुहोस्",
 
-  "passwordLabel": "पासवर्ड",
-  "passwordPlaceholder": "आफ्नो पासवर्ड प्रविष्ट गर्नुहोस्",
+    "staffInfo": "कर्मचारी खाताहरू प्रणाली प्रशासकद्वारा सिर्जना गरिन्छन्। कृपया आफ्नो आधिकारिक इमेल र प्रदान गरिएको पासवर्ड प्रयोग गर्नुहोस्।",
 
-  "rememberMe": "मलाई सम्झनुहोस्",
-  "forgotPassword": "पासवर्ड बिर्सनुभयो?",
+    "backHome": "होम पेजमा फर्कनुहोस्",
 
-  "citizenLoginButton": "नागरिकको रूपमा लगइन",
-  "adminLoginButton": "प्रशासकको रूपमा लगइन",
+    "registerTitle": "नागरिक खाता सिर्जना गर्नुहोस्",
+    "registerSubtitle": "अनलाइन वडा सिफारिस सेवाहरू प्रयोग गर्न दर्ता गर्नुहोस्।",
 
-  "noAccount": "खाता छैन?",
-  "registerLink": "अहिले दर्ता गर्नुहोस्",
+    "fullNameLabel": "पूरा नाम",
+    "fullNamePlaceholder": "आफ्नो पूरा नाम लेख्नुहोस्",
 
-  "registerTitle": "नयाँ नागरिक दर्ता",
-  "registerSubtitle": "डिजिटल वडा सेवाहरू प्रयोग गर्न विवरण भर्नुहोस्",
+    "citizenshipLabel": "नागरिकता नम्बर",
+    "citizenshipPlaceholder": "आफ्नो नागरिकता नम्बर लेख्नुहोस्",
 
-  "fullNameLabel": "पूरा नाम",
-  "fullNamePlaceholder": "राम बहादुर श्रेष्ठ",
+    "registerButton": "खाता सिर्जना गर्नुहोस्",
+    "creatingAccount": "खाता सिर्जना हुँदैछ...",
 
-  "citizenshipLabel": "नागरिकता नम्बर",
-  "citizenshipPlaceholder": "६४-०१-७५-XXXXX",
-
-  "registerButton": "खाता दर्ता गर्नुहोस्",
-
-  "hasAccount": "पहिले नै खाता छ?",
-  "loginLink": "यहाँ लगइन गर्नुहोस्",
-
-  "showPassword": "पासवर्ड देखाउनुहोस्",
-  "hidePassword": "पासवर्ड लुकाउनुहोस्"
-}
-  ,
+    "hasAccount": "पहिले नै खाता छ?",
+    "loginLink": "लगइन गर्नुहोस्"
+  }
+,
 
   "admin": {
     "dashboard": {
@@ -164,86 +156,92 @@
     }
   }
 ,
-"citizenLayout": {
-  "portalName": "ई-वडा सिफारिस",
-  "governmentPortal": "सरकारी सेवा पोर्टल",
-  "citizenServices": "नागरिक सेवाहरू"
-},
 
-"citizenSidebar": {
-  "servicePortal": "सरकारी सेवा पोर्टल",
-  "citizen": "नागरिक",
-  "citizenAccount": "नागरिक खाता",
+  "citizenLayout": {
+    "portalName": "ई-वडा सिफारिस",
+    "governmentPortal": "सरकारी सेवा पोर्टल",
+    "citizenServices": "नागरिक सेवाहरू"
+  },
 
-  "mainMenu": "मुख्य मेनु",
-  "dashboard": "ड्यासबोर्ड",
-  "newApplication": "नयाँ आवेदन",
-  "myApplications": "मेरा आवेदनहरू",
-  "trackApplication": "आवेदनको स्थिति",
+  "citizenSidebar": {
+    "servicePortal": "सरकारी सेवा पोर्टल",
+    "citizen": "नागरिक",
+    "citizenAccount": "नागरिक खाता",
 
-  "services": "सेवाहरू",
-  "recommendationServices": "सिफारिस सेवाहरू",
-  "recommendationDescription": "वडा सिफारिस सेवाका लागि अनलाइन आवेदन दिनुहोस्।",
+    "mainMenu": "मुख्य मेनु",
+    "dashboard": "ड्यासबोर्ड",
+    "newApplication": "नयाँ आवेदन",
+    "myApplications": "मेरा आवेदनहरू",
+    "trackApplication": "आवेदनको स्थिति",
 
-  "documentsPayments": "कागजात तथा भुक्तानी",
-  "documents": "कागजातहरू",
-  "paymentVoucher": "भुक्तानी भौचर",
+    "services": "सेवाहरू",
+    "recommendationServices": "सिफारिस सेवाहरू",
+    "recommendationDescription": "वडा सिफारिस सेवाका लागि अनलाइन आवेदन दिनुहोस्।",
 
-  "other": "अन्य",
-  "notifications": "सूचनाहरू",
-  "help": "सहायता तथा सहयोग",
-  "publicHome": "सार्वजनिक गृहपृष्ठ",
+    "documentsPayments": "कागजात तथा भुक्तानी",
+    "documents": "कागजातहरू",
+    "paymentVoucher": "भुक्तानी भौचर",
 
-  "logout": "लगआउट"
-},
+    "other": "अन्य",
+    "notifications": "सूचनाहरू",
+    "help": "सहायता तथा सहयोग",
+    "publicHome": "सार्वजनिक गृहपृष्ठ",
 
-"citizenDashboard": {
-  "welcomeLabel": "नागरिक सेवा पोर्टल",
-  "welcomeTitle": "ई–वडा सिफारिसमा स्वागत छ",
-  "welcomeDescription": "वडा सिफारिस सेवाका लागि अनलाइन आवेदन दिनुहोस्, आवश्यक कागजात तथा भुक्तानी भौचर पेश गर्नुहोस् र आफ्नो आवेदनको स्थिति जहाँबाट पनि हेर्नुहोस्।",
-  "newApplication": "नयाँ आवेदन",
+    "logout": "लगआउट"
+  },
 
-  "totalApplications": "कुल आवेदन",
-  "pending": "समीक्षामा",
-  "approved": "स्वीकृत",
-  "actionRequired": "कारबाही आवश्यक",
+  "citizenDashboard": {
+    "welcomeLabel": "नागरिक सेवा पोर्टल",
+    "welcomeTitle": "ई-वडा सिफारिसमा स्वागत छ",
+    "welcomeDescription": "वडा सिफारिस सेवाका लागि अनलाइन आवेदन दिनुहोस्, आवश्यक कागजात तथा भुक्तानी भौचर पेश गर्नुहोस् र आफ्नो आवेदनको स्थिति जहाँबाट पनि हेर्नुहोस्।",
 
-  "recentApplications": "हालैका आवेदनहरू",
-  "recentApplicationsDescription": "तपाईंले पेश गर्नुभएका आवेदनहरूको पछिल्लो स्थिति हेर्नुहोस्।",
-  "viewAll": "सबै हेर्नुहोस्",
-  "applicationId": "आवेदन नं.",
+    "newApplication": "नयाँ आवेदन",
 
-  "quickServices": "द्रुत सेवाहरू",
-  "quickServicesDescription": "प्रयोगमा आउने नागरिक सेवाहरूमा छिटो पहुँच गर्नुहोस्।",
-  "applyForRecommendation": "सिफारिसका लागि आवेदन",
-  "applyForRecommendationDescription": "नयाँ वडा सिफारिस आवेदन सुरु गर्नुहोस्।",
-  "trackApplication": "आवेदन ट्र्याक गर्नुहोस्",
-  "trackApplicationDescription": "आफ्नो आवेदनको हालको स्थिति हेर्नुहोस्।",
-  "documents": "कागजातहरू",
-  "documentsDescription": "पेश गरिएका कागजातहरू हेर्नुहोस् र व्यवस्थापन गर्नुहोस्।",
-  "paymentVoucher": "भुक्तानी भौचर",
-  "paymentVoucherDescription": "भुक्तानी भौचर पेश गर्नुहोस् वा हेर्नुहोस्।",
+    "totalApplications": "कुल आवेदन",
+    "pending": "समीक्षामा",
+    "approved": "स्वीकृत",
+    "actionRequired": "कारबाही आवश्यक",
 
-  "applicationProcess": "आवेदन प्रक्रिया",
-  "applicationProcessDescription": "वडा सिफारिस आवेदन पूरा गर्न यी चरणहरू पालना गर्नुहोस्।",
+    "recentApplications": "हालैका आवेदनहरू",
+    "recentApplicationsDescription": "तपाईंले पेश गर्नुभएका आवेदनहरूको पछिल्लो स्थिति हेर्नुहोस्।",
+    "viewAll": "सबै हेर्नुहोस्",
+    "applicationId": "आवेदन नं.",
 
-  "stepApplication": "आवेदन",
-  "stepApplicationDescription": "सिफारिस सेवा छनोट गरी आवेदन फारम पूरा गर्नुहोस्।",
+    "quickServices": "द्रुत सेवाहरू",
+    "quickServicesDescription": "प्रयोगमा आउने नागरिक सेवाहरूमा छिटो पहुँच गर्नुहोस्।",
 
-  "stepDocuments": "कागजात",
-  "stepDocumentsDescription": "आवश्यक प्रमाणित कागजातहरू अपलोड गर्नुहोस्।",
+    "applyForRecommendation": "सिफारिसका लागि आवेदन",
+    "applyForRecommendationDescription": "नयाँ वडा सिफारिस आवेदन सुरु गर्नुहोस्।",
 
-  "stepPayment": "भुक्तानी",
-  "stepPaymentDescription": "आवश्यक भुक्तानी भौचर अपलोड गर्नुहोस्।",
+    "trackApplication": "आवेदन ट्र्याक गर्नुहोस्",
+    "trackApplicationDescription": "आफ्नो आवेदनको हालको स्थिति हेर्नुहोस्।",
 
-  "stepReview": "समीक्षा",
-  "stepReviewDescription": "तपाईंको आवेदन र कागजातहरू वडा कार्यालयबाट समीक्षा गरिन्छ।",
+    "documents": "कागजातहरू",
+    "documentsDescription": "पेश गरिएका कागजातहरू हेर्नुहोस् र व्यवस्थापन गर्नुहोस्।",
 
-  "stepCertificate": "प्रमाणपत्र",
-  "stepCertificateDescription": "स्वीकृत सिफारिस प्राप्त गरी प्रमाणपत्र डाउनलोड गर्नुहोस्।"
-}
-,
-"newApplication": {
+    "paymentVoucher": "भुक्तानी भौचर",
+    "paymentVoucherDescription": "भुक्तानी भौचर पेश गर्नुहोस् वा हेर्नुहोस्।",
+
+    "applicationProcess": "आवेदन प्रक्रिया",
+    "applicationProcessDescription": "वडा सिफारिस आवेदन पूरा गर्न यी चरणहरू पालना गर्नुहोस्।",
+
+    "stepApplication": "आवेदन",
+    "stepApplicationDescription": "सिफारिस सेवा छनोट गरी आवेदन फारम पूरा गर्नुहोस्।",
+
+    "stepDocuments": "कागजात",
+    "stepDocumentsDescription": "आवश्यक प्रमाणित कागजातहरू अपलोड गर्नुहोस्।",
+
+    "stepPayment": "भुक्तानी",
+    "stepPaymentDescription": "आवश्यक भुक्तानी भौचर अपलोड गर्नुहोस्।",
+
+    "stepReview": "समीक्षा",
+    "stepReviewDescription": "तपाईंको आवेदन र कागजातहरू वडा कार्यालयबाट समीक्षा गरिन्छ।",
+
+    "stepCertificate": "प्रमाणपत्र",
+    "stepCertificateDescription": "स्वीकृत सिफारिस प्राप्त गरी प्रमाणपत्र डाउनलोड गर्नुहोस्।"
+  },
+
+  "newApplication": {
   "title": "नयाँ आवेदन",
   "description": "वडा सिफारिस सेवाका लागि अनलाइन आवेदन दिनुहोस्। आवश्यक सेवा छनोट गरी अगाडि बढ्नुहोस्।",
 
@@ -264,6 +262,11 @@
   "selectServiceToContinue": "अगाडि बढ्न सिफारिस सेवा छनोट गर्नुहोस्।",
   "continue": "अगाडि बढ्नुहोस्",
 
+  "free": "निःशुल्क",
+
+  "beforeContinue": "अगाडि बढ्नुअघि",
+  "beforeContinueDescription": "तपाईंको आवश्यकतासँग मिल्ने सिफारिस सेवा छनोट गर्नुहोस्। निःशुल्क सेवाका लागि भुक्तानी भौचर आवश्यक पर्दैन भने शुल्क लाग्ने सेवाका लागि भुक्तानी प्रमाणीकरण आवश्यक हुनेछ।",
+
   "noServices": "कुनै सेवा भेटिएन",
   "noServicesDescription": "अर्को शब्दले खोज्नुहोस् वा फरक वर्ग छनोट गर्नुहोस्।",
 
@@ -278,134 +281,93 @@
   },
 
   "services": {
-    "residence": "बसोबास सिफारिस",
-    "residenceDescription": "बसोबास वा ठेगानासँग सम्बन्धित सिफारिसका लागि आवेदन दिनुहोस्।",
+    "permanentResidence": "स्थायी बसोबास सिफारिस",
+    "permanentResidenceDescription": "आफ्नो स्थायी बसोबास प्रमाणित गर्ने सिफारिसका लागि आवेदन दिनुहोस्।",
 
-    "personal": "व्यक्तिगत तथा नागरिक सिफारिस",
-    "personalDescription": "व्यक्तिगत वा नागरिक विषयसँग सम्बन्धित सिफारिसका लागि आवेदन दिनुहोस्।",
+    "temporaryResidence": "अस्थायी बसोबास सिफारिस",
+    "temporaryResidenceDescription": "आफ्नो अस्थायी बसोबास प्रमाणित गर्ने सिफारिसका लागि आवेदन दिनुहोस्।",
+
+    "citizenship": "नागरिकता सम्बन्धी सिफारिस",
+    "citizenshipDescription": "नागरिकता सम्बन्धी विषयका लागि सिफारिस आवेदन दिनुहोस्।",
+
+    "relationship": "नाता प्रमाणित सिफारिस",
+    "relationshipDescription": "पारिवारिक वा व्यक्तिगत नाता प्रमाणित गर्न सिफारिसका लागि आवेदन दिनुहोस्।",
 
     "education": "शैक्षिक सिफारिस",
-    "educationDescription": "शिक्षा तथा शैक्षिक विषयसँग सम्बन्धित सिफारिसका लागि आवेदन दिनुहोस्।",
+    "educationDescription": "शिक्षा तथा शैक्षिक प्रयोजनका लागि सिफारिस आवेदन दिनुहोस्।",
 
     "business": "व्यवसाय सिफारिस",
     "businessDescription": "व्यवसाय वा व्यापारिक गतिविधिसँग सम्बन्धित सिफारिसका लागि आवेदन दिनुहोस्।",
 
-    "property": "सम्पत्ति सिफारिस",
-    "propertyDescription": "सम्पत्तिसँग सम्बन्धित विषयका लागि सिफारिस आवेदन दिनुहोस्।",
+    "property": "सम्पत्ति / घर सिफारिस",
+    "propertyDescription": "सम्पत्ति वा घरसँग सम्बन्धित विषयका लागि सिफारिस आवेदन दिनुहोस्।",
 
     "other": "अन्य सिफारिस",
     "otherDescription": "अन्य वडा सिफारिस सेवाका लागि आवेदन दिनुहोस्।"
   }
-},
-"applicationDetails": {
-  "title": "आवेदकको विवरण",
-  "description": "सिफारिस आवेदन अगाडि बढाउन आफ्नो व्यक्तिगत तथा ठेगानासम्बन्धी विवरण भर्नुहोस्।",
-  "stepTwo": "चरण २ मध्ये ५",
-  "progress": "आवेदनको प्रगति",
-  "application": "आवेदन",
-  "applicant": "आवेदक",
-  "documents": "कागजात",
-  "payment": "भुक्तानी",
-  "review": "समीक्षा",
-  "selectedService": "छनोट गरिएको सिफारिस सेवा",
-  "recommendationService": "सिफारिस सेवा",
+}
+,
+  "applicationDetails": {
+    "title": "आवेदकको विवरण",
+    "description": "सिफारिस आवेदन अगाडि बढाउन आफ्नो व्यक्तिगत तथा ठेगानासम्बन्धी विवरण भर्नुहोस्।",
 
-  "personalInformation": "व्यक्तिगत विवरण",
-  "personalInformationDescription": "आफ्नो आधिकारिक कागजातमा उल्लेख भएअनुसार आधारभूत व्यक्तिगत विवरण भर्नुहोस्।",
-  "fullName": "पूरा नाम",
-  "fullNamePlaceholder": "आफ्नो पूरा नाम लेख्नुहोस्",
-  "citizenshipNumber": "नागरिकता नम्बर",
-  "citizenshipNumberPlaceholder": "नागरिकता नम्बर लेख्नुहोस्",
-  "dateOfBirth": "जन्म मिति",
-  "phone": "मोबाइल नम्बर",
-  "phonePlaceholder": "मोबाइल नम्बर लेख्नुहोस्",
-  "email": "इमेल ठेगाना",
-  "emailPlaceholder": "इमेल ठेगाना लेख्नुहोस्",
+    "stepTwo": "चरण २ मध्ये ५",
+    "progress": "आवेदनको प्रगति",
 
-  "addressInformation": "ठेगानाको विवरण",
-  "addressInformationDescription": "आफ्नो हालको बसोबासको ठेगाना विवरण भर्नुहोस्।",
-  "province": "प्रदेश",
-  "provincePlaceholder": "प्रदेश लेख्नुहोस्",
-  "district": "जिल्ला",
-  "districtPlaceholder": "जिल्ला लेख्नुहोस्",
-  "municipality": "नगरपालिका / गाउँपालिका",
-  "municipalityPlaceholder": "नगरपालिका / गाउँपालिका लेख्नुहोस्",
-  "wardNumber": "वडा नम्बर",
-  "wardNumberPlaceholder": "वडा नम्बर लेख्नुहोस्",
-  "tole": "टोल / स्थान",
-  "tolePlaceholder": "टोल वा स्थान लेख्नुहोस्",
+    "application": "आवेदन",
+    "applicant": "आवेदक",
+    "documents": "कागजात",
+    "payment": "भुक्तानी",
+    "review": "समीक्षा",
 
-  "back": "पछाडि",
-  "continue": "अगाडि बढ्नुहोस्"
-},
-"paymentPage": {
-  "title": "भुक्तानी भौचर",
-  "description": "सिफारिस आवेदनका लागि आवश्यक भुक्तानी भौचर अपलोड गर्नुहोस्।",
-  "stepFour": "चरण ४ मध्ये ५",
-  "progress": "आवेदनको प्रगति",
+    "selectedService": "छनोट गरिएको सिफारिस सेवा",
+    "recommendationService": "सिफारिस सेवा",
 
-  "application": "आवेदन",
-  "applicant": "आवेदक",
-  "documents": "कागजात",
-  "payment": "भुक्तानी",
-  "review": "समीक्षा",
+    "personalInformation": "व्यक्तिगत विवरण",
+    "personalInformationDescription": "आफ्नो आधिकारिक कागजातमा उल्लेख भएअनुसार आधारभूत व्यक्तिगत विवरण भर्नुहोस्।",
 
-  "selectedService": "छनोट गरिएको सिफारिस सेवा",
-  "recommendationService": "सिफारिस सेवा",
+    "fullName": "पूरा नाम",
+    "fullNamePlaceholder": "आफ्नो पूरा नाम लेख्नुहोस्",
 
-  "paymentInformation": "भुक्तानी विवरण",
-  "service": "सेवा",
-  "paymentStatus": "भुक्तानी स्थिति",
-  "pending": "बाँकी",
-  "voucherStatus": "भौचर स्थिति",
-  "notUploaded": "अपलोड गरिएको छैन",
+    "citizenshipNumber": "नागरिकता नम्बर",
+    "citizenshipNumberPlaceholder": "नागरिकता नम्बर लेख्नुहोस्",
 
-  "uploadVoucher": "भुक्तानी भौचर अपलोड गर्नुहोस्",
-  "uploadVoucherDescription": "भुक्तानी भौचरको स्पष्ट प्रतिलिपि अपलोड गर्नुहोस्।",
-  "chooseVoucher": "भुक्तानी भौचर छनोट गर्नुहोस्",
-  "voucherFormats": "PDF, JPG, JPEG वा PNG",
-  "upload": "भौचर अपलोड गर्नुहोस्",
-  "uploaded": "भौचर अपलोड भयो",
-  "remove": "हटाउनुहोस्",
+    "dateOfBirth": "जन्म मिति",
 
-  "noteTitle": "महत्त्वपूर्ण",
-  "note": "आवेदन पेश गर्नुअघि भुक्तानी भौचर स्पष्ट र पढ्न सकिने भएको सुनिश्चित गर्नुहोस्।",
+    "phone": "मोबाइल नम्बर",
+    "phonePlaceholder": "मोबाइल नम्बर लेख्नुहोस्",
 
-  "back": "पछाडि",
-  "continue": "अगाडि बढ्नुहोस्"
-},
-"myApplications": {
-  "label": "नागरिक आवेदन",
-  "title": "मेरा आवेदनहरू",
-  "description": "तपाईंले पेश गर्नुभएका वडा सिफारिस आवेदनहरू हेर्नुहोस् र व्यवस्थापन गर्नुहोस्।",
-  "searchPlaceholder": "आवेदन नं. वा सिफारिस प्रकारले खोज्नुहोस्...",
-  "applicationList": "पेश गरिएका आवेदनहरू",
-  "view": "हेर्नुहोस्",
-  "noApplications": "कुनै आवेदन भेटिएन",
-  "noApplicationsDescription": "तपाईंको खोजीसँग मिल्ने कुनै आवेदन पेश गरिएको छैन।"
-},
-"reviewPage": {
-  "title": "आवेदन समीक्षा तथा पेश गर्नुहोस्",
-  "description": "आवेदन पेश गर्नुअघि आफ्नो आवेदन विवरण, कागजात तथा भुक्तानी जानकारी समीक्षा गर्नुहोस्।",
-  "stepFive": "चरण ५ मध्ये ५",
-  "progress": "आवेदनको प्रगति",
-  "recommendation": "सिफारिस सेवा",
-  "applicantInformation": "आवेदकको विवरण",
-  "applicantInformationDescription": "आवेदकको विवरण पेश गरिएको छ।",
-  "documents": "कागजातहरू",
-  "documentsUploaded": "आवश्यक कागजातहरू अपलोड गरिएका छन्।",
-  "payment": "भुक्तानी",
-  "paymentVoucherUploaded": "भुक्तानी भौचर अपलोड गरिएको छ।",
-  "reviewBeforeSubmit": "आवेदन ध्यानपूर्वक समीक्षा गर्नुहोस्",
-  "reviewBeforeSubmitDescription": "सबै विवरण र अपलोड गरिएका कागजातहरू सही छन् भन्ने सुनिश्चित गर्नुहोस्। पेश गरेपछि तपाईंको आवेदन वडा कार्यालयमा समीक्षाका लागि पठाइनेछ।",
-  "confirmation": "यस आवेदनमा प्रदान गरिएका विवरण तथा कागजातहरू सत्य र सही छन् भनी म पुष्टि गर्दछु।",
-  "back": "पछाडि",
-  "submit": "आवेदन पेश गर्नुहोस्"
-},
-"documentsPage": {
-  "title": "आवश्यक कागजातहरू",
-  "description": "छनोट गरिएको सिफारिस सेवा प्रक्रिया पूरा गर्न आवश्यक कागजातहरू अपलोड गर्नुहोस्।",
-  "stepThree": "चरण ३ मध्ये ५",
+    "email": "इमेल ठेगाना",
+    "emailPlaceholder": "इमेल ठेगाना लेख्नुहोस्",
+
+    "addressInformation": "ठेगानाको विवरण",
+    "addressInformationDescription": "आफ्नो हालको बसोबासको ठेगाना विवरण भर्नुहोस्।",
+
+    "province": "प्रदेश",
+    "provincePlaceholder": "प्रदेश लेख्नुहोस्",
+
+    "district": "जिल्ला",
+    "districtPlaceholder": "जिल्ला लेख्नुहोस्",
+
+    "municipality": "नगरपालिका / गाउँपालिका",
+    "municipalityPlaceholder": "नगरपालिका / गाउँपालिका लेख्नुहोस्",
+
+    "wardNumber": "वडा नम्बर",
+    "wardNumberPlaceholder": "वडा नम्बर लेख्नुहोस्",
+
+    "tole": "टोल / स्थान",
+    "tolePlaceholder": "टोल वा स्थान लेख्नुहोस्",
+
+    "back": "पछाडि",
+    "continue": "अगाडि बढ्नुहोस्"
+  },
+
+
+
+ "documentsPage": {
+  "title": "कागजात अपलोड गर्नुहोस्",
+  "stepThree": "५ मध्ये चरण ३",
+  "description": "तपाईंको आवेदनलाई समर्थन गर्न आवश्यक कागजातहरू अपलोड गर्नुहोस्।",
   "progress": "आवेदनको प्रगति",
 
   "application": "आवेदन",
@@ -414,33 +376,119 @@
   "payment": "भुक्तानी",
   "review": "समीक्षा",
 
-  "selectedService": "छनोट गरिएको सिफारिस सेवा",
+  "selectedService": "छनोट गरिएको सेवा",
   "recommendationService": "सिफारिस सेवा",
+  "freeService": "निःशुल्क सेवा",
 
   "requiredDocuments": "आवश्यक कागजातहरू",
-  "requiredDocumentsDescription": "आवश्यक कागजातहरूको स्पष्ट र पढ्न सकिने प्रतिलिपि अपलोड गर्नुहोस्।",
-
-  "upload": "कागजात अपलोड गर्नुहोस्",
-  "uploaded": "अपलोड भयो",
-
-  "uploadNoteTitle": "कागजात अपलोड सम्बन्धी जानकारी",
-  "uploadNote": "स्वीकृत फाइल ढाँचा: PDF, JPG, JPEG र PNG। अपलोड गरिएका कागजातहरू स्पष्ट र पढ्न सकिने हुनुपर्छ।",
-
-  "back": "पछाडि",
-  "continue": "अगाडि बढ्नुहोस्",
+  "requiredDocumentsDescription": "अगाडि बढ्नु अघि सबै आवश्यक कागजातहरू अपलोड गर्नुहोस्।",
 
   "documents": {
     "citizenship": "नागरिकता प्रमाणपत्र",
-    "citizenshipDescription": "आफ्नो नागरिकता प्रमाणपत्रको स्पष्ट प्रतिलिपि अपलोड गर्नुहोस्।",
+    "citizenshipDescription": "नागरिकता प्रमाणपत्रको स्पष्ट प्रतिलिपि अपलोड गर्नुहोस्।",
 
-    "application": "आवेदन कागजात",
-    "applicationDescription": "आवश्यक आवेदन वा सम्बन्धित आवेदन कागजात अपलोड गर्नुहोस्।",
+    "application": "निवेदन पत्र",
+    "applicationDescription": "पूरा गरिएको निवेदन पत्र अपलोड गर्नुहोस्।",
 
-    "supporting": "समर्थन कागजात",
-    "supportingDescription": "छनोट गरिएको सिफारिस सेवाका लागि आवश्यक अन्य कागजात अपलोड गर्नुहोस्।"
-  }
-},
+    "supporting": "सहायक कागजात",
+    "supportingDescription": "उपलब्ध भएमा थप सहायक कागजात अपलोड गर्नुहोस्।"
+  },
 
+  "upload": "अपलोड गर्नुहोस्",
+  "uploaded": "अपलोड भयो",
+
+  "requiredError": "कृपया सबै आवश्यक कागजातहरू अपलोड गर्नुहोस्।",
+  "invalidFile": "कृपया PDF, JPG, JPEG वा PNG फाइल मात्र अपलोड गर्नुहोस्।",
+
+  "uploadNoteTitle": "अपलोड निर्देशन",
+  "uploadNote": "स्वीकार्य फाइलहरू: PDF, JPG, JPEG र PNG। कृपया स्पष्ट र पढ्न सकिने कागजातहरू अपलोड गर्नुहोस्।",
+
+  "back": "पछाडि",
+  "continue": "अगाडि बढ्नुहोस्"
+}
+
+
+
+
+,
+
+  "paymentPage": {
+    "title": "भुक्तानी भौचर",
+    "description": "सिफारिस आवेदनका लागि आवश्यक भुक्तानी भौचर अपलोड गर्नुहोस्।",
+
+    "stepFour": "चरण ४ मध्ये ५",
+    "progress": "आवेदनको प्रगति",
+
+    "application": "आवेदन",
+    "applicant": "आवेदक",
+    "documents": "कागजात",
+    "payment": "भुक्तानी",
+    "review": "समीक्षा",
+
+    "selectedService": "छनोट गरिएको सिफारिस सेवा",
+    "recommendationService": "सिफारिस सेवा",
+
+    "paymentInformation": "भुक्तानी विवरण",
+    "service": "सेवा",
+    "paymentStatus": "भुक्तानी स्थिति",
+    "pending": "बाँकी",
+    "voucherStatus": "भौचर स्थिति",
+    "notUploaded": "अपलोड गरिएको छैन",
+
+    "uploadVoucher": "भुक्तानी भौचर अपलोड गर्नुहोस्",
+    "uploadVoucherDescription": "भुक्तानी भौचरको स्पष्ट प्रतिलिपि अपलोड गर्नुहोस्。",
+    "chooseVoucher": "भुक्तानी भौचर छनोट गर्नुहोस्",
+    "voucherFormats": "PDF, JPG, JPEG वा PNG",
+    "upload": "भौचर अपलोड गर्नुहोस्",
+    "uploaded": "भौचर अपलोड भयो",
+    "remove": "हटाउनुहोस्",
+
+    "noteTitle": "महत्त्वपूर्ण",
+    "note": "आवेदन पेश गर्नुअघि भुक्तानी भौचर स्पष्ट र पढ्न सकिने भएको सुनिश्चित गर्नुहोस्।",
+
+    "back": "पछाडि",
+    "continue": "अगाडि बढ्नुहोस्"
+  },
+
+  "myApplications": {
+    "label": "नागरिक आवेदन",
+    "title": "मेरा आवेदनहरू",
+    "description": "तपाईंले पेश गर्नुभएका वडा सिफारिस आवेदनहरू हेर्नुहोस् र व्यवस्थापन गर्नुहोस्।",
+    "searchPlaceholder": "आवेदन नं. वा सिफारिस प्रकारले खोज्नुहोस्...",
+    "applicationList": "पेश गरिएका आवेदनहरू",
+    "view": "हेर्नुहोस्",
+    "noApplications": "कुनै आवेदन भेटिएन",
+    "noApplicationsDescription": "तपाईंको खोजीसँग मिल्ने कुनै आवेदन पेश गरिएको छैन।"
+  },
+
+  "reviewPage": {
+    "title": "आवेदन समीक्षा तथा पेश गर्नुहोस्",
+    "description": "आवेदन पेश गर्नुअघि आफ्नो आवेदन विवरण, कागजात तथा भुक्तानी जानकारी समीक्षा गर्नुहोस्।",
+
+    "stepFive": "चरण ५ मध्ये ५",
+    "progress": "आवेदनको प्रगति",
+
+    "recommendation": "सिफारिस सेवा",
+
+    "applicantInformation": "आवेदकको विवरण",
+    "applicantInformationDescription": "आवेदकको विवरण पेश गरिएको छ।",
+
+    "documents": "कागजातहरू",
+    "documentsUploaded": "आवश्यक कागजातहरू अपलोड गरिएका छन्।",
+
+    "payment": "भुक्तानी",
+    "paymentVoucherUploaded": "भुक्तानी भौचर अपलोड गरिएको छ।",
+
+    "reviewBeforeSubmit": "आवेदन ध्यानपूर्वक समीक्षा गर्नुहोस्",
+    "reviewBeforeSubmitDescription": "सबै विवरण र अपलोड गरिएका कागजातहरू सही छन् भन्ने सुनिश्चित गर्नुहोस्। पेश गरेपछि तपाईंको आवेदन वडा कार्यालयमा समीक्षाका लागि पठाइनेछ।",
+
+    "confirmation": "यस आवेदनमा प्रदान गरिएका विवरण तथा कागजातहरू सत्य र सही छन् भनी म पुष्टि गर्दछु।",
+
+    "back": "पछाडि",
+    "submit": "आवेदन पेश गर्नुहोस्"
+  
+}
+,
 
 
 "frontOfficeSidebar": {
@@ -657,4 +705,262 @@
     "verifyApplication": "निवेदन प्रमाणित गर्नुहोस्"
   }
 
-}
+,
+
+  "secretarySidebar": {
+    "portal": "वडा सचिव पोर्टल",
+    "secretary": "वडा सचिव",
+    "account": "सचिव खाता",
+
+    "mainMenu": "मुख्य मेनु",
+
+    "dashboard": "ड्यासबोर्ड",
+    "applications": "आवेदनहरू",
+    "recommended": "सिफारिस गरिएका आवेदनहरू",
+
+    "publicHome": "सार्वजनिक गृहपृष्ठ",
+    "logout": "लगआउट"
+  }
+,
+  "secretaryDashboard": {
+    "welcomeLabel": "सचिव पोर्टल",
+    "welcomeTitle": "सचिव ड्यासबोर्डमा स्वागत छ",
+    "welcomeDescription": "प्रमाणित आवेदनहरू समीक्षा गर्नुहोस्, पेश गरिएका विवरणहरू जाँच गर्नुहोस् र योग्य आवेदनहरूलाई अर्को स्वीकृति प्रक्रियाका लागि सिफारिस गर्नुहोस्।",
+    "reviewNow": "आवेदन समीक्षा गर्नुहोस्",
+
+    "totalVerified": "प्रमाणित आवेदनहरू",
+    "waitingReview": "समीक्षाको प्रतीक्षामा",
+    "recommended": "सिफारिस गरिएका",
+    "attentionRequired": "ध्यान आवश्यक",
+
+    "applicationsForReview": "समीक्षाका लागि आवेदनहरू",
+    "applicationsForReviewDescription": "सचिवको समीक्षाको प्रतीक्षामा रहेका प्रमाणित आवेदनहरू।",
+    "viewAll": "सबै हेर्नुहोस्",
+    "loading": "आवेदनहरू लोड हुँदैछन्...",
+    "noApplications": "समीक्षाका लागि कुनै आवेदन उपलब्ध छैन।",
+    "review": "समीक्षा",
+
+    "quickActions": "छिटो कार्यहरू",
+    "quickActionsDescription": "तपाईंका सचिव सम्बन्धी कार्यहरू छिटो व्यवस्थापन गर्नुहोस्।",
+    "reviewApplications": "आवेदन समीक्षा",
+    "reviewApplicationsDescription": "प्रमाणित आवेदनहरू र तिनका विवरणहरू समीक्षा गर्नुहोस्।",
+    "recommendedApplications": "सिफारिस गरिएका आवेदनहरू",
+    "recommendedApplicationsDescription": "पहिले नै सिफारिस गरिएका आवेदनहरू हेर्नुहोस्।",
+
+    "reviewProcess": "सचिव कार्यप्रवाह",
+    "reviewProcessDescription": "आवेदन प्रक्रिया गर्न यी चरणहरू पालना गर्नुहोस्।",
+    "stepVerified": "प्रमाणित आवेदन",
+    "stepVerifiedDescription": "फ्रन्ट अफिसबाट प्रमाणित भएका आवेदनहरू प्राप्त गर्नुहोस्।",
+    "stepReview": "विवरण समीक्षा",
+    "stepReviewDescription": "आवेदकको जानकारी, कागजात र आवेदन विवरण जाँच गर्नुहोस्।",
+    "stepRecommend": "आवेदन सिफारिस",
+    "stepRecommendDescription": "योग्य आवेदनहरूलाई अर्को स्वीकृति प्रक्रियाका लागि सिफारिस गर्नुहोस्।"
+  }
+
+,
+  "secretaryApplications": {
+    "label": "सचिव पोर्टल",
+    "title": "समीक्षाका लागि आवेदनहरू",
+    "description": "प्रमाणित आवेदनहरूको समीक्षा गरी अर्को स्वीकृति प्रक्रियाका लागि सिफारिस तयार गर्नुहोस्।",
+
+    "total": "कुल आवेदनहरू",
+    "waitingReview": "समीक्षाको प्रतीक्षामा",
+    "recommended": "सिफारिस गरिएको",
+
+    "listTitle": "आवेदन सूची",
+    "listDescription": "सचिवलाई तोकिएका आवेदनहरू हेर्नुहोस् र समीक्षा गर्नुहोस्।",
+
+    "search": "नाम, आवेदन नम्बर वा सेवाबाट खोज्नुहोस्",
+
+    "loading": "आवेदनहरू लोड हुँदैछ...",
+    "noApplications": "कुनै आवेदन भेटिएन।",
+    "unknownApplicant": "अज्ञात आवेदक",
+
+    "review": "समीक्षा गर्नुहोस्",
+
+    "status": {
+      "verified": "प्रमाणित",
+      "recommended": "सिफारिस गरिएको"
+    }
+  }
+
+
+,
+  "secretaryDetails": {
+    "label": "सचिव समीक्षा",
+    "loading": "आवेदन लोड हुँदैछ...",
+
+    "applicant": "आवेदकको जानकारी",
+    "address": "ठेगाना जानकारी",
+    "ward": "वडा",
+
+    "documents": "पेश गरिएका कागजातहरू",
+    "view": "हेर्नुहोस्",
+    "noDocuments": "कुनै कागजात उपलब्ध छैन",
+
+    "payment": "भुक्तानी जानकारी",
+    "status": "स्थिति",
+    "noVoucher": "भुक्तानी भौचर अपलोड गरिएको छैन",
+
+    "frontOfficeReview": "फ्रन्ट अफिस प्रमाणीकरण",
+    "verifiedByFrontOffice": "फ्रन्ट अफिसबाट प्रमाणित",
+    "noRemarks": "कुनै टिप्पणी उपलब्ध छैन",
+
+    "secretaryReview": "सचिव समीक्षा र सिफारिस",
+    "reviewDescription": "आवेदन जाँच गरी वडा अध्यक्षसमक्ष पठाउनु अघि आफ्नो सिफारिस प्रदान गर्नुहोस्।",
+
+    "remarksPlaceholder": "आफ्नो समीक्षा वा सिफारिस लेख्नुहोस्...",
+    "remarksRequired": "सिफारिस गर्नु अघि टिप्पणी प्रदान गर्नुहोस्।",
+
+    "recommend": "अध्यक्षसमक्ष सिफारिस गर्नुहोस्"
+  }
+
+,
+
+  "chairpersonSidebar": {
+    "title": "अध्यक्ष प्यानल",
+    "dashboard": "ड्यासबोर्ड",
+    "applications": "निवेदनहरू",
+    "approved": "स्वीकृत निवेदनहरू",
+    "rejected": "अस्वीकृत निवेदनहरू",
+    "logout": "लगआउट"
+  },
+
+  "chairpersonDashboard": {
+    "label": "अध्यक्ष प्यानल",
+    "title": "अध्यक्ष ड्यासबोर्ड",
+    "description": "सिफारिस गरिएका निवेदनहरू समीक्षा गरी अन्तिम स्वीकृति वा अस्वीकृतिको निर्णय गर्नुहोस्।",
+    "reviewNow": "निवेदन समीक्षा गर्नुहोस्",
+
+    "waitingDecision": "निर्णयको प्रतीक्षामा",
+    "approved": "स्वीकृत",
+    "rejected": "अस्वीकृत",
+    "total": "कुल निवेदनहरू",
+
+    "pendingTitle": "निर्णयको प्रतीक्षामा रहेका निवेदनहरू",
+    "pendingDescription": "तपाईंको अन्तिम निर्णय आवश्यक पर्ने सिफारिस गरिएका निवेदनहरू।",
+    "viewAll": "सबै हेर्नुहोस्",
+
+    "loading": "निवेदनहरू लोड हुँदैछ...",
+    "noApplications": "तपाईंको निर्णयको प्रतीक्षामा कुनै निवेदन छैन।",
+    "unknownApplicant": "अज्ञात आवेदक",
+
+    "review": "समीक्षा गर्नुहोस्",
+
+    "quickActions": "छिटो कार्यहरू",
+
+    "reviewApplications": "निवेदन समीक्षा गर्नुहोस्",
+    "reviewApplicationsDescription": "सिफारिस गरिएका निवेदनहरू समीक्षा गरी अन्तिम निर्णय गर्नुहोस्।",
+
+    "approvedApplications": "स्वीकृत निवेदनहरू",
+    "approvedApplicationsDescription": "स्वीकृत भएका निवेदनहरू हेर्नुहोस्।"
+  },
+
+  "adminDashboard": {
+    "label": "प्रशासक पोर्टल",
+    "title": "प्रशासन ड्यासबोर्ड",
+    "description": "एउटै स्थानबाट निवेदन, कर्मचारी र वडा प्रणालीका गतिविधिहरू व्यवस्थापन गर्नुहोस्।",
+
+    "totalApplications": "जम्मा निवेदन",
+    "pendingApplications": "बाँकी निवेदन",
+    "approvedApplications": "स्वीकृत निवेदन",
+    "totalStaff": "जम्मा कर्मचारी",
+
+    "quickActions": "छिटो कार्यहरू",
+    "quickActionsDescription": "महत्वपूर्ण प्रशासनिक कार्यहरू व्यवस्थापन गर्नुहोस्।",
+
+    "manageStaff": "कर्मचारी व्यवस्थापन",
+    "manageStaffDescription": "फ्रन्ट अफिस, सचिव र अध्यक्षका खाताहरू हेर्नुहोस् र व्यवस्थापन गर्नुहोस्।",
+
+    "createStaff": "कर्मचारी थप्नुहोस्",
+    "createStaffDescription": "नयाँ कर्मचारी खाता बनाउनुहोस् र प्रणालीको भूमिका प्रदान गर्नुहोस्।",
+
+    "recentStaff": "हालका कर्मचारी",
+    "recentStaffDescription": "प्रणालीमा हालै थपिएका कर्मचारीहरू।",
+
+    "viewAll": "सबै हेर्नुहोस्",
+    "loading": "ड्यासबोर्ड लोड हुँदैछ...",
+    "noStaff": "कुनै कर्मचारी भेटिएन।"
+  }
+,
+
+  "createStaff": {
+    "label": "प्रशासन",
+    "title": "कर्मचारी खाता सिर्जना गर्नुहोस्",
+    "description": "ई-वडा सिफारिस प्रणालीका लागि नयाँ कर्मचारी खाता सिर्जना गर्नुहोस् र उपयुक्त भूमिका प्रदान गर्नुहोस्।",
+
+    "back": "कर्मचारी व्यवस्थापनमा फर्कनुहोस्",
+
+    "chooseRole": "कर्मचारीको भूमिका छान्नुहोस्",
+    "chooseRoleDescription": "यस कर्मचारीको भूमिका र जिम्मेवारी चयन गर्नुहोस्।",
+
+    "accountInformation": "खाता जानकारी",
+    "accountInformationDescription": "कर्मचारी खाता सिर्जना गर्न आवश्यक जानकारी प्रविष्ट गर्नुहोस्।",
+
+    "name": "पूरा नाम",
+    "namePlaceholder": "कर्मचारीको पूरा नाम लेख्नुहोस्",
+
+    "email": "इमेल ठेगाना",
+    "emailPlaceholder": "कर्मचारीको इमेल ठेगाना लेख्नुहोस्",
+
+    "password": "पासवर्ड",
+    "passwordPlaceholder": "सुरक्षित पासवर्ड सिर्जना गर्नुहोस्",
+
+    "cancel": "रद्द गर्नुहोस्",
+    "creating": "खाता सिर्जना हुँदैछ...",
+    "createButton": "कर्मचारी खाता सिर्जना गर्नुहोस्",
+
+    "roles": {
+      "frontoffice": "फ्रन्ट अफिस",
+      "secretary": "सचिव",
+      "chairperson": "अध्यक्ष"
+    },
+
+    "roleDescriptions": {
+      "frontoffice": "नागरिकहरूले पेश गरेका आवेदनहरू जाँच र प्रमाणित गर्ने।",
+      "secretary": "प्रमाणित आवेदनहरू प्रक्रिया गरी स्वीकृतिका लागि तयार गर्ने।",
+      "chairperson": "अन्तिम आवेदनहरू समीक्षा गरी अन्तिम स्वीकृति प्रदान गर्ने।"
+    }
+  }
+
+,
+
+
+  "staffManagement": {
+    "label": "प्रशासन",
+    "title": "कर्मचारी व्यवस्थापन",
+    "description": "वडा कर्मचारीहरू र उनीहरूको प्रणाली पहुँच व्यवस्थापन गर्नुहोस्।",
+    "addStaff": "कर्मचारी थप्नुहोस्",
+
+    "staffList": "कर्मचारीहरू",
+    "totalStaff": "कर्मचारीहरू",
+
+    "search": "कर्मचारी खोज्नुहोस्...",
+    "loading": "कर्मचारीहरू लोड हुँदैछ...",
+    "noStaff": "कुनै कर्मचारी भेटिएन।",
+
+    "view": "हेर्नुहोस्",
+    "edit": "सम्पादन गर्नुहोस्",
+    "delete": "हटाउनुहोस्",
+
+    "roles": {
+      "frontoffice": "फ्रन्ट अफिस",
+      "secretary": "सचिव",
+      "chairperson": "अध्यक्ष"
+    }
+  }
+,
+
+  "staffDetails": {
+    "loading": "कर्मचारी विवरण लोड हुँदैछ...",
+    "notFound": "कर्मचारी भेटिएन।",
+    "back": "कर्मचारी व्यवस्थापनमा फर्कनुहोस्",
+    "staffProfile": "कर्मचारी प्रोफाइल",
+    "email": "इमेल ठेगाना",
+    "role": "भूमिका",
+    "joined": "सामेल भएको मिति",
+    "editStaff": "कर्मचारी सम्पादन गर्नुहोस्"
+  }
+
+
+  }

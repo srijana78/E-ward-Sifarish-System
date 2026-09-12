@@ -1,201 +1,206 @@
-
-import React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
-  Users,
-  Building2,
-  ClipboardCheck,
-  Landmark,
-  Mail,
+  Search,
+  RefreshCw,
+  Eye,
+  Pencil,
+  Trash2,
+  AlertCircle,
   UserPlus,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+
+const API = "http://localhost:5000/api/admin";
 
 const StaffManagement = () => {
-  // Temporary UI data
-  const staff = [
-    {
-      id: 1,
-      name: "Ram Sharma",
-      email: "ram@eward.gov.np",
-      role: "frontoffice",
-    },
-    {
-      id: 2,
-      name: "Sita Thapa",
-      email: "sita@eward.gov.np",
-      role: "secretary",
-    },
-    {
-      id: 3,
-      name: "Hari Bhandari",
-      email: "hari@eward.gov.np",
-      role: "chairperson",
-    },
-  ];
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { token } = useAuth();
 
-  const getRoleInfo = (role) => {
-    switch (role) {
-      case "frontoffice":
-        return {
-          label: "Front Office",
-          icon: Building2,
-          color: "bg-blue-50 text-blue-700",
-        };
+  const [staff, setStaff] = useState([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-      case "secretary":
-        return {
-          label: "Ward Secretary",
-          icon: ClipboardCheck,
-          color: "bg-purple-50 text-purple-700",
-        };
+  const fetchStaff = async () => {
+    try {
+      setLoading(true);
+      setError("");
 
-      case "chairperson":
-        return {
-          label: "Ward Chairperson",
-          icon: Landmark,
-          color: "bg-orange-50 text-orange-700",
-        };
+      const res = await fetch(`${API}/staff`, {
+        headers: {
+          Authorization: `Bearer ${
+            token || localStorage.getItem("sifarish_token")
+          }`,
+        },
+      });
 
-      default:
-        return {
-          label: role,
-          icon: Users,
-          color: "bg-slate-100 text-slate-700",
-        };
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message);
+
+      setStaff(data.staff || []);
+    } catch (err) {
+      setError(err.message || "Failed to load staff");
+    } finally {
+      setLoading(false);
     }
   };
 
-  return (
-    <div>
-      {/* HEADER */}
+  useEffect(() => {
+    fetchStaff();
+  }, [token]);
 
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  const filteredStaff = staff.filter((member) =>
+    [member.name, member.email, member.role].some((item) =>
+      item?.toLowerCase().includes(search.toLowerCase())
+    )
+  );
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <section className="flex flex-col gap-4 rounded-2xl bg-blue-950 p-6 text-white sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-red-600">
-            Administration
+          <p className="text-sm text-red-300">
+            {t("staffManagement.label")}
           </p>
 
-          <h1 className="mt-2 text-3xl font-extrabold text-blue-950">
-            Staff Management
+          <h1 className="mt-1 text-2xl font-bold">
+            {t("staffManagement.title")}
           </h1>
 
-          <p className="mt-2 text-sm text-slate-500">
-            Manage government staff accounts and their roles.
+          <p className="mt-2 text-sm text-blue-200">
+            {t("staffManagement.description")}
           </p>
         </div>
 
-        <Link
-          to="/admin/create-staff"
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-950"
+        <button
+          onClick={() => navigate("/admin/create-staff")}
+          className="flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-3 font-semibold hover:bg-red-700"
         >
           <UserPlus size={18} />
-          Create Staff
-        </Link>
-      </div>
+          {t("staffManagement.addStaff")}
+        </button>
+      </section>
 
-      {/* STATS */}
-
-      <div className="mb-6 grid gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-slate-500">
-            Total Staff
-          </p>
-
-          <h2 className="mt-2 text-3xl font-bold text-blue-950">
-            {staff.length}
-          </h2>
+      {error && (
+        <div className="flex items-center gap-2 rounded-lg bg-red-50 p-4 text-red-600">
+          <AlertCircle size={18} />
+          {error}
         </div>
+      )}
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-slate-500">
-            Front Office
-          </p>
+      {/* Staff List */}
+      <section className="rounded-2xl bg-white shadow-sm">
+        <div className="flex flex-col gap-4 border-b p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="font-bold text-blue-950">
+              {t("staffManagement.staffList")}
+            </h2>
 
-          <h2 className="mt-2 text-3xl font-bold text-blue-950">
-            {staff.filter(
-              (person) => person.role === "frontoffice"
-            ).length}
-          </h2>
-        </div>
+            <p className="text-sm text-slate-500">
+              {staff.length} {t("staffManagement.totalStaff")}
+            </p>
+          </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-slate-500">
-            Administrative Staff
-          </p>
+          <div className="flex gap-2">
+            <div className="relative">
+              <Search
+                size={18}
+                className="absolute left-3 top-3 text-slate-400"
+              />
 
-          <h2 className="mt-2 text-3xl font-bold text-blue-950">
-            {staff.filter(
-              (person) =>
-                person.role === "secretary" ||
-                person.role === "chairperson"
-            ).length}
-          </h2>
-        </div>
-      </div>
-
-      {/* STAFF LIST */}
-
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <div className="border-b border-slate-200 p-5">
-          <div className="flex items-center gap-3">
-            <div className="rounded-xl bg-blue-50 p-3 text-blue-900">
-              <Users size={22} />
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder={t("staffManagement.search")}
+                className="w-full rounded-lg bg-slate-100 py-2.5 pl-10 pr-4 text-sm outline-none sm:w-64"
+              />
             </div>
 
-            <div>
-              <h2 className="font-bold text-blue-950">
-                Government Staff
-              </h2>
-
-              <p className="text-sm text-slate-500">
-                All registered staff accounts
-              </p>
-            </div>
+            <button
+              onClick={fetchStaff}
+              className="rounded-lg bg-slate-100 p-3 text-blue-950 hover:bg-slate-200"
+            >
+              <RefreshCw size={18} />
+            </button>
           </div>
         </div>
 
-        <div className="divide-y divide-slate-100">
-          {staff.map((member) => {
-            const roleInfo = getRoleInfo(member.role);
-            const RoleIcon = roleInfo.icon;
-
-            return (
+        <div className="divide-y">
+          {loading ? (
+            <Empty text={t("staffManagement.loading")} />
+          ) : filteredStaff.length === 0 ? (
+            <Empty text={t("staffManagement.noStaff")} />
+          ) : (
+            filteredStaff.map((member) => (
               <div
-                key={member.id}
-                className="flex flex-col gap-4 p-5 transition hover:bg-slate-50 sm:flex-row sm:items-center sm:justify-between"
+                key={member._id}
+                className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center"
               >
-                <div className="flex items-center gap-4">
-                  <div
-                    className={`flex h-12 w-12 items-center justify-center rounded-xl ${roleInfo.color}`}
-                  >
-                    <RoleIcon size={21} />
-                  </div>
-
-                  <div>
-                    <h3 className="font-bold text-blue-950">
-                      {member.name}
-                    </h3>
-
-                    <div className="mt-1 flex items-center gap-1.5 text-sm text-slate-500">
-                      <Mail size={14} />
-
-                      {member.email}
-                    </div>
-                  </div>
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-950 font-bold text-white">
+                  {member.name?.[0]?.toUpperCase()}
                 </div>
 
-                <span
-                  className={`w-fit rounded-full px-3 py-1.5 text-xs font-bold ${roleInfo.color}`}
-                >
-                  {roleInfo.label}
+                <div className="flex-1">
+                  <h3 className="font-semibold text-blue-950">
+                    {member.name}
+                  </h3>
+
+                  <p className="text-sm text-slate-500">
+                    {member.email}
+                  </p>
+                </div>
+
+                <span className="w-fit rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+                  {t(`staffManagement.roles.${member.role}`)}
                 </span>
+
+                {/* Actions */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={() =>
+                      navigate(`/admin/staff/${member._id}`)
+                    }
+                    className="rounded-lg bg-blue-50 p-2 text-blue-900 hover:bg-blue-100"
+                    title={t("staffManagement.view")}
+                  >
+                    <Eye size={18} />
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      navigate(`/admin/staff/edit/${member._id}`)
+                    }
+                    className="rounded-lg bg-amber-50 p-2 text-amber-600 hover:bg-amber-100"
+                    title={t("staffManagement.edit")}
+                  >
+                    <Pencil size={18} />
+                  </button>
+
+                  <button
+                    className="rounded-lg bg-red-50 p-2 text-red-600 hover:bg-red-100"
+                    title={t("staffManagement.delete")}
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
               </div>
-            );
-          })}
+            ))
+          )}
         </div>
-      </div>
+      </section>
     </div>
   );
 };
+
+const Empty = ({ text }) => (
+  <div className="p-10 text-center text-sm text-slate-500">
+    {text}
+  </div>
+);
 
 export default StaffManagement;

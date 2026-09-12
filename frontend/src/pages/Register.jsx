@@ -40,16 +40,14 @@ function Register() {
 
   // ================= REGISTER =================
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  setError("");
-  setLoading(true);
+    setError("");
+    setLoading(true);
 
-  try {
-    const response = await fetch(
-      "http://localhost:5000/api/auth/register",
-      {
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
 
         headers: {
@@ -62,48 +60,41 @@ const handleSubmit = async (e) => {
           citizenshipNo: formData.citizenshipNo,
           password: formData.password,
         }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed");
       }
-    );
 
-    const data = await response.json();
+      alert(data.message || "Registration successful! Please login.");
 
-    if (!response.ok) {
-      throw new Error(data.message || "Registration failed");
+      navigate("/login");
+    } catch (error) {
+      console.error("Registration error:", error);
+
+      setError(error.message || "Failed to connect to server");
+    } finally {
+      setLoading(false);
     }
-
-    alert(data.message || "Registration successful! Please login.");
-
-    navigate("/login");
-
-  } catch (error) {
-    console.error("Registration error:", error);
-
-    setError(error.message || "Failed to connect to server");
-
-  } finally {
-    setLoading(false);
-  }
-};
+  };
   return (
     <main className="min-h-[calc(100vh-72px)] bg-slate-50 px-3 py-5 sm:px-5 sm:py-6 md:px-6">
       <div className="flex min-h-[calc(100vh-112px)] items-center justify-center">
         <div className="w-full max-w-[440px]">
-
           {/* Main Card */}
 
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_2px_14px_rgba(15,23,42,0.06)] sm:rounded-3xl">
-
             {/* Header */}
 
             <div className="bg-teal-700 px-5 pb-5 pt-6 text-center text-white sm:px-7 sm:pb-6 sm:pt-7">
               <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 sm:mb-4 sm:h-14 sm:w-14 sm:rounded-2xl">
-
                 <UserPlus
                   size={25}
                   strokeWidth={1.9}
                   className="sm:h-7 sm:w-7"
                 />
-
               </div>
 
               <h1 className="text-xl font-bold leading-tight sm:text-2xl">
@@ -121,7 +112,6 @@ const handleSubmit = async (e) => {
               onSubmit={handleSubmit}
               className="px-5 pb-5 pt-5 sm:px-7 sm:pb-7 sm:pt-6"
             >
-
               {/* Error Message */}
 
               {error && (
@@ -141,7 +131,6 @@ const handleSubmit = async (e) => {
                 </label>
 
                 <div className="relative">
-
                   <User
                     size={17}
                     className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
@@ -157,7 +146,6 @@ const handleSubmit = async (e) => {
                     placeholder={t("auth.fullNamePlaceholder")}
                     className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 pl-10 pr-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10 sm:h-11 sm:rounded-xl"
                   />
-
                 </div>
               </div>
 
@@ -172,7 +160,6 @@ const handleSubmit = async (e) => {
                 </label>
 
                 <div className="relative">
-
                   <Phone
                     size={17}
                     className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
@@ -189,7 +176,6 @@ const handleSubmit = async (e) => {
                     placeholder={t("auth.phonePlaceholder")}
                     className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 pl-10 pr-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10 sm:h-11 sm:rounded-xl"
                   />
-
                 </div>
               </div>
 
@@ -204,7 +190,6 @@ const handleSubmit = async (e) => {
                 </label>
 
                 <div className="relative">
-
                   <FileText
                     size={17}
                     className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
@@ -220,7 +205,6 @@ const handleSubmit = async (e) => {
                     placeholder={t("auth.citizenshipPlaceholder")}
                     className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 pl-10 pr-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10 sm:h-11 sm:rounded-xl"
                   />
-
                 </div>
               </div>
 
@@ -235,7 +219,6 @@ const handleSubmit = async (e) => {
                 </label>
 
                 <div className="relative">
-
                   <Lock
                     size={17}
                     className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
@@ -257,13 +240,8 @@ const handleSubmit = async (e) => {
                     onClick={() => setShowPassword((prev) => !prev)}
                     className="absolute right-1.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 sm:right-2"
                   >
-                    {showPassword ? (
-                      <EyeOff size={17} />
-                    ) : (
-                      <Eye size={17} />
-                    )}
+                    {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
                   </button>
-
                 </div>
               </div>
 
@@ -276,19 +254,17 @@ const handleSubmit = async (e) => {
               >
                 <span className="truncate">
                   {loading
-                    ? "Creating Account..."
+                    ? t("auth.creatingAccount")
                     : t("auth.registerButton")}
                 </span>
 
                 <ArrowRight size={17} className="shrink-0" />
               </button>
-
             </form>
 
             {/* Login Footer */}
 
             <div className="border-t border-slate-100 bg-slate-50/70 px-4 py-3 text-center sm:px-6 sm:py-3.5">
-
               <span className="text-xs text-slate-500 sm:text-sm">
                 {t("auth.hasAccount")}{" "}
               </span>
@@ -299,9 +275,7 @@ const handleSubmit = async (e) => {
               >
                 {t("auth.loginLink")}
               </Link>
-
             </div>
-
           </div>
 
           {/* Back to Home */}
@@ -317,7 +291,6 @@ const handleSubmit = async (e) => {
           <p className="px-3 pt-3 text-center text-[10px] leading-4 text-slate-400 sm:pt-4 sm:text-xs">
             E-Sifarish Portal • Chandannath Municipality
           </p>
-
         </div>
       </div>
     </main>

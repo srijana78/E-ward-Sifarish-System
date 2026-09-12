@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+
 import {
   ArrowLeft,
   ArrowRight,
@@ -8,30 +9,80 @@ import {
   MapPin,
   Phone,
   Mail,
-  CreditCard,
   FileText,
 } from "lucide-react";
+
+import { useAuth } from "../../context/AuthContext";
 
 const ApplicationDetails = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
 
   const params = new URLSearchParams(location.search);
   const service = params.get("service");
 
+  // ================= GET SAVED APPLICATION =================
+
+  const savedApplication = sessionStorage.getItem(
+    "sifarish_application"
+  );
+
+  let existingApplication = {};
+
+  try {
+    if (savedApplication) {
+      existingApplication = JSON.parse(savedApplication);
+    }
+  } catch (error) {
+    console.error("Error reading saved application:", error);
+  }
+
+  // ================= FORM DATA =================
+
   const [formData, setFormData] = useState({
-    fullName: "",
-    citizenshipNumber: "",
-    dateOfBirth: "",
-    phone: "",
-    email: "",
-    province: "",
-    district: "",
-    municipality: "",
-    wardNumber: "",
-    tole: "",
+    fullName:
+      existingApplication.applicantDetails?.fullName ||
+      user?.name ||
+      "",
+
+    citizenshipNumber:
+      existingApplication.applicantDetails?.citizenshipNumber ||
+      user?.citizenshipNo ||
+      "",
+
+    dateOfBirth: existingApplication.applicantDetails?.dateOfBirth
+      ? existingApplication.applicantDetails.dateOfBirth.split("T")[0]
+      : "",
+
+    phone:
+      existingApplication.applicantDetails?.phone ||
+      user?.phone ||
+      "",
+
+    email:
+      existingApplication.applicantDetails?.email ||
+      user?.email ||
+      "",
+
+    province:
+      existingApplication.address?.province || "",
+
+    district:
+      existingApplication.address?.district || "",
+
+    municipality:
+      existingApplication.address?.municipality || "",
+
+    wardNumber:
+      existingApplication.address?.wardNumber || "",
+
+    tole:
+      existingApplication.address?.tole || "",
   });
+
+  // ================= HANDLE CHANGE =================
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,12 +93,83 @@ const ApplicationDetails = () => {
     }));
   };
 
+  // ================= CONTINUE =================
+
   const handleContinue = (e) => {
     e.preventDefault();
 
-    // Temporary navigation for the next step
+    // Get latest saved application again
+    const savedData = sessionStorage.getItem(
+      "sifarish_application"
+    );
+
+    let previousData = {};
+
+    try {
+      if (savedData) {
+        previousData = JSON.parse(savedData);
+      }
+    } catch (error) {
+      console.error(
+        "Error reading previous application data:",
+        error
+      );
+    }
+
+    // Merge old data with new application details
+    const applicationData = {
+      ...previousData,
+
+      service:
+        service ||
+        previousData.service ||
+        "",
+
+      user:
+        user?.id ||
+        previousData.user ||
+        "",
+
+      applicantDetails: {
+        fullName: formData.fullName,
+        citizenshipNumber:
+          formData.citizenshipNumber,
+        dateOfBirth:
+          formData.dateOfBirth,
+        phone: formData.phone,
+        email: formData.email,
+      },
+
+      address: {
+        province: formData.province,
+        district: formData.district,
+        municipality: formData.municipality,
+        wardNumber: formData.wardNumber,
+        tole: formData.tole,
+      },
+
+      // Preserve documents
+      documents:
+        previousData.documents || [],
+
+      // Preserve payment
+      payment:
+        previousData.payment || {},
+    };
+
+    // Save complete application
+    sessionStorage.setItem(
+      "sifarish_application",
+      JSON.stringify(applicationData)
+    );
+
+    console.log(
+      "Application details saved:",
+      applicationData
+    );
+
     navigate(
-      `/citizen/apply/documents?service=${service}`
+      `/citizen/apply/documents?service=${service || ""}`
     );
   };
 
@@ -55,7 +177,9 @@ const ApplicationDetails = () => {
     <div className="max-w-6xl mx-auto space-y-6">
 
       {/* Breadcrumb */}
+
       <div className="flex items-center gap-2 text-sm text-slate-500">
+
         <button
           onClick={() => navigate("/citizen/apply")}
           className="hover:text-blue-700 transition"
@@ -68,16 +192,21 @@ const ApplicationDetails = () => {
         <span className="text-slate-700 font-medium">
           {t("applicationDetails.title")}
         </span>
+
       </div>
 
       {/* Header */}
+
       <div>
+
         <div className="flex items-center gap-3 mb-2">
+
           <div className="w-11 h-11 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center">
             <UserRound size={22} />
           </div>
 
           <div>
+
             <p className="text-sm font-semibold text-red-600">
               {t("applicationDetails.stepTwo")}
             </p>
@@ -85,17 +214,23 @@ const ApplicationDetails = () => {
             <h1 className="text-2xl md:text-3xl font-bold text-blue-950">
               {t("applicationDetails.title")}
             </h1>
+
           </div>
+
         </div>
 
         <p className="text-slate-600 max-w-3xl">
           {t("applicationDetails.description")}
         </p>
+
       </div>
 
       {/* Progress */}
+
       <div className="bg-white border border-slate-200 rounded-2xl p-5">
+
         <div className="flex items-center justify-between mb-3">
+
           <span className="text-sm font-semibold text-slate-700">
             {t("applicationDetails.progress")}
           </span>
@@ -103,6 +238,7 @@ const ApplicationDetails = () => {
           <span className="text-sm font-bold text-blue-700">
             2 / 5
           </span>
+
         </div>
 
         <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
@@ -110,6 +246,7 @@ const ApplicationDetails = () => {
         </div>
 
         <div className="grid grid-cols-5 mt-4 text-xs text-slate-500">
+
           <span className="text-blue-700 font-semibold">
             {t("applicationDetails.application")}
           </span>
@@ -118,53 +255,95 @@ const ApplicationDetails = () => {
             {t("applicationDetails.applicant")}
           </span>
 
-          <span>{t("applicationDetails.documents")}</span>
-          <span>{t("applicationDetails.payment")}</span>
-          <span>{t("applicationDetails.review")}</span>
+          <span>
+            {t("applicationDetails.documents")}
+          </span>
+
+          <span>
+            {t("applicationDetails.payment")}
+          </span>
+
+          <span>
+            {t("applicationDetails.review")}
+          </span>
+
         </div>
+
       </div>
 
       {/* Selected Service */}
+
       <div className="bg-blue-50 border border-blue-100 rounded-2xl p-5">
+
         <div className="flex items-start gap-3">
+
           <FileText
             size={20}
             className="text-blue-700 mt-0.5"
           />
 
           <div>
+
             <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
               {t("applicationDetails.selectedService")}
             </p>
 
             <p className="font-bold text-blue-950 mt-1">
+
               {service
                 ? t(`newApplication.services.${service}`)
-                : t("applicationDetails.recommendationService")}
+                : t(
+                    "applicationDetails.recommendationService"
+                  )}
+
             </p>
+
           </div>
+
         </div>
+
       </div>
 
-      {/* Form */}
-      <form onSubmit={handleContinue} className="space-y-6">
+      {/* FORM */}
 
-        {/* Personal Information */}
+      <form
+        onSubmit={handleContinue}
+        className="space-y-6"
+      >
+
+        {/* PERSONAL INFORMATION */}
+
         <section className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+
           <div className="px-6 py-5 border-b border-slate-200">
+
             <div className="flex items-center gap-3">
-              <UserRound size={20} className="text-blue-700" />
+
+              <UserRound
+                size={20}
+                className="text-blue-700"
+              />
 
               <div>
+
                 <h2 className="font-bold text-lg text-blue-950">
-                  {t("applicationDetails.personalInformation")}
+                  {t(
+                    "applicationDetails.personalInformation"
+                  )}
                 </h2>
 
                 <p className="text-sm text-slate-500">
-                  {t("applicationDetails.personalInformationDescription")}
+
+                  {t(
+                    "applicationDetails.personalInformationDescription"
+                  )}
+
                 </p>
+
               </div>
+
             </div>
+
           </div>
 
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -174,12 +353,16 @@ const ApplicationDetails = () => {
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
-              placeholder={t("applicationDetails.fullNamePlaceholder")}
+              placeholder={t(
+                "applicationDetails.fullNamePlaceholder"
+              )}
               required
             />
 
             <InputField
-              label={t("applicationDetails.citizenshipNumber")}
+              label={t(
+                "applicationDetails.citizenshipNumber"
+              )}
               name="citizenshipNumber"
               value={formData.citizenshipNumber}
               onChange={handleChange}
@@ -190,7 +373,9 @@ const ApplicationDetails = () => {
             />
 
             <InputField
-              label={t("applicationDetails.dateOfBirth")}
+              label={t(
+                "applicationDetails.dateOfBirth"
+              )}
               name="dateOfBirth"
               type="date"
               value={formData.dateOfBirth}
@@ -203,7 +388,9 @@ const ApplicationDetails = () => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder={t("applicationDetails.phonePlaceholder")}
+              placeholder={t(
+                "applicationDetails.phonePlaceholder"
+              )}
               required
               icon={<Phone size={16} />}
             />
@@ -214,28 +401,49 @@ const ApplicationDetails = () => {
               type="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder={t("applicationDetails.emailPlaceholder")}
+              placeholder={t(
+                "applicationDetails.emailPlaceholder"
+              )}
               icon={<Mail size={16} />}
             />
+
           </div>
+
         </section>
 
-        {/* Address Information */}
+        {/* ADDRESS INFORMATION */}
+
         <section className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+
           <div className="px-6 py-5 border-b border-slate-200">
+
             <div className="flex items-center gap-3">
-              <MapPin size={20} className="text-blue-700" />
+
+              <MapPin
+                size={20}
+                className="text-blue-700"
+              />
 
               <div>
+
                 <h2 className="font-bold text-lg text-blue-950">
-                  {t("applicationDetails.addressInformation")}
+                  {t(
+                    "applicationDetails.addressInformation"
+                  )}
                 </h2>
 
                 <p className="text-sm text-slate-500">
-                  {t("applicationDetails.addressInformationDescription")}
+
+                  {t(
+                    "applicationDetails.addressInformationDescription"
+                  )}
+
                 </p>
+
               </div>
+
             </div>
+
           </div>
 
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -245,7 +453,9 @@ const ApplicationDetails = () => {
               name="province"
               value={formData.province}
               onChange={handleChange}
-              placeholder={t("applicationDetails.provincePlaceholder")}
+              placeholder={t(
+                "applicationDetails.provincePlaceholder"
+              )}
               required
             />
 
@@ -254,25 +464,35 @@ const ApplicationDetails = () => {
               name="district"
               value={formData.district}
               onChange={handleChange}
-              placeholder={t("applicationDetails.districtPlaceholder")}
+              placeholder={t(
+                "applicationDetails.districtPlaceholder"
+              )}
               required
             />
 
             <InputField
-              label={t("applicationDetails.municipality")}
+              label={t(
+                "applicationDetails.municipality"
+              )}
               name="municipality"
               value={formData.municipality}
               onChange={handleChange}
-              placeholder={t("applicationDetails.municipalityPlaceholder")}
+              placeholder={t(
+                "applicationDetails.municipalityPlaceholder"
+              )}
               required
             />
 
             <InputField
-              label={t("applicationDetails.wardNumber")}
+              label={t(
+                "applicationDetails.wardNumber"
+              )}
               name="wardNumber"
               value={formData.wardNumber}
               onChange={handleChange}
-              placeholder={t("applicationDetails.wardNumberPlaceholder")}
+              placeholder={t(
+                "applicationDetails.wardNumberPlaceholder"
+              )}
               required
             />
 
@@ -281,39 +501,55 @@ const ApplicationDetails = () => {
               name="tole"
               value={formData.tole}
               onChange={handleChange}
-              placeholder={t("applicationDetails.tolePlaceholder")}
+              placeholder={t(
+                "applicationDetails.tolePlaceholder"
+              )}
               required
             />
+
           </div>
+
         </section>
 
-        {/* Bottom Actions */}
+        {/* ACTION BUTTONS */}
+
         <div className="flex flex-col sm:flex-row justify-between gap-3 pb-6">
 
           <button
             type="button"
-            onClick={() => navigate("/citizen/apply")}
+            onClick={() =>
+              navigate("/citizen/apply")
+            }
             className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-300 bg-white text-slate-700 font-semibold hover:bg-slate-50 transition"
           >
+
             <ArrowLeft size={18} />
+
             {t("applicationDetails.back")}
+
           </button>
 
           <button
             type="submit"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 transition shadow-sm"
           >
+
             {t("applicationDetails.continue")}
+
             <ArrowRight size={18} />
+
           </button>
 
         </div>
+
       </form>
+
     </div>
   );
 };
 
-/* Reusable input */
+
+// ================= REUSABLE INPUT =================
 
 const InputField = ({
   label,
@@ -327,12 +563,19 @@ const InputField = ({
 }) => {
   return (
     <div>
+
       <label className="block text-sm font-semibold text-slate-700 mb-2">
+
         {label}
-        {required && <span className="text-red-600 ml-1">*</span>}
+
+        {required && (
+          <span className="text-red-600 ml-1">*</span>
+        )}
+
       </label>
 
       <div className="relative">
+
         {icon && (
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
             {icon}
@@ -350,7 +593,9 @@ const InputField = ({
             icon ? "pl-10" : ""
           }`}
         />
+
       </div>
+
     </div>
   );
 };

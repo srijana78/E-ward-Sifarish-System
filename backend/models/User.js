@@ -8,23 +8,28 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
 
+    // Citizen uses phone
     phone: {
       type: String,
-      required: true,
       unique: true,
+      sparse: true,
       trim: true,
     },
 
+    // Citizen registration
     citizenshipNo: {
       type: String,
-      required: true,
       unique: true,
+      sparse: true,
       trim: true,
     },
 
+    // Government staff uses email
     email: {
       type: String,
-      default: "",
+      unique: true,
+      sparse: true,
+      lowercase: true,
       trim: true,
     },
 
@@ -33,10 +38,23 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
+    // User role
     role: {
       type: String,
-      enum: ["citizen", "frontoffice", "admin"],
+      enum: [
+        "citizen",
+        "frontoffice",
+        "secretary",
+        "chairperson",
+        "admin",
+      ],
       default: "citizen",
+    },
+
+    // Account status
+    isActive: {
+      type: Boolean,
+      default: true,
     },
   },
   {

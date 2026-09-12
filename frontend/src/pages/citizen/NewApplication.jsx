@@ -12,62 +12,78 @@ import {
   ArrowRight,
   CheckCircle2,
   Info,
+  Wallet,
 } from "lucide-react";
 
-// Recommendation data
+// Demo service configuration.
+// Later, this should come from your backend/database.
 const recommendationServices = [
   {
-    id: "residence",
+    id: "permanentResidence",
     category: "residence",
-    titleKey: "residence",
-    descriptionKey: "residenceDescription",
     icon: Home,
+    fee: 0,
+    documents: ["citizenship", "application"],
   },
   {
-    id: "personal",
+    id: "temporaryResidence",
+    category: "residence",
+    icon: Home,
+    fee: 100,
+    documents: ["citizenship", "application"],
+  },
+  {
+    id: "citizenship",
     category: "personal",
-    titleKey: "personal",
-    descriptionKey: "personalDescription",
     icon: Users,
+    fee: 0,
+    documents: ["citizenship", "application"],
+  },
+  {
+    id: "relationship",
+    category: "personal",
+    icon: Users,
+    fee: 0,
+    documents: ["citizenship", "application"],
   },
   {
     id: "education",
     category: "education",
-    titleKey: "education",
-    descriptionKey: "educationDescription",
     icon: GraduationCap,
+    fee: 100,
+    documents: ["citizenship", "application"],
   },
   {
     id: "business",
     category: "business",
-    titleKey: "business",
-    descriptionKey: "businessDescription",
     icon: BriefcaseBusiness,
+    fee: 500,
+    documents: ["citizenship", "application", "supporting"],
   },
   {
     id: "property",
     category: "property",
-    titleKey: "property",
-    descriptionKey: "propertyDescription",
     icon: Building2,
+    fee: 300,
+    documents: ["citizenship", "application", "supporting"],
   },
   {
     id: "other",
     category: "other",
-    titleKey: "other",
-    descriptionKey: "otherDescription",
     icon: FileText,
+    fee: 0,
+    documents: ["citizenship", "application"],
   },
 ];
 
 const categories = [
-  { id: "all", labelKey: "all" },
-  { id: "personal", labelKey: "personal" },
-  { id: "residence", labelKey: "residence" },
-  { id: "education", labelKey: "education" },
-  { id: "business", labelKey: "business" },
-  { id: "property", labelKey: "property" },
-  { id: "other", labelKey: "other" },
+  "all",
+  "personal",
+  "residence",
+  "education",
+  "business",
+  "property",
+  "other",
 ];
 
 const NewApplication = () => {
@@ -79,29 +95,38 @@ const NewApplication = () => {
   const [selectedService, setSelectedService] = useState(null);
 
   const filteredServices = recommendationServices.filter((service) => {
-    const matchesCategory =
-      selectedCategory === "all" ||
-      service.category === selectedCategory;
-
-    const title = t(
-      `newApplication.services.${service.titleKey}`
-    ).toLowerCase();
-
+    const title = t(`newApplication.services.${service.id}`).toLowerCase();
     const description = t(
-      `newApplication.services.${service.descriptionKey}`
+      `newApplication.services.${service.id}Description`
     ).toLowerCase();
-
-    const searchText = search.toLowerCase();
 
     return (
-      matchesCategory &&
-      (title.includes(searchText) ||
-        description.includes(searchText))
+      (selectedCategory === "all" ||
+        service.category === selectedCategory) &&
+      (title.includes(search.toLowerCase()) ||
+        description.includes(search.toLowerCase()))
     );
   });
 
   const handleContinue = () => {
     if (!selectedService) return;
+
+    const applicationData = {
+      service: selectedService.id,
+      fee: selectedService.fee,
+      paymentRequired: selectedService.fee > 0,
+      requiredDocuments: selectedService.documents,
+
+      applicantDetails: {},
+      address: {},
+      documents: [],
+      payment: {},
+    };
+
+    sessionStorage.setItem(
+      "sifarish_application",
+      JSON.stringify(applicationData)
+    );
 
     navigate(
       `/citizen/apply/details?service=${selectedService.id}`
@@ -110,8 +135,7 @@ const NewApplication = () => {
 
   return (
     <div className="mx-auto max-w-7xl space-y-8 pb-24">
-
-      {/* Page Header */}
+      {/* Header */}
       <section>
         <div className="flex items-center gap-2 text-xs font-medium text-slate-500 sm:text-sm">
           <span>{t("citizenSidebar.dashboard")}</span>
@@ -141,37 +165,35 @@ const NewApplication = () => {
         <div className="h-1 bg-red-600" />
 
         <div className="flex items-center gap-4 p-5 sm:p-6">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-600 text-base font-bold text-white shadow-sm">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-red-600 font-bold text-white">
             1
           </div>
 
           <div>
-            <p className="text-sm font-bold text-blue-950 sm:text-base">
+            <p className="font-bold text-blue-950">
               {t("newApplication.stepOne")}
             </p>
 
-            <p className="mt-1 text-xs leading-5 text-slate-500 sm:text-sm">
+            <p className="mt-1 text-sm text-slate-500">
               {t("newApplication.stepOneDescription")}
             </p>
           </div>
 
-          <div className="ml-auto hidden rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-500 sm:block">
+          <span className="ml-auto hidden rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-500 sm:block">
             1 / 5
-          </div>
+          </span>
         </div>
       </section>
 
       {/* Search & Categories */}
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
-        <div>
-          <h2 className="text-xl font-bold text-blue-950 sm:text-2xl">
-            {t("newApplication.selectService")}
-          </h2>
+        <h2 className="text-xl font-bold text-blue-950 sm:text-2xl">
+          {t("newApplication.selectService")}
+        </h2>
 
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
-            {t("newApplication.selectServiceDescription")}
-          </p>
-        </div>
+        <p className="mt-2 text-sm text-slate-500">
+          {t("newApplication.selectServiceDescription")}
+        </p>
 
         {/* Search */}
         <div className="relative mt-6">
@@ -185,124 +207,106 @@ const NewApplication = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder={t("newApplication.searchPlaceholder")}
-            className="w-full rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-11 pr-4 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-blue-900 focus:bg-white focus:ring-4 focus:ring-blue-100"
+            className="w-full rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-11 pr-4 text-sm outline-none transition focus:border-blue-900 focus:bg-white focus:ring-4 focus:ring-blue-100"
           />
         </div>
 
         {/* Categories */}
         <div className="mt-5">
-          <p className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-400">
-            Categories
-          </p>
-
           <div className="flex gap-2 overflow-x-auto pb-1">
-            {categories.map((category) => {
-              const isActive =
-                selectedCategory === category.id;
-
-              return (
-                <button
-                  key={category.id}
-                  onClick={() =>
-                    setSelectedCategory(category.id)
-                  }
-                  className={`whitespace-nowrap rounded-lg border px-4 py-2.5 text-xs font-semibold transition ${
-                    isActive
-                      ? "border-blue-950 bg-blue-950 text-white shadow-sm"
-                      : "border-slate-200 bg-white text-slate-600 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-900"
-                  }`}
-                >
-                  {t(
-                    `newApplication.categories.${category.labelKey}`
-                  )}
-                </button>
-              );
-            })}
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`whitespace-nowrap rounded-lg border px-4 py-2.5 text-xs font-semibold transition ${
+                  selectedCategory === category
+                    ? "border-blue-950 bg-blue-950 text-white"
+                    : "border-slate-200 text-slate-600 hover:bg-blue-50"
+                }`}
+              >
+                {t(`newApplication.categories.${category}`)}
+              </button>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Services */}
       <section>
-        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mb-5 flex items-end justify-between">
           <div>
             <h2 className="text-xl font-bold text-blue-950 sm:text-2xl">
               {t("newApplication.availableServices")}
             </h2>
 
             <p className="mt-1.5 text-sm text-slate-500">
-              {t(
-                "newApplication.availableServicesDescription"
-              )}
+              {t("newApplication.availableServicesDescription")}
             </p>
           </div>
 
-          <span className="w-fit rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-500">
-            {filteredServices.length}{" "}
-            {t("newApplication.servicesFound")}
+          <span className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-500">
+            {filteredServices.length} {t("newApplication.servicesFound")}
           </span>
         </div>
 
-        {filteredServices.length > 0 ? (
+        {filteredServices.length ? (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filteredServices.map((service) => {
               const Icon = service.icon;
-              const isSelected =
-                selectedService?.id === service.id;
+              const isSelected = selectedService?.id === service.id;
 
               return (
                 <button
                   key={service.id}
                   onClick={() => setSelectedService(service)}
-                  className={`group relative rounded-2xl border bg-white p-6 text-left transition-all duration-200 ${
+                  className={`group relative rounded-2xl border bg-white p-6 text-left transition-all ${
                     isSelected
-                      ? "border-red-600 bg-red-50/30 shadow-md ring-2 ring-red-100"
-                      : "border-slate-200 shadow-sm hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg"
+                      ? "border-red-600 bg-red-50/30 ring-2 ring-red-100"
+                      : "border-slate-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg"
                   }`}
                 >
-                  {/* Selected */}
                   {isSelected && (
-                    <div className="absolute right-5 top-5">
-                      <CheckCircle2
-                        size={22}
-                        className="text-red-600"
-                      />
-                    </div>
+                    <CheckCircle2
+                      size={22}
+                      className="absolute right-5 top-5 text-red-600"
+                    />
                   )}
 
-                  {/* Icon */}
                   <div
-                    className={`flex h-14 w-14 items-center justify-center rounded-xl transition ${
+                    className={`flex h-14 w-14 items-center justify-center rounded-xl ${
                       isSelected
                         ? "bg-red-100 text-red-600"
-                        : "bg-blue-50 text-blue-900 group-hover:bg-blue-100"
+                        : "bg-blue-50 text-blue-900"
                     }`}
                   >
-                    <Icon size={25} strokeWidth={1.8} />
+                    <Icon size={25} />
                   </div>
 
-                  {/* Title */}
-                  <h3 className="mt-5 pr-8 text-base font-bold leading-6 text-blue-950 sm:text-lg">
-                    {t(
-                      `newApplication.services.${service.titleKey}`
-                    )}
-                  </h3>
+                  <div className="mt-4 flex items-start justify-between gap-3">
+                    <h3 className="text-base font-bold leading-6 text-blue-950">
+                      {t(`newApplication.services.${service.id}`)}
+                    </h3>
 
-                  {/* Description */}
+                    <span
+                      className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold ${
+                        service.fee > 0
+                          ? "bg-amber-50 text-amber-700"
+                          : "bg-emerald-50 text-emerald-700"
+                      }`}
+                    >
+                      {service.fee > 0
+                        ? `Rs. ${service.fee}`
+                        : t("newApplication.free")}
+                    </span>
+                  </div>
+
                   <p className="mt-2.5 text-sm leading-6 text-slate-500">
                     {t(
-                      `newApplication.services.${service.descriptionKey}`
+                      `newApplication.services.${service.id}Description`
                     )}
                   </p>
 
-                  {/* Action */}
-                  <div
-                    className={`mt-5 flex items-center gap-1.5 text-sm font-bold ${
-                      isSelected
-                        ? "text-red-600"
-                        : "text-blue-900"
-                    }`}
-                  >
+                  <div className="mt-5 flex items-center gap-1.5 text-sm font-bold text-blue-900">
                     {isSelected
                       ? t("newApplication.selected")
                       : t("newApplication.select")}
@@ -317,66 +321,60 @@ const NewApplication = () => {
             })}
           </div>
         ) : (
-          <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-5 py-14 text-center">
+          <div className="rounded-2xl border border-dashed border-slate-300 bg-white py-14 text-center">
             <FileText
               size={34}
               className="mx-auto text-slate-400"
             />
 
-            <p className="mt-4 text-base font-bold text-slate-700">
+            <p className="mt-4 font-bold text-slate-700">
               {t("newApplication.noServices")}
             </p>
 
             <p className="mt-2 text-sm text-slate-500">
-              {t(
-                "newApplication.noServicesDescription"
-              )}
+              {t("newApplication.noServicesDescription")}
             </p>
           </div>
         )}
       </section>
 
-      {/* Information Note */}
-      <section className="flex gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4 sm:p-5">
+      {/* Information */}
+      <section className="flex gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4">
         <Info
           size={19}
-          className="mt-0.5 shrink-0 text-blue-800"
+          className="shrink-0 text-blue-800"
         />
 
         <div>
           <p className="text-sm font-bold text-blue-950">
-            Before you continue
+            {t("newApplication.beforeContinue")}
           </p>
 
-          <p className="mt-1 text-xs leading-5 text-blue-800 sm:text-sm">
-            Select the recommendation service that matches
-            your requirement. You can review your information
-            and documents before final submission.
+          <p className="mt-1 text-sm leading-6 text-blue-800">
+            {t("newApplication.beforeContinueDescription")}
           </p>
         </div>
       </section>
 
-      {/* Continue Footer */}
-      <section className="fixed bottom-0 left-0 right-0 z-20 border-t border-slate-200 bg-white/95 shadow-[0_-4px_15px_rgba(0,0,0,0.05)] backdrop-blur lg:left-[270px]">
+      {/* Footer */}
+      <section className="fixed bottom-0 left-0 right-0 z-20 border-t border-slate-200 bg-white/95 backdrop-blur lg:left-[270px]">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
           <div className="hidden sm:block">
             {selectedService ? (
-              <div>
-                <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
+              <>
+                <p className="text-[11px] font-medium uppercase text-slate-400">
                   {t("newApplication.selectedService")}
                 </p>
 
-                <p className="mt-0.5 text-sm font-bold text-blue-950">
+                <p className="text-sm font-bold text-blue-950">
                   {t(
-                    `newApplication.services.${selectedService.titleKey}`
+                    `newApplication.services.${selectedService.id}`
                   )}
                 </p>
-              </div>
+              </>
             ) : (
               <p className="text-sm text-slate-500">
-                {t(
-                  "newApplication.selectServiceToContinue"
-                )}
+                {t("newApplication.selectServiceToContinue")}
               </p>
             )}
           </div>
@@ -384,9 +382,12 @@ const NewApplication = () => {
           <button
             onClick={handleContinue}
             disabled={!selectedService}
-            className="ml-auto inline-flex items-center gap-2 rounded-xl bg-red-600 px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-red-700 hover:shadow-md disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
+            className="ml-auto inline-flex items-center gap-2 rounded-xl bg-red-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-slate-300"
           >
+            <Wallet size={17} />
+
             {t("newApplication.continue")}
+
             <ArrowRight size={18} />
           </button>
         </div>

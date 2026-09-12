@@ -1,348 +1,327 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useTranslation } from "react-i18next";
 import {
   UserPlus,
+  AlertCircle,
+  CheckCircle2,
+  MonitorCog,
+  FileCheck,
+  Landmark,
   User,
   Mail,
   Lock,
-  Building2,
-  ClipboardCheck,
-  Landmark,
   ArrowLeft,
-  Eye,
-  EyeOff,
-  CheckCircle2,
 } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+
+const API = "http://localhost:5000/api/admin";
 
 const CreateStaff = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const { token } = useAuth();
 
-  const [showPassword, setShowPassword] = useState(false);
-
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
     role: "frontoffice",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // UI ONLY FOR NOW
-    alert("Staff account created successfully!");
-
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      role: "frontoffice",
-    });
-
-    navigate("/admin/staff");
-  };
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   const roles = [
     {
-      value: "frontoffice",
-      name: "Front Office",
-      description: "Verify and review citizen applications",
-      icon: Building2,
+      id: "frontoffice",
+      icon: MonitorCog,
+      title: t("createStaff.roles.frontoffice"),
+      description: t("createStaff.roleDescriptions.frontoffice"),
     },
     {
-      value: "secretary",
-      name: "Ward Secretary",
-      description: "Review verified applications",
-      icon: ClipboardCheck,
+      id: "secretary",
+      icon: FileCheck,
+      title: t("createStaff.roles.secretary"),
+      description: t("createStaff.roleDescriptions.secretary"),
     },
     {
-      value: "chairperson",
-      name: "Ward Chairperson",
-      description: "Approve final applications",
+      id: "chairperson",
       icon: Landmark,
+      title: t("createStaff.roles.chairperson"),
+      description: t("createStaff.roleDescriptions.chairperson"),
     },
   ];
 
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      setError("");
+      setMessage("");
+
+      const res = await fetch(`${API}/create-staff`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${
+            token || localStorage.getItem("sifarish_token")
+          }`,
+        },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to create staff");
+      }
+
+      setMessage(data.message);
+
+      setForm({
+        name: "",
+        email: "",
+        password: "",
+        role: "frontoffice",
+      });
+
+      setTimeout(() => {
+        navigate("/admin/staff");
+      }, 1500);
+    } catch (err) {
+      setError(err.message || "Failed to create staff");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="mx-auto max-w-5xl space-y-8">
+      {/* Header */}
 
-      {/* BACK BUTTON */}
+      <section>
+        <button
+          onClick={() => navigate("/admin/staff")}
+          className="mb-5 flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-950"
+        >
+          <ArrowLeft size={18} />
+          {t("createStaff.back")}
+        </button>
 
-      <button
-        onClick={() => navigate("/admin/staff")}
-        className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-blue-900"
-      >
-        <ArrowLeft size={18} />
-        Back to Staff Management
-      </button>
-
-
-      {/* HEADER */}
-
-      <div className="mb-8">
-
-        <div className="flex items-center gap-2">
-          <UserPlus size={18} className="text-red-600" />
-
-          <p className="text-sm font-semibold uppercase tracking-wider text-red-600">
-            Administration
-          </p>
-        </div>
-
-        <h1 className="mt-2 text-3xl font-extrabold text-blue-950 sm:text-4xl">
-          Create Staff Account
-        </h1>
-
-        <p className="mt-2 text-sm leading-6 text-slate-500">
-          Create a secure login account for government staff members.
+        <p className="text-sm font-semibold text-red-600">
+          {t("createStaff.label")}
         </p>
 
-      </div>
+        <h1 className="mt-2 text-3xl font-bold text-blue-950">
+          {t("createStaff.title")}
+        </h1>
 
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500">
+          {t("createStaff.description")}
+        </p>
+      </section>
 
-      {/* FORM CARD */}
+      {/* Alert Messages */}
 
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-
-        {/* CARD HEADER */}
-
-        <div className="border-b border-slate-100 bg-slate-50 p-6">
-
-          <div className="flex items-center gap-3">
-
-            <div className="rounded-xl bg-blue-950 p-3 text-white">
-              <UserPlus size={22} />
-            </div>
-
-            <div>
-              <h2 className="font-bold text-blue-950">
-                Staff Information
-              </h2>
-
-              <p className="mt-1 text-sm text-slate-500">
-                Fill in the information below to create an account.
-              </p>
-            </div>
-
-          </div>
-
+      {error && (
+        <div className="flex items-center gap-3 rounded-xl bg-red-50 p-4 text-sm text-red-600">
+          <AlertCircle size={20} />
+          {error}
         </div>
+      )}
 
+      {message && (
+        <div className="flex items-center gap-3 rounded-xl bg-green-50 p-4 text-sm text-green-700">
+          <CheckCircle2 size={20} />
+          {message}
+        </div>
+      )}
 
-        {/* FORM */}
+      <form onSubmit={handleSubmit} className="space-y-8">
+        {/* Role Selection */}
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6 p-6"
-        >
+        <section>
+          <div className="mb-5">
+            <h2 className="text-lg font-bold text-blue-950">
+              {t("createStaff.chooseRole")}
+            </h2>
 
-          {/* NAME */}
-
-          <div>
-
-            <label className="mb-2 block text-sm font-semibold text-slate-700">
-              Full Name
-            </label>
-
-            <div className="relative">
-
-              <User
-                size={18}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-              />
-
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                placeholder="Enter full name"
-                className="h-12 w-full rounded-xl border border-slate-200 bg-white pl-11 pr-4 text-sm outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-              />
-
-            </div>
-
+            <p className="mt-1 text-sm text-slate-500">
+              {t("createStaff.chooseRoleDescription")}
+            </p>
           </div>
 
+          <div className="grid gap-4 md:grid-cols-3">
+            {roles.map((role) => {
+              const Icon = role.icon;
+              const selected = form.role === role.id;
 
-          {/* EMAIL */}
-
-          <div>
-
-            <label className="mb-2 block text-sm font-semibold text-slate-700">
-              Official Email
-            </label>
-
-            <div className="relative">
-
-              <Mail
-                size={18}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-              />
-
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="staff@municipality.gov.np"
-                className="h-12 w-full rounded-xl border border-slate-200 bg-white pl-11 pr-4 text-sm outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-              />
-
-            </div>
-
-          </div>
-
-
-          {/* PASSWORD */}
-
-          <div>
-
-            <label className="mb-2 block text-sm font-semibold text-slate-700">
-              Temporary Password
-            </label>
-
-            <div className="relative">
-
-              <Lock
-                size={18}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-              />
-
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                placeholder="Create a secure password"
-                className="h-12 w-full rounded-xl border border-slate-200 bg-white pl-11 pr-12 text-sm outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-              />
-
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-2 text-slate-400 hover:text-slate-700"
-              >
-                {showPassword ? (
-                  <EyeOff size={18} />
-                ) : (
-                  <Eye size={18} />
-                )}
-              </button>
-
-            </div>
-
-          </div>
-
-
-          {/* ROLE */}
-
-          <div>
-
-            <label className="mb-3 block text-sm font-semibold text-slate-700">
-              Select Staff Role
-            </label>
-
-            <div className="grid gap-3 sm:grid-cols-3">
-
-              {roles.map((role) => {
-                const Icon = role.icon;
-
-                const isSelected =
-                  formData.role === role.value;
-
-                return (
-                  <button
-                    type="button"
-                    key={role.value}
-                    onClick={() =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        role: role.value,
-                      }))
-                    }
-                    className={`relative rounded-xl border p-4 text-left transition ${
-                      isSelected
-                        ? "border-blue-900 bg-blue-50 ring-2 ring-blue-100"
-                        : "border-slate-200 hover:border-blue-300 hover:bg-slate-50"
+              return (
+                <button
+                  type="button"
+                  key={role.id}
+                  onClick={() =>
+                    setForm({ ...form, role: role.id })
+                  }
+                  className={`relative rounded-2xl p-5 text-left transition-all ${
+                    selected
+                      ? "bg-blue-950 text-white shadow-lg"
+                      : "bg-white text-slate-700 shadow-sm hover:-translate-y-1 hover:shadow-md"
+                  }`}
+                >
+                  <div
+                    className={`mb-5 flex h-12 w-12 items-center justify-center rounded-xl ${
+                      selected
+                        ? "bg-red-600"
+                        : "bg-blue-50 text-blue-950"
                     }`}
                   >
+                    <Icon size={23} />
+                  </div>
 
-                    {isSelected && (
-                      <CheckCircle2
-                        size={18}
-                        className="absolute right-3 top-3 text-blue-900"
-                      />
-                    )}
+                  <h3 className="font-bold">
+                    {role.title}
+                  </h3>
 
-                    <div
-                      className={`mb-3 flex h-10 w-10 items-center justify-center rounded-lg ${
-                        isSelected
-                          ? "bg-blue-900 text-white"
-                          : "bg-slate-100 text-slate-600"
-                      }`}
-                    >
-                      <Icon size={19} />
+                  <p
+                    className={`mt-2 text-sm leading-6 ${
+                      selected
+                        ? "text-blue-100"
+                        : "text-slate-500"
+                    }`}
+                  >
+                    {role.description}
+                  </p>
+
+                  {selected && (
+                    <div className="absolute right-4 top-4 flex h-6 w-6 items-center justify-center rounded-full bg-red-600">
+                      <CheckCircle2 size={16} />
                     </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </section>
 
-                    <h3 className="text-sm font-bold text-blue-950">
-                      {role.name}
-                    </h3>
+        {/* Account Information */}
 
-                    <p className="mt-1 text-xs leading-5 text-slate-500">
-                      {role.description}
-                    </p>
+        <section className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+          <div className="mb-7">
+            <h2 className="text-lg font-bold text-blue-950">
+              {t("createStaff.accountInformation")}
+            </h2>
 
-                  </button>
-                );
-              })}
-
-            </div>
-
+            <p className="mt-1 text-sm text-slate-500">
+              {t("createStaff.accountInformationDescription")}
+            </p>
           </div>
 
+          <div className="grid gap-5 md:grid-cols-2">
+            {/* Name */}
 
-          {/* BUTTONS */}
+            <InputField
+              label={t("createStaff.name")}
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              placeholder={t("createStaff.namePlaceholder")}
+              icon={User}
+            />
 
-          <div className="flex flex-col-reverse gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:justify-end">
+            {/* Email */}
 
+            <InputField
+              label={t("createStaff.email")}
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={handleChange}
+              placeholder={t("createStaff.emailPlaceholder")}
+              icon={Mail}
+            />
+
+            {/* Password */}
+
+            <div className="md:col-span-2">
+              <InputField
+                label={t("createStaff.password")}
+                name="password"
+                type="password"
+                value={form.password}
+                onChange={handleChange}
+                placeholder={t("createStaff.passwordPlaceholder")}
+                icon={Lock}
+              />
+            </div>
+          </div>
+
+          {/* Submit */}
+
+          <div className="mt-8 flex flex-col-reverse gap-3 border-t pt-6 sm:flex-row sm:justify-end">
             <button
               type="button"
               onClick={() => navigate("/admin/staff")}
-              className="rounded-xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+              className="rounded-xl px-5 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
             >
-              Cancel
+              {t("createStaff.cancel")}
             </button>
 
             <button
-              type="submit"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-900"
+              disabled={loading}
+              className="flex items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              <UserPlus size={18} />
+              <UserPlus size={19} />
 
-              Create Staff Account
+              {loading
+                ? t("createStaff.creating")
+                : t("createStaff.createButton")}
             </button>
-
           </div>
-
-        </form>
-
-      </div>
+        </section>
+      </form>
     </div>
   );
 };
+
+const InputField = ({
+  label,
+  name,
+  type = "text",
+  value,
+  onChange,
+  placeholder,
+  icon: Icon,
+}) => (
+  <div>
+    <label className="mb-2 block text-sm font-semibold text-blue-950">
+      {label}
+    </label>
+
+    <div className="relative">
+      <Icon
+        size={18}
+        className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+      />
+
+      <input
+        required
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className="w-full rounded-xl bg-slate-50 py-3.5 pl-11 pr-4 text-sm outline-none transition focus:bg-white focus:ring-2 focus:ring-blue-900/20"
+      />
+    </div>
+  </div>
+);
 
 export default CreateStaff;

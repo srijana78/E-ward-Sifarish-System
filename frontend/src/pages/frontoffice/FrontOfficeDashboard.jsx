@@ -1,7 +1,6 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
 import {
   FileText,
   Clock3,
@@ -9,374 +8,271 @@ import {
   Bell,
   ArrowRight,
   ClipboardCheck,
-  Users,
   AlertCircle,
 } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+
+const API = "http://localhost:5000/api/applications";
 
 const FrontOfficeDashboard = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { token } = useAuth();
+
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch(API, {
+      headers: {
+        Authorization: `Bearer ${
+          token || localStorage.getItem("sifarish_token")
+        }`,
+      },
+    })
+      .then((res) => res.json().then((data) => ({ res, data })))
+      .then(({ res, data }) => {
+        if (!res.ok) throw new Error(data.message);
+        setApplications(data.applications || []);
+      })
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [token]);
+
+  const count = (statuses) =>
+    applications.filter((a) => statuses.includes(a.status)).length;
+
+  const pending = count(["submitted", "pending", "under_review"]);
+  const verified = count(["verified"]);
+  const rejected = count(["rejected"]);
 
   const stats = [
-    {
-      title: t("frontOfficeDashboard.totalApplications"),
-      value: "24",
-      icon: FileText,
-    },
-    {
-      title: t("frontOfficeDashboard.pendingApplications"),
-      value: "8",
-      icon: Clock3,
-    },
-    {
-      title: t("frontOfficeDashboard.verifiedApplications"),
-      value: "14",
-      icon: CheckCircle2,
-    },
-    {
-      title: t("frontOfficeDashboard.newNotifications"),
-      value: "3",
-      icon: Bell,
-    },
+    [t("frontOfficeDashboard.totalApplications"), applications.length, FileText],
+    [t("frontOfficeDashboard.pendingApplications"), pending, Clock3],
+    [t("frontOfficeDashboard.verifiedApplications"), verified, CheckCircle2],
+    [t("frontOfficeDashboard.newNotifications"), pending, Bell],
   ];
 
-  const recentApplications = [
-    {
-      id: "EW-2026-001",
-      applicant: "Ram Sharma",
-      service: "Residence Recommendation",
-      date: "2026-09-04",
-      status: "Pending",
-    },
-    {
-      id: "EW-2026-002",
-      applicant: "Sita Thapa",
-      service: "Personal & Civil Recommendation",
-      date: "2026-09-03",
-      status: "Pending",
-    },
-    {
-      id: "EW-2026-003",
-      applicant: "Hari Karki",
-      service: "Business Recommendation",
-      date: "2026-09-02",
-      status: "Verified",
-    },
-  ];
-
-  const quickActions = [
-    {
-      title: t("frontOfficeDashboard.reviewApplications"),
-      description: t(
-        "frontOfficeDashboard.reviewApplicationsDescription"
-      ),
-      icon: ClipboardCheck,
-      path: "/frontoffice/pending",
-    },
-    {
-      title: t("frontOfficeDashboard.verifiedApplications"),
-      description: t(
-        "frontOfficeDashboard.verifiedApplicationsDescription"
-      ),
-      icon: CheckCircle2,
-      path: "/frontoffice/verified",
-    },
-    {
-      title: t("frontOfficeDashboard.viewNotifications"),
-      description: t(
-        "frontOfficeDashboard.viewNotificationsDescription"
-      ),
-      icon: Bell,
-      path: "/frontoffice/notifications",
-    },
-    {
-      title: t("frontOfficeDashboard.viewReports"),
-      description: t(
-        "frontOfficeDashboard.viewReportsDescription"
-      ),
-      icon: FileText,
-      path: "/frontoffice/reports",
-    },
+  const actions = [
+    [
+      t("frontOfficeDashboard.reviewApplications"),
+      t("frontOfficeDashboard.reviewApplicationsDescription"),
+      ClipboardCheck,
+      "/frontoffice/pending",
+    ],
+    [
+      t("frontOfficeDashboard.verifiedApplications"),
+      t("frontOfficeDashboard.verifiedApplicationsDescription"),
+      CheckCircle2,
+      "/frontoffice/verified",
+    ],
+    [
+      t("frontOfficeDashboard.viewNotifications"),
+      t("frontOfficeDashboard.viewNotificationsDescription"),
+      Bell,
+      "/frontoffice/notifications",
+    ],
+    [
+      t("frontOfficeDashboard.viewReports"),
+      t("frontOfficeDashboard.viewReportsDescription"),
+      FileText,
+      "/frontoffice/reports",
+    ],
   ];
 
   return (
     <div className="space-y-6">
-
-      {/* Welcome Section */}
-      <section className="overflow-hidden rounded-2xl bg-gradient-to-r from-blue-950 mt-10 via-blue-900 to-slate-900">
-        <div className="flex flex-col gap-6 p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
-
-          <div className="max-w-2xl text-white">
-            <p className="mb-2 text-sm font-semibold text-red-300">
+      {/* Welcome */}
+      <section className="mt-10 rounded-2xl bg-gradient-to-r from-blue-950 via-blue-900 to-slate-900 p-6 text-white sm:p-8">
+        <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
+          <div>
+            <p className="text-sm font-semibold text-red-300">
               {t("frontOfficeDashboard.welcomeLabel")}
             </p>
 
-            <h1 className="text-2xl font-bold sm:text-3xl">
+            <h1 className="mt-2 text-2xl font-bold sm:text-3xl">
               {t("frontOfficeDashboard.welcomeTitle")}
             </h1>
 
-            <p className="mt-3 text-sm leading-6 text-blue-100 sm:text-base">
+            <p className="mt-3 text-sm text-blue-100">
               {t("frontOfficeDashboard.welcomeDescription")}
             </p>
           </div>
 
           <button
             onClick={() => navigate("/frontoffice/pending")}
-            className="flex shrink-0 items-center justify-center gap-2 rounded-lg bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-700"
+            className="flex items-center justify-center gap-2 rounded-lg bg-red-600 px-5 py-3 font-semibold hover:bg-red-700"
           >
             <ClipboardCheck size={18} />
-
             {t("frontOfficeDashboard.reviewNow")}
           </button>
-
         </div>
       </section>
 
-      {/* Statistics */}
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {error && (
+        <div className="rounded-xl bg-red-50 p-4 text-red-600">
+          {error}
+        </div>
+      )}
 
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-
-          return (
-            <div
-              key={stat.title}
-              className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
-            >
-              <div className="flex items-center justify-between">
-
-                <div>
-                  <p className="text-sm font-medium text-slate-500">
-                    {stat.title}
-                  </p>
-
-                  <p className="mt-2 text-2xl font-bold text-blue-950">
-                    {stat.value}
-                  </p>
-                </div>
-
-                <div className="rounded-lg bg-slate-100 p-3 text-blue-950">
-                  <Icon size={21} />
-                </div>
-
-              </div>
-            </div>
-          );
-        })}
-
+      {/* Stats */}
+      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {stats.map(([title, value, Icon]) => (
+          <Card
+            key={title}
+            title={title}
+            value={loading ? "..." : value}
+            icon={Icon}
+          />
+        ))}
       </section>
 
       {/* Recent Applications */}
-      <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-
-        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-
+      <section className="overflow-hidden rounded-xl border bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b p-5">
           <div>
-            <h2 className="text-base font-bold text-blue-950">
+            <h2 className="font-bold text-blue-950">
               {t("frontOfficeDashboard.recentApplications")}
             </h2>
 
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="text-xs text-slate-500">
               {t("frontOfficeDashboard.recentApplicationsDescription")}
             </p>
           </div>
 
           <button
             onClick={() => navigate("/frontoffice/pending")}
-            className="text-sm font-semibold text-blue-900 transition hover:text-red-600"
+            className="font-semibold text-blue-900 hover:text-red-600"
           >
             {t("frontOfficeDashboard.viewAll")}
           </button>
-
         </div>
 
-        <div className="divide-y divide-slate-100">
+        <div className="divide-y">
+          {loading ? (
+            <Empty text="Loading applications..." />
+          ) : applications.length ? (
+            applications.slice(0, 5).map((app) => (
+              <div
+                key={app._id}
+                className="flex flex-col justify-between gap-4 p-5 sm:flex-row sm:items-center"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="rounded-lg bg-blue-50 p-3 text-blue-900">
+                    <FileText size={20} />
+                  </div>
 
-          {recentApplications.map((application) => (
-            <div
-              key={application.id}
-              className="flex flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
-            >
+                  <div>
+                    <p className="font-semibold text-blue-950">
+                      {app.applicantDetails?.fullName || "Unknown Applicant"}
+                    </p>
 
-              <div className="flex items-center gap-4">
+                    <p className="text-sm text-slate-500">{app.service}</p>
 
-                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-blue-50 text-blue-900">
-                  <FileText size={20} />
+                    <p className="text-xs text-slate-400">
+                      {app.applicationNumber || app._id} •{" "}
+                      {new Date(app.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
                 </div>
 
-                <div>
-                  <p className="text-sm font-semibold text-blue-950">
-                    {application.applicant}
-                  </p>
-
-                  <p className="mt-1 text-xs text-slate-500">
-                    {application.service}
-                  </p>
-
-                  <p className="mt-1 text-xs text-slate-400">
-                    {application.id} • {application.date}
-                  </p>
-                </div>
-
+                <StatusBadge status={app.status} />
               </div>
-
-              <StatusBadge status={application.status} />
-
-            </div>
-          ))}
-
+            ))
+          ) : (
+            <Empty text="No applications found." />
+          )}
         </div>
-
       </section>
 
       {/* Quick Actions */}
       <section>
+        <h2 className="text-lg font-bold text-blue-950">
+          {t("frontOfficeDashboard.quickActions")}
+        </h2>
 
-        <div className="mb-4">
+        <p className="mb-4 text-sm text-slate-500">
+          {t("frontOfficeDashboard.quickActionsDescription")}
+        </p>
 
-          <h2 className="text-lg font-bold text-blue-950">
-            {t("frontOfficeDashboard.quickActions")}
-          </h2>
-
-          <p className="mt-1 text-sm text-slate-500">
-            {t("frontOfficeDashboard.quickActionsDescription")}
-          </p>
-
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-
-          {quickActions.map((action) => {
-            const Icon = action.icon;
-
-            return (
-              <button
-                key={action.title}
-                onClick={() => navigate(action.path)}
-                className="group rounded-xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md"
-              >
-
-                <div className="mb-4 flex items-center justify-between">
-
-                  <div className="rounded-lg bg-blue-50 p-3 text-blue-900">
-                    <Icon size={20} />
-                  </div>
-
-                  <ArrowRight
-                    size={18}
-                    className="text-slate-400 transition group-hover:translate-x-1 group-hover:text-red-600"
-                  />
-
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {actions.map(([title, description, Icon, path]) => (
+            <button
+              key={title}
+              onClick={() => navigate(path)}
+              className="group rounded-xl border bg-white p-5 text-left shadow-sm hover:shadow-md"
+            >
+              <div className="mb-4 flex justify-between">
+                <div className="rounded-lg bg-blue-50 p-3 text-blue-900">
+                  <Icon size={20} />
                 </div>
 
-                <h3 className="text-sm font-bold text-blue-950">
-                  {action.title}
-                </h3>
+                <ArrowRight className="text-slate-400 group-hover:text-red-600" />
+              </div>
 
-                <p className="mt-2 text-xs leading-5 text-slate-500">
-                  {action.description}
-                </p>
-
-              </button>
-            );
-          })}
-
+              <h3 className="font-bold text-blue-950">{title}</h3>
+              <p className="mt-2 text-xs text-slate-500">{description}</p>
+            </button>
+          ))}
         </div>
-
       </section>
 
       {/* Work Summary */}
-      <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <section className="rounded-xl border bg-white p-5 shadow-sm">
+        <h2 className="text-lg font-bold text-blue-950">
+          {t("frontOfficeDashboard.workSummary")}
+        </h2>
 
-        <div className="mb-5">
+        <p className="mb-5 text-sm text-slate-500">
+          {t("frontOfficeDashboard.workSummaryDescription")}
+        </p>
 
-          <h2 className="text-lg font-bold text-blue-950">
-            {t("frontOfficeDashboard.workSummary")}
-          </h2>
-
-          <p className="mt-1 text-sm text-slate-500">
-            {t("frontOfficeDashboard.workSummaryDescription")}
-          </p>
-
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Card title={t("frontOfficeDashboard.pendingReview")} value={pending} icon={Clock3} />
+          <Card title={t("frontOfficeDashboard.completedToday")} value={verified} icon={CheckCircle2} />
+          <Card title={t("frontOfficeDashboard.requiresAttention")} value={rejected} icon={AlertCircle} />
         </div>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-
-          <SummaryCard
-            icon={Clock3}
-            title={t("frontOfficeDashboard.pendingReview")}
-            value="8"
-          />
-
-          <SummaryCard
-            icon={CheckCircle2}
-            title={t("frontOfficeDashboard.completedToday")}
-            value="5"
-          />
-
-          <SummaryCard
-            icon={AlertCircle}
-            title={t("frontOfficeDashboard.requiresAttention")}
-            value="2"
-          />
-
-        </div>
-
       </section>
-
     </div>
   );
 };
 
+const Card = ({ title, value, icon: Icon }) => (
+  <div className="rounded-xl border bg-white p-5 shadow-sm">
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="text-sm text-slate-500">{title}</p>
+        <p className="mt-2 text-2xl font-bold text-blue-950">{value}</p>
+      </div>
 
-/* Status Badge */
+      <div className="rounded-lg bg-slate-100 p-3 text-blue-950">
+        <Icon size={21} />
+      </div>
+    </div>
+  </div>
+);
 
-const StatusBadge = ({ status }) => {
+const Empty = ({ text }) => (
+  <p className="p-8 text-center text-sm text-slate-500">{text}</p>
+);
 
-  const isVerified = status === "Verified";
+const StatusBadge = ({ status = "submitted" }) => {
+  const colors = {
+    verified: "bg-green-50 text-green-700",
+    rejected: "bg-red-50 text-red-700",
+    under_review: "bg-blue-50 text-blue-700",
+  };
 
   return (
     <span
-      className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-        isVerified
-          ? "bg-green-50 text-green-700"
-          : "bg-amber-50 text-amber-700"
+      className={`rounded-full px-3 py-1 text-xs font-semibold capitalize ${
+        colors[status] || "bg-amber-50 text-amber-700"
       }`}
     >
-      {status}
+      {status.replace("_", " ")}
     </span>
   );
 };
-
-
-/* Summary Card */
-
-const SummaryCard = ({ icon: Icon, title, value }) => {
-
-  return (
-    <div className="rounded-xl bg-slate-50 p-5">
-
-      <div className="flex items-center justify-between">
-
-        <div>
-          <p className="text-sm font-medium text-slate-500">
-            {title}
-          </p>
-
-          <p className="mt-2 text-2xl font-bold text-blue-950">
-            {value}
-          </p>
-        </div>
-
-        <div className="rounded-lg bg-white p-3 text-blue-900 shadow-sm">
-          <Icon size={20} />
-        </div>
-
-      </div>
-
-    </div>
-  );
-};
-
 
 export default FrontOfficeDashboard;

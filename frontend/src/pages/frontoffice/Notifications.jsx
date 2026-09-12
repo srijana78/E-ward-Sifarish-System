@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Bell,
@@ -6,237 +6,266 @@ import {
   Clock3,
   FileText,
   AlertCircle,
-  Check,
+  Loader2,
 } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+
+const API = "http://localhost:5000/api/applications";
 
 const Notifications = () => {
   const { t } = useTranslation();
+  const { token } = useAuth();
 
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      type: "application",
-      title: "New Application Received",
-      message: "A new residence recommendation application has been submitted.",
-      time: "10 minutes ago",
-      read: false,
-    },
-    {
-      id: 2,
-      type: "verified",
-      title: "Application Verified",
-      message: "Application EW-2026-002 has been successfully verified.",
-      time: "1 hour ago",
-      read: false,
-    },
-    {
-      id: 3,
-      type: "pending",
-      title: "Application Requires Review",
-      message: "An application is waiting for additional verification.",
-      time: "3 hours ago",
-      read: true,
-    },
-    {
-      id: 4,
-      type: "system",
-      title: "System Update",
-      message: "The E-Ward Sifarish system has been updated successfully.",
-      time: "Yesterday",
-      read: true,
-    },
-  ]);
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  const authToken = token || localStorage.getItem("sifarish_token");
 
-  const markAsRead = (id) =>
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
-    );
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const response = await fetch(API, {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
 
-  const markAllAsRead = () =>
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to load notifications");
+        }
+
+        setApplications(data.applications || []);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchApplications();
+  }, [authToken]);
+
+  const notifications = applications
+    .slice()
+    .sort(
+      (a, b) =>
+        new Date(b.updatedAt || b.createdAt) -
+        new Date(a.updatedAt || a.createdAt)
+    )
+    .map((app) => {
+      const name =
+        app.applicantDetails?.fullName || "Unknown Applicant";
+
+      if (app.status === "verified") {
+        return {
+          id: app._id,
+          title: "Application Verified",
+          message: `${name}'s application has been verified.`,
+          time: app.updatedAt,
+          type: "verified",
+        };
+      }
+
+      if (app.status === "rejected") {
+        return {
+          id: app._id,
+          title: "Application Rejected",
+          message: `${name}'s application requires attention.`,
+          time: app.updatedAt,
+          type: "rejected",
+        };
+      }
+
+      return {
+        id: app._id,
+        title: "New Application Received",
+        message: `${name} submitted a ${app.service} application.`,
+        time: app.createdAt,
+        type: "pending",
+      };
+    });
 
   const types = {
-    application: {
-      icon: FileText,
-      style: "bg-blue-50 text-blue-700",
-    },
     verified: {
       icon: CheckCircle2,
       style: "bg-green-50 text-green-600",
+    },
+    rejected: {
+      icon: AlertCircle,
+      style: "bg-red-50 text-red-600",
     },
     pending: {
       icon: Clock3,
       style: "bg-amber-50 text-amber-600",
     },
-    system: {
-      icon: AlertCircle,
-      style: "bg-red-50 text-red-600",
-    },
   };
 
-  const summary = [
-    {
-      label: t("notifications.total"),
-      value: notifications.length,
-      icon: Bell,
-      style: "bg-blue-50 text-blue-900",
-      valueStyle: "text-blue-950",
-    },
-    {
-      label: t("notifications.unread"),
-      value: unreadCount,
-      icon: AlertCircle,
-      style: "bg-red-50 text-red-600",
-      valueStyle: "text-red-600",
-    },
-    {
-      label: t("notifications.read"),
-      value: notifications.length - unreadCount,
-      icon: CheckCircle2,
-      style: "bg-green-50 text-green-600",
-      valueStyle: "text-green-600",
-    },
-  ];
+  const formatTime = (date) => {
+    if (!date) return "N/A";
+
+    return new Date(date).toLocaleString();
+  };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6  mt-9">
-      {/* Header */}
+    <div className="mx-auto mt-9 max-w-6xl space-y-6">
+      {/* HEADER */}
       <section>
         <p className="text-sm font-bold text-red-600">
           {t("notifications.label")}
         </p>
 
-        <div className="mt-1 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-blue-950 sm:text-3xl">
-              {t("notifications.title")}
-            </h1>
+        <h1 className="mt-1 text-2xl font-bold text-blue-950 sm:text-3xl">
+          {t("notifications.title")}
+        </h1>
 
-            <p className="mt-2 text-sm leading-6 text-slate-500">
-              {t("notifications.description")}
-            </p>
-          </div>
+        <p className="mt-2 text-sm text-slate-500">
+          {t("notifications.description")}
+        </p>
+      </section>
 
-          {unreadCount > 0 && (
-            <button
-              onClick={markAllAsRead}
-              className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-blue-950 hover:bg-slate-50"
-            >
-              <Check size={17} />
-              {t("notifications.markAllRead")}
-            </button>
-          )}
+      {/* ERROR */}
+      {error && (
+        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+          {error}
         </div>
+      )}
+
+      {/* SUMMARY */}
+      <section className="grid gap-4 sm:grid-cols-3">
+        <StatCard
+          title={t("notifications.total")}
+          value={applications.length}
+          icon={Bell}
+          color="bg-blue-50 text-blue-900"
+        />
+
+        <StatCard
+          title="Pending"
+          value={
+            applications.filter((app) =>
+              ["submitted", "pending", "under_review"].includes(
+                app.status
+              )
+            ).length
+          }
+          icon={Clock3}
+          color="bg-amber-50 text-amber-600"
+        />
+
+        <StatCard
+          title="Verified"
+          value={
+            applications.filter(
+              (app) => app.status === "verified"
+            ).length
+          }
+          icon={CheckCircle2}
+          color="bg-green-50 text-green-600"
+        />
       </section>
 
-      {/* Summary */}
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {summary.map((item) => {
-          const Icon = item.icon;
-
-          return (
-            <div
-              key={item.label}
-              className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-slate-500">
-                    {item.label}
-                  </p>
-
-                  <p className={`mt-2 text-2xl font-bold ${item.valueStyle}`}>
-                    {item.value}
-                  </p>
-                </div>
-
-                <div className={`rounded-lg p-3 ${item.style}`}>
-                  <Icon size={21} />
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </section>
-
-      {/* Notifications */}
+      {/* NOTIFICATIONS */}
       <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-          <div>
-            <h2 className="font-bold text-blue-950">
-              {t("notifications.recentNotifications")}
-            </h2>
+        <div className="border-b border-slate-200 px-5 py-4">
+          <h2 className="font-bold text-blue-950">
+            {t("notifications.recentNotifications")}
+          </h2>
 
-            <p className="mt-1 text-xs text-slate-500">
-              {t("notifications.recentNotificationsDescription")}
-            </p>
-          </div>
-
-          {unreadCount > 0 && (
-            <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-600">
-              {unreadCount} {t("notifications.new")}
-            </span>
-          )}
+          <p className="mt-1 text-xs text-slate-500">
+            {t("notifications.recentNotificationsDescription")}
+          </p>
         </div>
 
-        <div className="divide-y divide-slate-100">
-          {notifications.map((notification) => {
-            const { icon: Icon, style } = types[notification.type];
+        {loading ? (
+          <div className="flex flex-col items-center py-16">
+            <Loader2
+              size={32}
+              className="animate-spin text-blue-700"
+            />
 
-            return (
-              <div
-                key={notification.id}
-                className={`flex gap-4 px-5 py-5 ${
-                  notification.read ? "bg-white" : "bg-blue-50/40"
-                }`}
-              >
+            <p className="mt-3 text-sm text-slate-500">
+              Loading notifications...
+            </p>
+          </div>
+        ) : notifications.length === 0 ? (
+          <div className="py-16 text-center">
+            <Bell
+              size={40}
+              className="mx-auto text-slate-300"
+            />
+
+            <p className="mt-4 text-sm text-slate-500">
+              No notifications found.
+            </p>
+          </div>
+        ) : (
+          <div className="divide-y divide-slate-100">
+            {notifications.map((notification) => {
+              const { icon: Icon, style } =
+                types[notification.type];
+
+              return (
                 <div
-                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ${style}`}
+                  key={notification.id}
+                  className="flex gap-4 px-5 py-5 hover:bg-slate-50"
                 >
-                  <Icon size={20} />
-                </div>
+                  <div
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ${style}`}
+                  >
+                    <Icon size={20} />
+                  </div>
 
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
-                    <div>
-                      <div className="flex items-center gap-2">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                      <div>
                         <h3 className="text-sm font-bold text-blue-950">
                           {notification.title}
                         </h3>
 
-                        {!notification.read && (
-                          <span className="h-2 w-2 rounded-full bg-red-600" />
-                        )}
+                        <p className="mt-1 text-sm text-slate-500">
+                          {notification.message}
+                        </p>
                       </div>
 
-                      <p className="mt-1 text-sm leading-6 text-slate-500">
-                        {notification.message}
-                      </p>
+                      <span className="shrink-0 text-xs text-slate-400">
+                        {formatTime(notification.time)}
+                      </span>
                     </div>
-
-                    <span className="text-xs text-slate-400">
-                      {notification.time}
-                    </span>
                   </div>
-
-                  {!notification.read && (
-                    <button
-                      onClick={() => markAsRead(notification.id)}
-                      className="mt-3 text-xs font-semibold text-blue-900 hover:text-red-600"
-                    >
-                      {t("notifications.markAsRead")}
-                    </button>
-                  )}
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </section>
     </div>
   );
 };
+
+const StatCard = ({
+  title,
+  value,
+  icon: Icon,
+  color,
+}) => (
+  <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="text-sm text-slate-500">{title}</p>
+
+        <p className="mt-2 text-2xl font-bold text-blue-950">
+          {value}
+        </p>
+      </div>
+
+      <div className={`rounded-lg p-3 ${color}`}>
+        <Icon size={21} />
+      </div>
+    </div>
+  </div>
+);
 
 export default Notifications;

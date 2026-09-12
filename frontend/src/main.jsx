@@ -1,16 +1,21 @@
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+
 import App from "./App.jsx";
-import { AuthProvider } from "./context/AuthContext.jsx";
-import "./i18n"; // i18next configuration
-import "./index.css"; // Tailwind CSS
+import "./index.css";
+
+import { AuthProvider } from "./context/AuthContext";
+import { ApplicationProvider } from "./context/ApplicationContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <ApplicationProvider>
+          <App />
+        </ApplicationProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
