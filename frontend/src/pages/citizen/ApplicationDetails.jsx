@@ -13,73 +13,45 @@ import {
 } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext";
+import { useApplication } from "../../context/ApplicationContext";
 
 const ApplicationDetails = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
+  const { applicationData, updateApplicantDetails, updateAddress } =
+    useApplication();
 
   const params = new URLSearchParams(location.search);
   const service = params.get("service");
 
-  // ================= GET SAVED APPLICATION =================
-
-  const savedApplication = sessionStorage.getItem(
-    "sifarish_application"
-  );
-
-  let existingApplication = {};
-
-  try {
-    if (savedApplication) {
-      existingApplication = JSON.parse(savedApplication);
-    }
-  } catch (error) {
-    console.error("Error reading saved application:", error);
-  }
-
   // ================= FORM DATA =================
+  // Prefilled from context (if the user already filled this step once)
+  // or from their logged-in profile as a starting point.
 
   const [formData, setFormData] = useState({
     fullName:
-      existingApplication.applicantDetails?.fullName ||
-      user?.name ||
-      "",
+      applicationData.applicantDetails?.fullName || user?.name || "",
 
     citizenshipNumber:
-      existingApplication.applicantDetails?.citizenshipNumber ||
+      applicationData.applicantDetails?.citizenshipNumber ||
       user?.citizenshipNo ||
       "",
 
-    dateOfBirth: existingApplication.applicantDetails?.dateOfBirth
-      ? existingApplication.applicantDetails.dateOfBirth.split("T")[0]
+    dateOfBirth: applicationData.applicantDetails?.dateOfBirth
+      ? applicationData.applicantDetails.dateOfBirth.split("T")[0]
       : "",
 
-    phone:
-      existingApplication.applicantDetails?.phone ||
-      user?.phone ||
-      "",
+    phone: applicationData.applicantDetails?.phone || user?.phone || "",
 
-    email:
-      existingApplication.applicantDetails?.email ||
-      user?.email ||
-      "",
+    email: applicationData.applicantDetails?.email || user?.email || "",
 
-    province:
-      existingApplication.address?.province || "",
-
-    district:
-      existingApplication.address?.district || "",
-
-    municipality:
-      existingApplication.address?.municipality || "",
-
-    wardNumber:
-      existingApplication.address?.wardNumber || "",
-
-    tole:
-      existingApplication.address?.tole || "",
+    province: applicationData.address?.province || "",
+    district: applicationData.address?.district || "",
+    municipality: applicationData.address?.municipality || "",
+    wardNumber: applicationData.address?.wardNumber || "",
+    tole: applicationData.address?.tole || "",
   });
 
   // ================= HANDLE CHANGE =================
@@ -98,79 +70,23 @@ const ApplicationDetails = () => {
   const handleContinue = (e) => {
     e.preventDefault();
 
-    // Get latest saved application again
-    const savedData = sessionStorage.getItem(
-      "sifarish_application"
-    );
+    updateApplicantDetails({
+      fullName: formData.fullName,
+      citizenshipNumber: formData.citizenshipNumber,
+      dateOfBirth: formData.dateOfBirth,
+      phone: formData.phone,
+      email: formData.email,
+    });
 
-    let previousData = {};
+    updateAddress({
+      province: formData.province,
+      district: formData.district,
+      municipality: formData.municipality,
+      wardNumber: formData.wardNumber,
+      tole: formData.tole,
+    });
 
-    try {
-      if (savedData) {
-        previousData = JSON.parse(savedData);
-      }
-    } catch (error) {
-      console.error(
-        "Error reading previous application data:",
-        error
-      );
-    }
-
-    // Merge old data with new application details
-    const applicationData = {
-      ...previousData,
-
-      service:
-        service ||
-        previousData.service ||
-        "",
-
-      user:
-        user?.id ||
-        previousData.user ||
-        "",
-
-      applicantDetails: {
-        fullName: formData.fullName,
-        citizenshipNumber:
-          formData.citizenshipNumber,
-        dateOfBirth:
-          formData.dateOfBirth,
-        phone: formData.phone,
-        email: formData.email,
-      },
-
-      address: {
-        province: formData.province,
-        district: formData.district,
-        municipality: formData.municipality,
-        wardNumber: formData.wardNumber,
-        tole: formData.tole,
-      },
-
-      // Preserve documents
-      documents:
-        previousData.documents || [],
-
-      // Preserve payment
-      payment:
-        previousData.payment || {},
-    };
-
-    // Save complete application
-    sessionStorage.setItem(
-      "sifarish_application",
-      JSON.stringify(applicationData)
-    );
-
-    console.log(
-      "Application details saved:",
-      applicationData
-    );
-
-    navigate(
-      `/citizen/apply/documents?service=${service || ""}`
-    );
+    navigate(`/citizen/apply/documents?service=${service || ""}`);
   };
 
   return (

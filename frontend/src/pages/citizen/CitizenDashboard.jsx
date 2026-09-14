@@ -3,9 +3,6 @@ import { useNavigate } from "react-router-dom";
 import {
   PlusCircle,
   FileText,
-  FolderOpen,
-  Receipt,
-  ArrowRight,
   CheckCircle2,
   Clock3,
   AlertCircle,
@@ -24,6 +21,7 @@ const CitizenDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // Fetch citizen applications
   useEffect(() => {
     const fetchApplications = async () => {
       try {
@@ -36,16 +34,20 @@ const CitizenDashboard = () => {
         });
 
         const text = await response.text();
+
         let data;
 
         try {
           data = JSON.parse(text);
         } catch {
-          throw new Error("Server returned HTML instead of JSON. Check backend route.");
+          throw new Error(
+            "Server returned HTML instead of JSON. Check backend route."
+          );
         }
 
-        if (!response.ok)
+        if (!response.ok) {
           throw new Error(data.message || "Failed to load applications");
+        }
 
         setApplications(data.applications || []);
       } catch (error) {
@@ -59,23 +61,24 @@ const CitizenDashboard = () => {
     fetchApplications();
   }, [token]);
 
+  // Application statistics
   const counts = {
-  total: applications.length,
+    total: applications.length,
 
-  pending: applications.filter((a) =>
-    ["submitted", "pending", "under_review", "verified"].includes(
-      a.status
-    )
-  ).length,
+    pending: applications.filter((application) =>
+      ["submitted", "pending", "under_review", "verified"].includes(
+        application.status
+      )
+    ).length,
 
-  approved: applications.filter(
-    (a) => a.status === "approved"
-  ).length,
+    approved: applications.filter(
+      (application) => application.status === "approved"
+    ).length,
 
-  rejected: applications.filter(
-    (a) => a.status === "rejected"
-  ).length,
-};
+    rejected: applications.filter(
+      (application) => application.status === "rejected"
+    ).length,
+  };
 
   const stats = [
     ["totalApplications", counts.total, FileText],
@@ -84,35 +87,9 @@ const CitizenDashboard = () => {
     ["actionRequired", counts.rejected, AlertCircle],
   ];
 
-  const quickActions = [
-    [
-      "applyForRecommendation",
-      "applyForRecommendationDescription",
-      PlusCircle,
-      "/citizen/apply",
-    ],
-    [
-      "trackApplication",
-      "trackApplicationDescription",
-      FileText,
-      "/citizen/applications",
-    ],
-    [
-      "documents",
-      "documentsDescription",
-      FolderOpen,
-      "/citizen/applications",
-    ],
-    [
-      "paymentVoucher",
-      "paymentVoucherDescription",
-      Receipt,
-      "/citizen/applications",
-    ],
-  ];
-
   return (
     <div className="space-y-6">
+
       {/* WELCOME */}
       <section className="rounded-2xl bg-gradient-to-r from-blue-950 via-blue-900 to-slate-900 p-6 text-white sm:p-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
@@ -166,6 +143,7 @@ const CitizenDashboard = () => {
         ))}
       </section>
 
+      {/* ERROR */}
       {error && (
         <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
           {error}
@@ -199,67 +177,30 @@ const CitizenDashboard = () => {
           ) : applications.length === 0 ? (
             <Empty text="No applications found. Create your first application." />
           ) : (
-            applications.slice(0, 5).map((app) => (
+            applications.slice(0, 5).map((application) => (
               <div
-                key={app._id}
+                key={application._id}
                 className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div>
                   <p className="font-semibold text-blue-950">
-                    {app.service}
+                    {application.service}
                   </p>
 
                   <p className="mt-1 text-xs text-slate-500">
-                    Application ID: {app.applicationNumber || app._id}
+                    Application ID:{" "}
+                    {application.applicationNumber || application._id}
                     {" • "}
-                    {new Date(app.createdAt).toLocaleDateString()}
+                    {new Date(
+                      application.createdAt
+                    ).toLocaleDateString()}
                   </p>
                 </div>
 
-                <StatusBadge status={app.status} />
+                <StatusBadge status={application.status} />
               </div>
             ))
           )}
-        </div>
-      </section>
-
-      {/* QUICK SERVICES */}
-      <section>
-        <h2 className="font-bold text-blue-950">
-          {t("citizenDashboard.quickServices")}
-        </h2>
-
-        <p className="mt-1 text-sm text-slate-500">
-          {t("citizenDashboard.quickServicesDescription")}
-        </p>
-
-        <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {quickActions.map(([title, description, Icon, path]) => (
-            <button
-              key={title}
-              onClick={() => navigate(path)}
-              className="group rounded-xl border border-slate-200 bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-            >
-              <div className="mb-4 flex items-center justify-between">
-                <div className="rounded-lg bg-blue-50 p-3 text-blue-900">
-                  <Icon size={20} />
-                </div>
-
-                <ArrowRight
-                  size={18}
-                  className="text-slate-400 group-hover:text-red-600"
-                />
-              </div>
-
-              <h3 className="font-bold text-blue-950">
-                {t(`citizenDashboard.${title}`)}
-              </h3>
-
-              <p className="mt-2 text-xs text-slate-500">
-                {t(`citizenDashboard.${description}`)}
-              </p>
-            </button>
-          ))}
         </div>
       </section>
 
@@ -311,14 +252,14 @@ const Empty = ({ text }) => (
 );
 
 const StatusBadge = ({ status }) => {
-const styles = {
-  submitted: "bg-amber-50 text-amber-700",
-  pending: "bg-amber-50 text-amber-700",
-  under_review: "bg-blue-50 text-blue-700",
-  verified: "bg-purple-50 text-purple-700",
-  approved: "bg-green-50 text-green-700",
-  rejected: "bg-red-50 text-red-700",
-};
+  const styles = {
+    submitted: "bg-amber-50 text-amber-700",
+    pending: "bg-amber-50 text-amber-700",
+    under_review: "bg-blue-50 text-blue-700",
+    verified: "bg-purple-50 text-purple-700",
+    approved: "bg-green-50 text-green-700",
+    rejected: "bg-red-50 text-red-700",
+  };
 
   return (
     <span

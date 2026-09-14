@@ -12,70 +12,23 @@ import {
   Info,
   Landmark,
 } from "lucide-react";
-
-// Temporary payment configuration
-// Later this should come from the backend/database
-const paymentConfig = {
-  education: {
-    required: false,
-    amount: 0,
-  },
-  residence: {
-    required: true,
-    amount: 100,
-  },
-  personal: {
-    required: true,
-    amount: 100,
-  },
-  business: {
-    required: true,
-    amount: 500,
-  },
-  property: {
-    required: true,
-    amount: 300,
-  },
-  other: {
-    required: true,
-    amount: 100,
-  },
-};
+import { useApplication } from "../../context/ApplicationContext";
 
 const Payment = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { search } = useLocation();
+  const { applicationData, updatePayment } = useApplication();
 
   const service = new URLSearchParams(search).get("service");
 
-  const paymentInfo = paymentConfig[service] || {
-    required: true,
-    amount: 100,
-  };
+  // The fee/paymentRequired decision was already made in NewApplication
+  // (based on the actual selected service) and lives in context — no need
+  // to re-guess it here from a service-name lookup table.
+  const paymentRequired = applicationData.paymentRequired;
+  const amount = applicationData.fee;
 
-  const paymentRequired = paymentInfo.required;
-  const amount = paymentInfo.amount;
-
-  const [voucher, setVoucher] = useState(() => {
-    try {
-      const savedApplication = JSON.parse(
-        sessionStorage.getItem("sifarish_application")
-      );
-
-      if (savedApplication?.payment?.voucherName) {
-        return {
-          name: savedApplication.payment.voucherName,
-          type: savedApplication.payment.voucherType || "",
-          size: savedApplication.payment.voucherSize || 0,
-        };
-      }
-    } catch (error) {
-      console.error("Error loading payment:", error);
-    }
-
-    return null;
-  });
+  const [voucher, setVoucher] = useState(applicationData.payment?.voucher || null);
 
   const serviceName = service
     ? t(`newApplication.services.${service}`)
@@ -83,12 +36,7 @@ const Payment = () => {
 
   const handleVoucherChange = (file) => {
     if (!file) return;
-
-    setVoucher({
-      name: file.name,
-      type: file.type,
-      size: file.size,
-    });
+    setVoucher(file);
   };
 
   const removeVoucher = () => {
@@ -98,36 +46,11 @@ const Payment = () => {
   const continueNext = () => {
     if (paymentRequired && !voucher) return;
 
-    let applicationData = {};
-
-    try {
-      applicationData =
-        JSON.parse(sessionStorage.getItem("sifarish_application")) || {};
-    } catch (error) {
-      console.error("Error reading application:", error);
-    }
-
-    const paymentData = {
+    updatePayment({
       required: paymentRequired,
       amount,
-      currency: "NPR",
-      status: paymentRequired ? "pending" : "not_required",
-      voucherName: voucher?.name || "",
-      voucherType: voucher?.type || "",
-      voucherSize: voucher?.size || 0,
-      voucherUrl: "",
-    };
-
-    const updatedApplication = {
-      ...applicationData,
-      service: service || applicationData.service || "",
-      payment: paymentData,
-    };
-
-    sessionStorage.setItem(
-      "sifarish_application",
-      JSON.stringify(updatedApplication)
-    );
+      voucher: voucher || null,
+    });
 
     navigate(`/citizen/apply/review?service=${service || ""}`);
   };

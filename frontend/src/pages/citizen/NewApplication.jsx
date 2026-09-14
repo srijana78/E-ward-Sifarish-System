@@ -14,10 +14,9 @@ import {
   Info,
   Wallet,
 } from "lucide-react";
+import { useApplication } from "../../context/ApplicationContext";
 
-// Demo service configuration.
-// Later, this should come from your backend/database.
-const recommendationServices = [
+const services = [
   {
     id: "permanentResidence",
     category: "residence",
@@ -89,20 +88,20 @@ const categories = [
 const NewApplication = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { updateService } = useApplication();
 
   const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [category, setCategory] = useState("all");
   const [selectedService, setSelectedService] = useState(null);
 
-  const filteredServices = recommendationServices.filter((service) => {
-    const title = t(`newApplication.services.${service.id}`).toLowerCase();
+  const filteredServices = services.filter(({ id, category: serviceCategory }) => {
+    const title = t(`newApplication.services.${id}`).toLowerCase();
     const description = t(
-      `newApplication.services.${service.id}Description`
+      `newApplication.services.${id}Description`
     ).toLowerCase();
 
     return (
-      (selectedCategory === "all" ||
-        service.category === selectedCategory) &&
+      (category === "all" || serviceCategory === category) &&
       (title.includes(search.toLowerCase()) ||
         description.includes(search.toLowerCase()))
     );
@@ -111,26 +110,14 @@ const NewApplication = () => {
   const handleContinue = () => {
     if (!selectedService) return;
 
-    const applicationData = {
+    updateService({
       service: selectedService.id,
       fee: selectedService.fee,
       paymentRequired: selectedService.fee > 0,
       requiredDocuments: selectedService.documents,
+    });
 
-      applicantDetails: {},
-      address: {},
-      documents: [],
-      payment: {},
-    };
-
-    sessionStorage.setItem(
-      "sifarish_application",
-      JSON.stringify(applicationData)
-    );
-
-    navigate(
-      `/citizen/apply/details?service=${selectedService.id}`
-    );
+    navigate(`/citizen/apply/details?service=${selectedService.id}`);
   };
 
   return (
@@ -165,7 +152,7 @@ const NewApplication = () => {
         <div className="h-1 bg-red-600" />
 
         <div className="flex items-center gap-4 p-5 sm:p-6">
-          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-red-600 font-bold text-white">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-600 font-bold text-white">
             1
           </div>
 
@@ -173,7 +160,6 @@ const NewApplication = () => {
             <p className="font-bold text-blue-950">
               {t("newApplication.stepOne")}
             </p>
-
             <p className="mt-1 text-sm text-slate-500">
               {t("newApplication.stepOneDescription")}
             </p>
@@ -195,7 +181,6 @@ const NewApplication = () => {
           {t("newApplication.selectServiceDescription")}
         </p>
 
-        {/* Search */}
         <div className="relative mt-6">
           <Search
             size={20}
@@ -203,7 +188,6 @@ const NewApplication = () => {
           />
 
           <input
-            type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder={t("newApplication.searchPlaceholder")}
@@ -211,23 +195,20 @@ const NewApplication = () => {
           />
         </div>
 
-        {/* Categories */}
-        <div className="mt-5">
-          <div className="flex gap-2 overflow-x-auto pb-1">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`whitespace-nowrap rounded-lg border px-4 py-2.5 text-xs font-semibold transition ${
-                  selectedCategory === category
-                    ? "border-blue-950 bg-blue-950 text-white"
-                    : "border-slate-200 text-slate-600 hover:bg-blue-50"
-                }`}
-              >
-                {t(`newApplication.categories.${category}`)}
-              </button>
-            ))}
-          </div>
+        <div className="mt-5 flex gap-2 overflow-x-auto pb-1">
+          {categories.map((item) => (
+            <button
+              key={item}
+              onClick={() => setCategory(item)}
+              className={`whitespace-nowrap rounded-lg border px-4 py-2.5 text-xs font-semibold transition ${
+                category === item
+                  ? "border-blue-950 bg-blue-950 text-white"
+                  : "border-slate-200 text-slate-600 hover:bg-blue-50"
+              }`}
+            >
+              {t(`newApplication.categories.${item}`)}
+            </button>
+          ))}
         </div>
       </section>
 
@@ -253,19 +234,19 @@ const NewApplication = () => {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filteredServices.map((service) => {
               const Icon = service.icon;
-              const isSelected = selectedService?.id === service.id;
+              const selected = selectedService?.id === service.id;
 
               return (
                 <button
                   key={service.id}
                   onClick={() => setSelectedService(service)}
                   className={`group relative rounded-2xl border bg-white p-6 text-left transition-all ${
-                    isSelected
+                    selected
                       ? "border-red-600 bg-red-50/30 ring-2 ring-red-100"
                       : "border-slate-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg"
                   }`}
                 >
-                  {isSelected && (
+                  {selected && (
                     <CheckCircle2
                       size={22}
                       className="absolute right-5 top-5 text-red-600"
@@ -274,7 +255,7 @@ const NewApplication = () => {
 
                   <div
                     className={`flex h-14 w-14 items-center justify-center rounded-xl ${
-                      isSelected
+                      selected
                         ? "bg-red-100 text-red-600"
                         : "bg-blue-50 text-blue-900"
                     }`}
@@ -289,28 +270,25 @@ const NewApplication = () => {
 
                     <span
                       className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold ${
-                        service.fee > 0
+                        service.fee
                           ? "bg-amber-50 text-amber-700"
                           : "bg-emerald-50 text-emerald-700"
                       }`}
                     >
-                      {service.fee > 0
+                      {service.fee
                         ? `Rs. ${service.fee}`
                         : t("newApplication.free")}
                     </span>
                   </div>
 
                   <p className="mt-2.5 text-sm leading-6 text-slate-500">
-                    {t(
-                      `newApplication.services.${service.id}Description`
-                    )}
+                    {t(`newApplication.services.${service.id}Description`)}
                   </p>
 
                   <div className="mt-5 flex items-center gap-1.5 text-sm font-bold text-blue-900">
-                    {isSelected
+                    {selected
                       ? t("newApplication.selected")
                       : t("newApplication.select")}
-
                     <ArrowRight
                       size={16}
                       className="transition-transform group-hover:translate-x-1"
@@ -322,10 +300,7 @@ const NewApplication = () => {
           </div>
         ) : (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white py-14 text-center">
-            <FileText
-              size={34}
-              className="mx-auto text-slate-400"
-            />
+            <FileText size={34} className="mx-auto text-slate-400" />
 
             <p className="mt-4 font-bold text-slate-700">
               {t("newApplication.noServices")}
@@ -340,10 +315,7 @@ const NewApplication = () => {
 
       {/* Information */}
       <section className="flex gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4">
-        <Info
-          size={19}
-          className="shrink-0 text-blue-800"
-        />
+        <Info size={19} className="shrink-0 text-blue-800" />
 
         <div>
           <p className="text-sm font-bold text-blue-950">
@@ -356,7 +328,7 @@ const NewApplication = () => {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Continue */}
       <section className="fixed bottom-0 left-0 right-0 z-20 border-t border-slate-200 bg-white/95 backdrop-blur lg:left-[270px]">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
           <div className="hidden sm:block">
@@ -367,9 +339,7 @@ const NewApplication = () => {
                 </p>
 
                 <p className="text-sm font-bold text-blue-950">
-                  {t(
-                    `newApplication.services.${selectedService.id}`
-                  )}
+                  {t(`newApplication.services.${selectedService.id}`)}
                 </p>
               </>
             ) : (
@@ -385,9 +355,7 @@ const NewApplication = () => {
             className="ml-auto inline-flex items-center gap-2 rounded-xl bg-red-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-slate-300"
           >
             <Wallet size={17} />
-
             {t("newApplication.continue")}
-
             <ArrowRight size={18} />
           </button>
         </div>

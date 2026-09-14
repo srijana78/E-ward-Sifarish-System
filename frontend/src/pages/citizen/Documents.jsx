@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useApplication } from "../../context/ApplicationContext";
-
 import {
   ArrowLeft,
   ArrowRight,
@@ -10,7 +9,6 @@ import {
   Upload,
   CheckCircle2,
   X,
-  BadgeCheck,
 } from "lucide-react";
 
 const requiredDocuments = [
@@ -37,19 +35,20 @@ const requiredDocuments = [
 const Documents = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation();
-
+  const { search } = useLocation();
   const { applicationData, updateDocuments } = useApplication();
 
-  const service = new URLSearchParams(location.search).get("service");
+  const service = new URLSearchParams(search).get("service");
 
   const [documents, setDocuments] = useState(
     applicationData.documents || {}
   );
-
   const [error, setError] = useState("");
 
-  const handleFileChange = (documentId, file) => {
+  const goToDetails = () =>
+    navigate(`/citizen/apply/details?service=${service || ""}`);
+
+  const handleFileChange = (id, file) => {
     if (!file) return;
 
     const allowedTypes = [
@@ -64,66 +63,44 @@ const Documents = () => {
       return;
     }
 
-    const updatedDocuments = {
-      ...documents,
-      [documentId]: file,
-    };
+    const updated = { ...documents, [id]: file };
 
-    setDocuments(updatedDocuments);
-    updateDocuments(updatedDocuments);
+    setDocuments(updated);
+    updateDocuments(updated);
     setError("");
   };
 
-  const removeFile = (documentId) => {
-    const updatedDocuments = { ...documents };
+  const removeFile = (id) => {
+    const updated = { ...documents };
+    delete updated[id];
 
-    delete updatedDocuments[documentId];
-
-    setDocuments(updatedDocuments);
-    updateDocuments(updatedDocuments);
+    setDocuments(updated);
+    updateDocuments(updated);
   };
 
   const handleContinue = () => {
-    const missingDocuments = requiredDocuments.filter(
-      (document) => document.required && !documents[document.id]
+    const missing = requiredDocuments.some(
+      ({ id, required }) => required && !documents[id]
     );
 
-    if (missingDocuments.length > 0) {
+    if (missing) {
       setError(t("documentsPage.requiredError"));
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-
+      window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
     updateDocuments(documents);
-
     navigate(`/citizen/apply/payment?service=${service || ""}`);
   };
 
-  const isFreeService = service === "education";
-
   return (
     <div className="mx-auto max-w-6xl space-y-6 pb-6">
-
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-slate-500">
-        <button
-          onClick={() =>
-            navigate(
-              `/citizen/apply/details?service=${service || ""}`
-            )
-          }
-          className="transition hover:text-blue-700"
-        >
+        <button onClick={goToDetails} className="hover:text-blue-700">
           {t("applicationDetails.title")}
         </button>
-
         <span>/</span>
-
         <span className="font-medium text-slate-700">
           {t("documentsPage.title")}
         </span>
@@ -140,7 +117,6 @@ const Documents = () => {
             <p className="text-sm font-semibold text-red-600">
               {t("documentsPage.stepThree")}
             </p>
-
             <h1 className="text-2xl font-bold text-blue-950 md:text-3xl">
               {t("documentsPage.title")}
             </h1>
@@ -154,14 +130,12 @@ const Documents = () => {
 
       {/* Progress */}
       <div className="rounded-2xl border border-slate-200 bg-white p-5">
-        <div className="mb-3 flex items-center justify-between">
+        <div className="mb-3 flex justify-between">
           <span className="text-sm font-semibold text-slate-700">
             {t("documentsPage.progress")}
           </span>
 
-          <span className="text-sm font-bold text-blue-700">
-            3 / 5
-          </span>
+          <span className="text-sm font-bold text-blue-700">3 / 5</span>
         </div>
 
         <div className="h-2 overflow-hidden rounded-full bg-slate-100">
@@ -171,11 +145,9 @@ const Documents = () => {
         <div className="mt-4 grid grid-cols-5 text-xs text-slate-500">
           <span>{t("documentsPage.application")}</span>
           <span>{t("documentsPage.applicant")}</span>
-
           <span className="font-semibold text-blue-700">
             {t("documentsPage.documentsTitle")}
           </span>
-
           <span>{t("documentsPage.payment")}</span>
           <span>{t("documentsPage.review")}</span>
         </div>
@@ -187,20 +159,11 @@ const Documents = () => {
           {t("documentsPage.selectedService")}
         </p>
 
-        <div className="mt-2 flex flex-wrap items-center gap-3">
-          <p className="font-bold text-blue-950">
-            {service
-              ? t(`newApplication.services.${service}`)
-              : t("documentsPage.recommendationService")}
-          </p>
-
-          {isFreeService && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">
-              <BadgeCheck size={14} />
-              {t("documentsPage.freeService")}
-            </span>
-          )}
-        </div>
+        <p className="mt-2 font-bold text-blue-950">
+          {service
+            ? t(`newApplication.services.${service}`)
+            : t("documentsPage.recommendationService")}
+        </p>
       </div>
 
       {/* Error */}
@@ -212,7 +175,6 @@ const Documents = () => {
 
       {/* Documents */}
       <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-
         <div className="border-b border-slate-200 px-6 py-5">
           <h2 className="text-lg font-bold text-blue-950">
             {t("documentsPage.requiredDocuments")}
@@ -228,14 +190,13 @@ const Documents = () => {
             <DocumentCard
               key={document.id}
               document={document}
-              uploadedFile={documents[document.id]}
+              file={documents[document.id]}
               t={t}
               onUpload={handleFileChange}
               onRemove={removeFile}
             />
           ))}
         </div>
-
       </section>
 
       {/* Upload Note */}
@@ -251,15 +212,10 @@ const Documents = () => {
 
       {/* Actions */}
       <div className="flex flex-col justify-between gap-3 sm:flex-row">
-
         <button
           type="button"
-          onClick={() =>
-            navigate(
-              `/citizen/apply/details?service=${service || ""}`
-            )
-          }
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
+          onClick={goToDetails}
+          className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
         >
           <ArrowLeft size={18} />
           {t("documentsPage.back")}
@@ -268,114 +224,75 @@ const Documents = () => {
         <button
           type="button"
           onClick={handleContinue}
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-red-700"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-3 font-semibold text-white hover:bg-red-700"
         >
           {t("documentsPage.continue")}
           <ArrowRight size={18} />
         </button>
-
       </div>
     </div>
   );
 };
 
-
-/* ================= DOCUMENT CARD ================= */
-
-const DocumentCard = ({
-  document,
-  uploadedFile,
-  t,
-  onUpload,
-  onRemove,
-}) => {
-  return (
-    <div className="rounded-2xl border border-slate-200 p-5">
-
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-
-        <div className="flex gap-4">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-blue-700">
-            <FileText size={20} />
-          </div>
-
-          <div>
-            <div className="flex items-center gap-2">
-
-              <h3 className="font-bold text-slate-800">
-                {t(
-                  `documentsPage.documents.${document.titleKey}`
-                )}
-              </h3>
-
-              {document.required && (
-                <span className="text-xs font-bold text-red-600">
-                  *
-                </span>
-              )}
-
-            </div>
-
-            <p className="mt-1 text-sm text-slate-500">
-              {t(
-                `documentsPage.documents.${document.descriptionKey}`
-              )}
-            </p>
-          </div>
+const DocumentCard = ({ document, file, t, onUpload, onRemove }) => (
+  <div className="rounded-2xl border border-slate-200 p-5">
+    <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+      <div className="flex gap-4">
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-blue-700">
+          <FileText size={20} />
         </div>
 
-        {!uploadedFile ? (
-          <label className="inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 font-semibold text-blue-700 transition hover:bg-blue-100">
+        <div>
+          <h3 className="font-bold text-slate-800">
+            {t(`documentsPage.documents.${document.titleKey}`)}
+            {document.required && (
+              <span className="ml-1 text-red-600">*</span>
+            )}
+          </h3>
 
-            <Upload size={17} />
-
-            {t("documentsPage.upload")}
-
-            <input
-              type="file"
-              accept=".pdf,.jpg,.jpeg,.png"
-              className="hidden"
-              onChange={(e) =>
-                onUpload(
-                  document.id,
-                  e.target.files?.[0]
-                )
-              }
-            />
-
-          </label>
-        ) : (
-          <div className="flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3">
-
-            <CheckCircle2
-              size={18}
-              className="text-emerald-600"
-            />
-
-            <div className="max-w-[180px]">
-              <p className="truncate text-sm font-semibold text-emerald-700">
-                {uploadedFile.name}
-              </p>
-
-              <p className="text-xs text-emerald-600">
-                {t("documentsPage.uploaded")}
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => onRemove(document.id)}
-              className="rounded-lg p-1 transition hover:bg-emerald-100"
-            >
-              <X size={16} />
-            </button>
-
-          </div>
-        )}
-
+          <p className="mt-1 text-sm text-slate-500">
+            {t(`documentsPage.documents.${document.descriptionKey}`)}
+          </p>
+        </div>
       </div>
+
+      {!file ? (
+        <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 font-semibold text-blue-700 hover:bg-blue-100">
+          <Upload size={17} />
+          {t("documentsPage.upload")}
+
+          <input
+            type="file"
+            accept=".pdf,.jpg,.jpeg,.png"
+            className="hidden"
+            onChange={(e) => onUpload(document.id, e.target.files?.[0])}
+          />
+        </label>
+      ) : (
+        <div className="flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3">
+          <CheckCircle2 size={18} className="text-emerald-600" />
+
+          <div className="max-w-[180px]">
+            <p className="truncate text-sm font-semibold text-emerald-700">
+              {file.name}
+            </p>
+
+            <p className="text-xs text-emerald-600">
+              {t("documentsPage.uploaded")}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => onRemove(document.id)}
+            className="rounded-lg p-1 hover:bg-emerald-100"
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
     </div>
-  );
-};
+  </div>
+);
 
 export default Documents;
