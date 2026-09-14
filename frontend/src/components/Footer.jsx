@@ -9,7 +9,7 @@ function Footer() {
     <footer className="bg-blue-950 text-slate-300 border-t-4 border-red-600 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          
+
           {/* Column 1: About */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
@@ -99,8 +99,8 @@ function Footer() {
               {t("footer.grievanceDesc")}
             </p>
             <div className="bg-blue-900/60 border border-blue-800 p-3 rounded-lg text-xs space-y-1">
-              <p className="text-white font-semibold">सूचना अधिकारी (Information Officer)</p>
-              <p className="text-slate-300">फोन: ९८४३२३१२३४</p>
+              <p className="text-white font-semibold">{t("footer.infoOfficerLabel")}</p>
+              <p className="text-slate-300">{t("footer.infoOfficerPhone")}</p>
             </div>
           </div>
 
