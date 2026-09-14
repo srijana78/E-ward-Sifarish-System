@@ -10,6 +10,7 @@ import {
   LogIn,
   LayoutDashboard,
   LogOut,
+  ShieldCheck,
 } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
@@ -20,6 +21,9 @@ function Header() {
 
   const { user, isAuthenticated, logout } = useAuth();
 
+  const officeEmail = t("header.email");
+  const mailtoLink = "mailto:" + officeEmail;
+
   const toggleLanguage = () => {
     const nextLang = i18n.language === "ne" ? "en" : "ne";
     i18n.changeLanguage(nextLang);
@@ -28,6 +32,12 @@ function Header() {
   const goToDashboard = () => {
     if (user?.role === "frontoffice") {
       navigate("/frontoffice");
+    } else if (user?.role === "secretary") {
+      navigate("/secretary");
+    } else if (user?.role === "chairperson") {
+      navigate("/chairperson");
+    } else if (user?.role === "admin") {
+      navigate("/admin");
     } else {
       navigate("/citizen");
     }
@@ -39,7 +49,12 @@ function Header() {
   };
 
   return (
-    <header className="w-full bg-white border-b border-slate-200">
+    <header className="w-full bg-white border-b border-slate-200 sticky top-0 z-40">
+
+      {/* Government of Nepal identity strip */}
+      <div className="bg-red-700 text-white text-center py-1 text-[11px] sm:text-xs font-semibold tracking-wide">
+        {t("header.govLine")}
+      </div>
 
       {/* Top Utility Bar */}
       <div className="bg-blue-950 text-slate-100 text-xs sm:text-sm py-2 px-4 sm:px-8 border-b border-blue-900">
@@ -49,18 +64,13 @@ function Header() {
 
             <div className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5 text-red-400 shrink-0" />
-
               <span>{t("header.officeHours")}</span>
             </div>
 
             <div className="hidden md:flex items-center gap-1.5">
               <Mail className="w-3.5 h-3.5 text-blue-300 shrink-0" />
-
-              <a
-                href={`mailto:${t("header.email")}`}
-                className="hover:underline"
-              >
-                {t("header.email")}
+              <a href={mailtoLink} className="hover:underline">
+                {officeEmail}
               </a>
             </div>
 
@@ -70,10 +80,8 @@ function Header() {
 
             <div className="flex items-center gap-1.5 bg-red-600/90 text-white px-2.5 py-0.5 rounded font-medium text-xs">
               <HelpCircle className="w-3.5 h-3.5" />
-
               <span>
-                {t("header.helplineLabel")}{" "}
-                {t("header.helplineNumber")}
+                {t("header.helplineLabel")} {t("header.helplineNumber")}
               </span>
             </div>
 
@@ -82,7 +90,6 @@ function Header() {
               className="flex items-center gap-1 bg-blue-900 hover:bg-blue-800 text-white px-2.5 py-1 rounded text-xs font-semibold transition border border-blue-700 cursor-pointer"
             >
               <Globe className="w-3.5 h-3.5" />
-
               <span>{t("header.languageSwitch")}</span>
             </button>
 
@@ -94,19 +101,13 @@ function Header() {
       {/* Main Branding Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
 
-        {/* Logo and Municipality Name */}
-        <Link
-          to="/"
-          className="flex items-center gap-4 text-center md:text-left"
-        >
+        <Link to="/" className="flex items-center gap-4 text-center md:text-left">
           <div className="w-16 h-16 shrink-0 flex items-center justify-center bg-slate-50 border border-slate-200 rounded-full p-2">
-
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/2/23/Emblem_of_Nepal.svg"
               alt="Emblem of Nepal"
               className="w-full h-full object-contain"
             />
-
           </div>
 
           <div>
@@ -118,11 +119,17 @@ function Header() {
               {t("header.municipality")}
             </h1>
 
-            <p className="text-sm sm:text-base font-bold text-slate-700">
-              {t("header.ward")}
-            </p>
-          </div>
+            <div className="flex items-center justify-center md:justify-start gap-2 mt-0.5">
+              <p className="text-sm sm:text-base font-bold text-slate-700">
+                {t("header.ward")}
+              </p>
 
+              <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+                <ShieldCheck className="w-3 h-3" />
+                {t("header.secureBadge")}
+              </span>
+            </div>
+          </div>
         </Link>
 
         {/* Authentication Buttons */}
@@ -130,39 +137,32 @@ function Header() {
 
           {isAuthenticated ? (
             <>
-              {/* Dashboard */}
               <button
                 onClick={goToDashboard}
                 className="inline-flex items-center gap-2 bg-blue-900 hover:bg-blue-950 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-sm transition cursor-pointer"
               >
                 <LayoutDashboard className="w-4 h-4" />
-
-                <span>Dashboard</span>
+                <span>{t("header.dashboard")}</span>
               </button>
 
-              {/* Logout */}
               <button
                 onClick={handleLogout}
                 className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-sm transition cursor-pointer"
               >
                 <LogOut className="w-4 h-4" />
-
-                <span>Logout</span>
+                <span>{t("header.logout")}</span>
               </button>
             </>
           ) : (
             <>
-              {/* Login */}
               <button
                 onClick={() => navigate("/login")}
                 className="inline-flex items-center gap-2 bg-blue-900 hover:bg-blue-950 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-sm transition cursor-pointer"
               >
                 <LogIn className="w-4 h-4" />
-
                 <span>{t("header.login")}</span>
               </button>
 
-              {/* Register */}
               <button
                 onClick={() => navigate("/register")}
                 className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold shadow-sm transition cursor-pointer"
