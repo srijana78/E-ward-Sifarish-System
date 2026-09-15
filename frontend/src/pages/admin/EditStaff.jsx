@@ -61,8 +61,17 @@ const EditStaff = () => {
           },
         });
 
-        const data = await res.json();
+const text = await res.text();
 
+let data;
+
+try {
+  data = JSON.parse(text);
+} catch {
+  throw new Error(
+    `Server returned an invalid response (${res.status})`
+  );
+}
         if (!res.ok) {
           throw new Error(
             data.message || t("editStaff.loadError")

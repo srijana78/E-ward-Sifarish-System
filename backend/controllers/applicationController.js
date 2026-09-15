@@ -1,18 +1,19 @@
-
-
-
 const Application = require("../models/Application");
+
 const { generateCertificate } = require("../utils/certificateGenerator");
+
 const { createNotification } = require("./notificaionController");
 
 // ---------- CITIZEN ----------
 
 // POST /api/applications
+
 // multipart/form-data:
 //   text: service, fullName, citizenshipNumber, dateOfBirth, phone, email,
 //         province, district, municipality, wardNumber, tole, amount,
 //         documentTypes (JSON string array, one entry per uploaded document, same order)
 //   files: documents (multiple), voucher (single, optional)
+
 exports.submitApplication = async (req, res) => {
   try {
     const {
@@ -31,21 +32,35 @@ exports.submitApplication = async (req, res) => {
       documentTypes,
     } = req.body;
 
-    if (!service || !fullName || !citizenshipNumber || !dateOfBirth || !phone) {
+    if (
+      !service ||
+      !fullName ||
+      !citizenshipNumber ||
+      !dateOfBirth ||
+      !phone
+    ) {
       return res.status(400).json({
         success: false,
-        message: "service, fullName, citizenshipNumber, dateOfBirth and phone are required",
+        message:
+          "service, fullName, citizenshipNumber, dateOfBirth and phone are required",
       });
     }
 
     const documentFiles = req.files?.documents || [];
+
     if (documentFiles.length === 0) {
-      return res.status(400).json({ success: false, message: "At least one document is required" });
+      return res.status(400).json({
+        success: false,
+        message: "At least one document is required",
+      });
     }
 
     let typeList = [];
+
     try {
-      typeList = documentTypes ? JSON.parse(documentTypes) : [];
+      typeList = documentTypes
+        ? JSON.parse(documentTypes)
+        : [];
     } catch {
       typeList = [];
     }
@@ -59,11 +74,13 @@ exports.submitApplication = async (req, res) => {
     }));
 
     const voucherFile = req.files?.voucher?.[0];
+
     const payment = {
       required: true,
       amount: Number(amount) || 0,
       status: voucherFile ? "paid" : "pending",
     };
+
     if (voucherFile) {
       payment.voucherName = voucherFile.originalname;
       payment.voucherUrl = `/uploads/vouchers/${voucherFile.filename}`;
@@ -74,15 +91,34 @@ exports.submitApplication = async (req, res) => {
     const application = await Application.create({
       service,
       user: req.user.id,
-      applicantDetails: { fullName, citizenshipNumber, dateOfBirth, phone, email },
-      address: { province, district, municipality, wardNumber, tole },
+
+      applicantDetails: {
+        fullName,
+        citizenshipNumber,
+        dateOfBirth,
+        phone,
+        email,
+      },
+
+      address: {
+        province,
+        district,
+        municipality,
+        wardNumber,
+        tole,
+      },
+
       documents,
+
       payment,
+
       status: "submitted",
+
       currentStage: "frontoffice",
     });
 
     // Alert the front office queue that a new application needs review
+
     await createNotification({
       title: "New application submitted",
       message: `${fullName} submitted a ${service} application (${application.applicationNumber}).`,
@@ -91,70 +127,27 @@ exports.submitApplication = async (req, res) => {
       recipientRole: "frontoffice",
     });
 
-    res.status(201).json({ success: true, application });
+    res.status(201).json({
+      success: true,
+      application,
+    });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
 // GET /api/applications/my
+
 exports.getMyApplications = async (req, res) => {
   try {
-    const applications = await Application.find({ user: req.user.id }).sort({ createdAt: -1 });
-    res.json({ success: true, applications });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-// ---------- SHARED ----------
-
-// GET /api/applications/:id
-exports.getApplicationById = async (req, res) => {
-  try {
-    const application = await Application.findById(req.params.id).populate("user", "name phone email");
-    if (!application) return res.status(404).json({ success: false, message: "Not found" });
-
-    const isOwner = application.user._id.toString() === req.user.id;
-    const isStaff = ["frontoffice", "secretary", "chairperson", "admin"].includes(req.user.role);
-    if (!isOwner && !isStaff) {
-      return res.status(403).json({ success: false, message: "Access denied" });
-    }
-
-    res.json({ success: true, application });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-// GET /api/applications  (staff queue, filtered to their stage)
-exports.listForRole = async (req, res) => {
-  try {
-    const stageByRole = { frontoffice: "frontoffice", secretary: "secretary", chairperson: "chairperson" };
-    const stage = stageByRole[req.user.role]; // admin -> no filter
-    const filter = stage ? { currentStage: stage } : {};
-
-    const applications = await Application.find(filter)
-      .populate("user", "name phone email")
-      .sort({ createdAt: -1 });
-
-    res.json({ success: true, applications });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-// GET /api/applications/frontoffice/verified
-// GET /api/applications/frontoffice/verified
-exports.getFrontOfficeVerified = async (req, res) => {
-  try {
     const applications = await Application.find({
-      verifiedBy: "frontoffice",
-      status: "verified",
-      currentStage: "secretary",
-    })
-      .populate("user", "name phone email")
-      .sort({ verifiedAt: -1 });
+      user: req.user.id,
+    }).sort({
+      createdAt: -1,
+    });
 
     res.json({
       success: true,
@@ -167,7 +160,118 @@ exports.getFrontOfficeVerified = async (req, res) => {
     });
   }
 };
+
+// ---------- SHARED ----------
+
+// GET /api/applications/:id
+
+exports.getApplicationById = async (req, res) => {
+  try {
+    const application = await Application.findById(
+      req.params.id
+    ).populate("user", "name phone email");
+
+    if (!application) {
+      return res.status(404).json({
+        success: false,
+        message: "Not found",
+      });
+    }
+
+    const isOwner =
+      application.user._id.toString() === req.user.id;
+
+    const isStaff = [
+      "frontoffice",
+      "secretary",
+      "chairperson",
+      "admin",
+    ].includes(req.user.role);
+
+    if (!isOwner && !isStaff) {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied",
+      });
+    }
+
+    res.json({
+      success: true,
+      application,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+// GET /api/applications
+// Staff queue, filtered to their stage
+
+exports.listForRole = async (req, res) => {
+  try {
+    const stageByRole = {
+      frontoffice: "frontoffice",
+      secretary: "secretary",
+      chairperson: "chairperson",
+    };
+
+    // admin -> no filter
+
+    const stage = stageByRole[req.user.role];
+
+    const filter = stage
+      ? { currentStage: stage }
+      : {};
+
+    const applications = await Application.find(filter)
+      .populate("user", "name phone email")
+      .sort({
+        createdAt: -1,
+      });
+
+    res.json({
+      success: true,
+      applications,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+// GET /api/applications/frontoffice/verified
+
+exports.getFrontOfficeVerified = async (req, res) => {
+  try {
+    const applications = await Application.find({
+      verifiedBy: "frontoffice",
+      status: "verified",
+      currentStage: "secretary",
+    })
+      .populate("user", "name phone email")
+      .sort({
+        verifiedAt: -1,
+      });
+
+    res.json({
+      success: true,
+      applications,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 // ---------- STAGE ACTIONS ----------
+
 // PATCH /api/applications/:id/frontoffice
 // decision: 'verify' | 'reject'
 
@@ -175,7 +279,9 @@ exports.frontOfficeAction = async (req, res) => {
   try {
     const { decision, remarks } = req.body;
 
-    const application = await Application.findById(req.params.id);
+    const application = await Application.findById(
+      req.params.id
+    );
 
     if (!application) {
       return res.status(404).json({
@@ -187,16 +293,20 @@ exports.frontOfficeAction = async (req, res) => {
     if (application.currentStage !== "frontoffice") {
       return res.status(400).json({
         success: false,
-        message: "Application is not at the front office stage",
+        message:
+          "Application is not at the front office stage",
       });
     }
 
     if (decision === "verify") {
       application.status = "verified";
+
       application.currentStage = "secretary";
 
       // Mark THIS application as verified by front office
+
       application.verifiedBy = "frontoffice";
+
       application.verifiedAt = new Date();
 
       if (application.payment?.required) {
@@ -204,12 +314,15 @@ exports.frontOfficeAction = async (req, res) => {
       }
     } else if (decision === "reject") {
       application.status = "rejected";
+
       application.currentStage = "completed";
+
       application.rejectedBy = "frontoffice";
     } else {
       return res.status(400).json({
         success: false,
-        message: "decision must be 'verify' or 'reject'",
+        message:
+          "decision must be 'verify' or 'reject'",
       });
     }
 
@@ -230,7 +343,7 @@ exports.frontOfficeAction = async (req, res) => {
         title: "Your application was verified",
         message: `Your ${application.service} application (${application.applicationNumber}) passed front office review.`,
         type: "verified",
-        application: application._id,
+        application: application.user,
         recipientUser: application.user,
       });
     } else {
@@ -256,28 +369,53 @@ exports.frontOfficeAction = async (req, res) => {
     });
   }
 };
-// PATCH /api/applications/:id/secretary   decision: 'recommend' | 'reject'
+
+// PATCH /api/applications/:id/secretary
+// decision: 'recommend' | 'reject'
+
 exports.secretaryAction = async (req, res) => {
   try {
     const { decision, remarks } = req.body;
-    const application = await Application.findById(req.params.id);
-    if (!application) return res.status(404).json({ success: false, message: "Not found" });
+
+    const application = await Application.findById(
+      req.params.id
+    );
+
+    if (!application) {
+      return res.status(404).json({
+        success: false,
+        message: "Not found",
+      });
+    }
+
     if (application.currentStage !== "secretary") {
-      return res.status(400).json({ success: false, message: "Application is not at the secretary stage" });
+      return res.status(400).json({
+        success: false,
+        message:
+          "Application is not at the secretary stage",
+      });
     }
 
     if (decision === "recommend") {
       application.status = "recommended";
+
       application.currentStage = "chairperson";
     } else if (decision === "reject") {
       application.status = "rejected";
+
       application.currentStage = "completed";
+
       application.rejectedBy = "secretary";
     } else {
-      return res.status(400).json({ success: false, message: "decision must be 'recommend' or 'reject'" });
+      return res.status(400).json({
+        success: false,
+        message:
+          "decision must be 'recommend' or 'reject'",
+      });
     }
 
     application.secretaryRemarks = remarks || "";
+
     await application.save();
 
     if (decision === "recommend") {
@@ -288,6 +426,7 @@ exports.secretaryAction = async (req, res) => {
         application: application._id,
         recipientRole: "chairperson",
       });
+
       await createNotification({
         title: "Your application was recommended",
         message: `Your ${application.service} application (${application.applicationNumber}) was recommended for final approval.`,
@@ -298,16 +437,24 @@ exports.secretaryAction = async (req, res) => {
     } else {
       await createNotification({
         title: "Your application was rejected",
-        message: `Your ${application.service} application (${application.applicationNumber}) was rejected by the secretary. Reason: ${remarks || "not specified"}.`,
+        message: `Your ${application.service} application (${application.applicationNumber}) was rejected by the secretary. Reason: ${
+          remarks || "not specified"
+        }.`,
         type: "rejected",
         application: application._id,
         recipientUser: application.user,
       });
     }
 
-    res.json({ success: true, application });
+    res.json({
+      success: true,
+      application,
+    });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
@@ -318,7 +465,9 @@ exports.getSecretaryRecommended = async (req, res) => {
       currentStage: "chairperson",
     })
       .populate("user", "name phone email")
-      .sort({ updatedAt: -1 });
+      .sort({
+        updatedAt: -1,
+      });
 
     res.json({
       success: true,
@@ -331,30 +480,61 @@ exports.getSecretaryRecommended = async (req, res) => {
     });
   }
 };
-// PATCH /api/applications/:id/chairperson   decision: 'approve' | 'reject'
+
+// PATCH /api/applications/:id/chairperson
+// decision: 'approve' | 'reject'
+
 exports.chairpersonAction = async (req, res) => {
   try {
     const { decision, remarks } = req.body;
-    const application = await Application.findById(req.params.id);
-    if (!application) return res.status(404).json({ success: false, message: "Not found" });
+
+    const application = await Application.findById(
+      req.params.id
+    );
+
+    if (!application) {
+      return res.status(404).json({
+        success: false,
+        message: "Not found",
+      });
+    }
+
     if (application.currentStage !== "chairperson") {
-      return res.status(400).json({ success: false, message: "Application is not at the chairperson stage" });
+      return res.status(400).json({
+        success: false,
+        message:
+          "Application is not at the chairperson stage",
+      });
     }
 
     if (decision === "approve") {
       application.status = "approved";
+
       application.currentStage = "completed";
+
       const cert = await generateCertificate(application);
-      application.certificate = { filePath: cert.filePath, qrData: cert.qrData, generatedAt: new Date() };
+
+      application.certificate = {
+        filePath: cert.filePath,
+        qrData: cert.qrData,
+        generatedAt: new Date(),
+      };
     } else if (decision === "reject") {
       application.status = "rejected";
+
       application.currentStage = "completed";
+
       application.rejectedBy = "chairperson";
     } else {
-      return res.status(400).json({ success: false, message: "decision must be 'approve' or 'reject'" });
+      return res.status(400).json({
+        success: false,
+        message:
+          "decision must be 'approve' or 'reject'",
+      });
     }
 
     application.chairpersonRemarks = remarks || "";
+
     await application.save();
 
     if (decision === "approve") {
@@ -368,36 +548,109 @@ exports.chairpersonAction = async (req, res) => {
     } else {
       await createNotification({
         title: "Your application was rejected",
-        message: `Your ${application.service} application (${application.applicationNumber}) was rejected by the chairperson. Reason: ${remarks || "not specified"}.`,
+        message: `Your ${application.service} application (${application.applicationNumber}) was rejected by the chairperson. Reason: ${
+          remarks || "not specified"
+        }.`,
         type: "rejected",
         application: application._id,
         recipientUser: application.user,
       });
     }
 
-    res.json({ success: true, application });
+    res.json({
+      success: true,
+      application,
+    });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
-// GET /api/applications/verify/:id   (PUBLIC — what the QR code opens)
+// GET /api/applications/verify/:id
+// PUBLIC — what the QR code opens
+
 exports.verifyCertificate = async (req, res) => {
   try {
-    const application = await Application.findById(req.params.id);
-    if (!application || application.status !== "approved") {
-      return res.status(404).json({ success: false, valid: false, message: "No valid certificate found" });
+    const application = await Application.findById(
+      req.params.id
+    );
+
+    if (
+      !application ||
+      application.status !== "approved"
+    ) {
+      return res.status(404).json({
+        success: false,
+        valid: false,
+        message: "No valid certificate found",
+      });
     }
+
     res.json({
       success: true,
       valid: true,
-      applicationNumber: application.applicationNumber,
-      applicantName: application.applicantDetails.fullName,
+      applicationNumber:
+        application.applicationNumber,
+      applicantName:
+        application.applicantDetails.fullName,
       service: application.service,
       approvedOn: application.updatedAt,
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: err.message });
+
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+// ---------- ADMIN STATISTICS ----------
+
+// GET /api/applications/reports/statistics
+
+exports.getApplicationStatistics = async (req, res) => {
+  try {
+    const totalApplications =
+      await Application.countDocuments();
+
+    const pendingApplications =
+      await Application.countDocuments({
+        status: {
+          $in: [
+            "submitted",
+            "verified",
+            "recommended",
+          ],
+        },
+      });
+
+    const approvedApplications =
+      await Application.countDocuments({
+        status: "approved",
+      });
+
+    res.json({
+      success: true,
+      statistics: {
+        totalApplications,
+        pendingApplications,
+        approvedApplications,
+      },
+    });
+  } catch (err) {
+    console.error(
+      "Application statistics error:",
+      err
+    );
+
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
