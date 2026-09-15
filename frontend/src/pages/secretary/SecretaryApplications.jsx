@@ -24,194 +24,177 @@ const SecretaryApplications = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchApplications = async () => {
+    const loadApplications = async () => {
       try {
-        const res = await fetch(`${API}/secretary`, {
+        const authToken =
+          token || localStorage.getItem("sifarish_token");
+
+        const res = await fetch(API, {
           headers: {
-            Authorization: `Bearer ${
-              token || localStorage.getItem("sifarish_token")
-            }`,
+            Authorization: `Bearer ${authToken}`,
           },
         });
 
         const data = await res.json();
 
         if (!res.ok) {
-          throw new Error(data.message || "Failed to load applications");
+          throw new Error(
+            data.message || "Failed to load applications"
+          );
         }
 
         setApplications(data.applications || []);
       } catch (err) {
+        console.error(err);
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchApplications();
+    loadApplications();
   }, [token]);
 
   const filtered = applications.filter((app) => {
-    const text = search.toLowerCase();
+    const query = search.toLowerCase();
 
     return [
       app.applicantDetails?.fullName,
       app.applicationNumber,
       app.service,
-    ].some((item) => item?.toLowerCase().includes(text));
+    ].some((value) =>
+      String(value || "").toLowerCase().includes(query)
+    );
   });
 
   const stats = [
-    ["total", applications.length, FileText],
-    [
-      "waitingReview",
-      applications.filter((app) => app.status === "verified").length,
-      Clock3,
-    ],
-    [
-      "recommended",
-      applications.filter((app) => app.status === "recommended").length,
-      CheckCircle2,
-    ],
+    {
+      label: "total",
+      value: applications.length,
+      icon: FileText,
+    },
+    {
+      label: "waitingReview",
+      value: applications.filter(
+        (app) => app.status === "verified"
+      ).length,
+      icon: Clock3,
+    },
+    {
+      label: "recommended",
+      value: applications.filter(
+        (app) => app.status === "recommended"
+      ).length,
+      icon: CheckCircle2,
+    },
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-7">
 
-      {/* HEADER */}
-      <section className="rounded-2xl bg-gradient-to-r from-blue-950 via-blue-900 to-slate-900 p-6 text-white sm:p-8">
-        <p className="text-sm font-semibold text-red-300">
+      {/* Header */}
+      <section className="rounded-2xl bg-gradient-to-r from-blue-950 via-blue-900 to-slate-900 p-7 text-white shadow-md sm:p-9">
+        <p className="text-sm font-semibold uppercase tracking-wide text-red-300">
           {t("secretaryApplications.label")}
         </p>
 
-        <h1 className="mt-2 text-2xl font-bold sm:text-3xl">
+        <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
           {t("secretaryApplications.title")}
         </h1>
 
-        <p className="mt-3 max-w-2xl text-sm text-blue-100">
+        <p className="mt-3 max-w-2xl text-sm leading-7 text-blue-100 sm:text-base">
           {t("secretaryApplications.description")}
         </p>
       </section>
 
-      {/* STATS */}
-      <section className="grid gap-4 sm:grid-cols-3">
-        {stats.map(([title, value, Icon]) => (
+      {/* Stats */}
+      <section className="grid gap-5 sm:grid-cols-3">
+        {stats.map(({ label, value, icon: Icon }) => (
           <div
-            key={title}
-            className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+            key={label}
+            className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-slate-500">
-                  {t(`secretaryApplications.${title}`)}
+                <p className="text-sm font-medium text-slate-500">
+                  {t(`secretaryApplications.${label}`)}
                 </p>
 
-                <p className="mt-2 text-2xl font-bold text-blue-950">
+                <p className="mt-3 text-3xl font-bold text-blue-950">
                   {loading ? "..." : value}
                 </p>
               </div>
 
-              <div className="rounded-lg bg-blue-50 p-3 text-blue-900">
-                <Icon size={21} />
+              <div className="rounded-xl bg-blue-50 p-3.5 text-blue-900">
+                <Icon size={23} />
               </div>
             </div>
           </div>
         ))}
       </section>
 
-      {/* ERROR */}
+      {/* Error */}
       {error && (
-        <div className="flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+        <div className="flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
           <AlertCircle size={19} />
           {error}
         </div>
       )}
 
-      {/* APPLICATION LIST */}
-      <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-
-        <div className="flex flex-col gap-4 border-b border-slate-200 p-5 sm:flex-row sm:items-center sm:justify-between">
-
+      {/* Application List */}
+      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md">
+        <div className="flex flex-col gap-4 border-b border-slate-200 p-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2 className="font-bold text-blue-950">
+            <h2 className="text-lg font-bold text-blue-950">
               {t("secretaryApplications.listTitle")}
             </h2>
 
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-1 text-sm text-slate-500">
               {t("secretaryApplications.listDescription")}
             </p>
           </div>
 
-          {/* SEARCH */}
-          <div className="relative w-full sm:w-72">
+          {/* Search */}
+          <div className="relative w-full lg:w-80">
             <Search
               size={18}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
             />
 
             <input
+              type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t("secretaryApplications.search")}
-              className="w-full rounded-lg border border-slate-200 py-2.5 pl-10 pr-4 text-sm outline-none focus:border-blue-900"
+              className="w-full rounded-lg border border-slate-200 bg-slate-50 py-2.5 pl-10 pr-4 text-sm outline-none transition focus:border-blue-900 focus:bg-white"
             />
           </div>
         </div>
 
+        {/* List */}
         <div className="divide-y divide-slate-100">
-
           {loading ? (
             <Empty text={t("secretaryApplications.loading")} />
           ) : filtered.length === 0 ? (
-            <Empty text={t("secretaryApplications.noApplications")} />
+            <Empty
+              text={
+                search
+                  ? t("secretaryApplications.noSearchResults")
+                  : t("secretaryApplications.noApplications")
+              }
+            />
           ) : (
             filtered.map((app) => (
-              <div
+              <ApplicationRow
                 key={app._id}
-                className="flex flex-col gap-4 p-5 transition hover:bg-slate-50 sm:flex-row sm:items-center sm:justify-between"
-              >
-                <div className="flex items-center gap-4">
-
-                  <div className="rounded-xl bg-blue-50 p-3 text-blue-900">
-                    <FileText size={21} />
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold text-blue-950">
-                      {app.applicantDetails?.fullName ||
-                        t("secretaryApplications.unknownApplicant")}
-                    </h3>
-
-                    <p className="mt-1 text-sm text-slate-500">
-                      {app.service}
-                    </p>
-
-                    <p className="mt-1 text-xs text-slate-400">
-                      {app.applicationNumber || app._id}
-                      {" • "}
-                      {new Date(app.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between gap-3">
-
-                  <StatusBadge
-                    status={app.status}
-                    t={t}
-                  />
-
-                  <button
-                    onClick={() =>
-                      navigate(`/secretary/application/${app._id}`)
-                    }
-                    className="flex items-center gap-2 rounded-lg bg-blue-950 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-900"
-                  >
-                    {t("secretaryApplications.review")}
-                    <ArrowRight size={17} />
-                  </button>
-                </div>
-              </div>
+                app={app}
+                t={t}
+                onReview={() =>
+                  navigate(
+                    `/secretary/application/${app._id}`
+                  )
+                }
+              />
             ))
           )}
         </div>
@@ -220,10 +203,50 @@ const SecretaryApplications = () => {
   );
 };
 
+const ApplicationRow = ({ app, t, onReview }) => (
+  <div className="flex flex-col gap-5 p-6 transition hover:bg-slate-50 lg:flex-row lg:items-center lg:justify-between">
+    <div className="flex items-center gap-4">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-900">
+        <FileText size={22} />
+      </div>
+
+      <div>
+        <h3 className="font-bold text-blue-950">
+          {app.applicantDetails?.fullName ||
+            t("secretaryApplications.unknownApplicant")}
+        </h3>
+
+        <p className="mt-1 text-sm text-slate-600">
+          {app.service}
+        </p>
+
+        <p className="mt-1 text-xs text-slate-400">
+          {app.applicationNumber || app._id}
+          {" • "}
+          {new Date(app.createdAt).toLocaleDateString()}
+        </p>
+      </div>
+    </div>
+
+    <div className="flex items-center justify-between gap-3 lg:justify-end">
+      <StatusBadge status={app.status} t={t} />
+
+      <button
+        onClick={onReview}
+        className="flex items-center gap-2 rounded-lg bg-blue-950 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-900"
+      >
+        {t("secretaryApplications.review")}
+        <ArrowRight size={17} />
+      </button>
+    </div>
+  </div>
+);
+
 const StatusBadge = ({ status, t }) => {
   const styles = {
     verified: "bg-blue-50 text-blue-700",
     recommended: "bg-green-50 text-green-700",
+    rejected: "bg-red-50 text-red-700",
   };
 
   return (
@@ -238,7 +261,7 @@ const StatusBadge = ({ status, t }) => {
 };
 
 const Empty = ({ text }) => (
-  <div className="p-10 text-center text-sm text-slate-500">
+  <div className="p-12 text-center text-sm text-slate-500">
     {text}
   </div>
 );

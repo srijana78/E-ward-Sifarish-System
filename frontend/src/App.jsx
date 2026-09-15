@@ -30,14 +30,15 @@ import FrontOfficeDashboard from "./pages/frontoffice/FrontOfficeDashboard";
 import PendingApplications from "./pages/frontoffice/PendingApplications";
 import VerifiedApplications from "./pages/frontoffice/VerifiedApplications";
 import Notifications from "./pages/frontoffice/Notifications";
-import Reports from "./pages/frontoffice/Reports";
-import Settings from "./pages/frontoffice/Settings";
+// import Reports from "./pages/frontoffice/Reports";
+// import Settings from "./pages/frontoffice/Settings";
 import FrontOfficeApplicationDetails from "./pages/frontoffice/FrontOfficeApplicationDetails";
 
 // ================= SECRETARY PAGES =================
 import SecretaryDashboard from "./pages/secretary/SecretaryDashboard";
 import SecretaryApplications from "./pages/secretary/SecretaryApplications";
 import SecretaryApplicationDetails from "./pages/secretary/SecretaryApplicationDetails";
+import SecretaryRecommended from "./pages/secretary/SecretaryRecommended";
 
 // ================= CHAIRPERSON PAGES =================
 import ChairpersonDashboard from "./pages/chairperson/ChairpersonDashboard";
@@ -106,12 +107,11 @@ function App() {
         />
 
         <Route path="notifications" element={<Notifications />} />
-        <Route path="reports" element={<Reports />} />
-        <Route path="settings" element={<Settings />} />
+        {/* <Route path="reports" element={<Reports />} /> */}
+        {/* <Route path="settings" element={<Settings />} /> */}
       </Route>
 
       {/* ================= SECRETARY ================= */}
-
       <Route
         path="/secretary"
         element={
@@ -128,8 +128,9 @@ function App() {
           path="application/:id"
           element={<SecretaryApplicationDetails />}
         />
-      </Route>
 
+        <Route path="recommended" element={<SecretaryRecommended />} />
+      </Route>
       {/* ================= CHAIRPERSON ================= */}
 
       <Route

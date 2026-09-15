@@ -7,7 +7,7 @@ const path = require("path");
 async function generateCertificate(application) {
   // PUBLIC (no-auth) route the QR code links to — see verifyCertificate in the controller
   const baseUrl = process.env.APP_BASE_URL || "http://localhost:5000";
-  const verifyUrl = `${baseUrl}/verify/${application._id}`;
+  const verifyUrl = `${baseUrl}/api/applications/verify/${application._id}`;
 
   const qrDataUrl = await QRCode.toDataURL(verifyUrl);
   const qrImageBuffer = Buffer.from(qrDataUrl.split(",")[1], "base64");

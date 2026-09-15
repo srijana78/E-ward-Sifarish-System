@@ -1,6 +1,9 @@
 
 const express = require("express");
 
+const auth = require("../middleware/authMiddleware");
+const requireRole = require("../middleware/roleMiddleware");
+
 const {
   getSettings,
   updateSettings,
@@ -9,6 +12,6 @@ const {
 const router = express.Router();
 
 router.get("/", getSettings);
-router.put("/", updateSettings);
+router.put("/", auth, requireRole("admin"), updateSettings);
 
 module.exports = router;

@@ -1,75 +1,84 @@
 {
-  "header": {
-    "officeHours": "Sun-Thu 10:00 - 5:00 | Fri 10:00 - 3:00",
-    "email": "chandannath78@gmail.com",
-    "helplineLabel": "Helpline:",
-    "helplineNumber": "9843231234",
+    "header": {
+    "govLine": "Government of Nepal",
+    "officeHours": "Sun - Thu: 10:00 AM - 5:00 PM | Fri: 10:00 AM - 3:00 PM",
+    "email": "info@chandannathmun.gov.np",
+    "helplineLabel": "Toll-Free Helpline:",
+    "helplineNumber": "1660-01-42100",
     "languageSwitch": "नेपाली",
-    "province": "Karnali Province, Jumla, Nepal",
+    "province": "Karnali Province | Jumla District, Nepal",
     "municipality": "Chandannath Municipality",
-    "ward": "Ward No. 1 Office, Airport",
-    "login": "Citizen Login",
-    "register": "Register"
-  }
-  ,
-  
-  "hero": {
-    "badge": "Digital Chandannath E-Sifarish Service",
-    "titleLine1": "Chandannath Ward No. 1",
-    "titleLine2": "Welcome to E-Sifarish System",
-    "description": "Access all ward recommendation and verification services conveniently, securely, and digitally from home.",
-    "applyButton": "Apply for Recommendation",
-    "verifyButton": "Check Application Status",
-    "secure": "100% Digital & Secure",
-    "tracking": "SMS/Online Tracking",
-    "qrVerification": "QR Verification",
-    "cardLabel": "Official Portal",
-    "cardStatus": "Service Available",
-    "feature1Title": "Digital Application",
-    "feature1Desc": "Fill out forms and submit required documents online.",
-    "feature2Title": "Online Payment",
-    "feature2Desc": "Pay official government fees via eSewa or Khalti.",
-    "feature3Title": "Download QR Certificate",
-    "feature3Desc": "Download and print verified certificates directly from home."
-  
-}
-,
+    "ward": "Office of Ward No. 1",
+    "secureBadge": "Secure Portal",
+    "login": " Login",
+    "register": " Registration",
+    "dashboard": "Dashboard",
+    "logout": "Logout"
+  },
 
-  "services": {
-    "badge": "Ward Services",
-    "title": "Key E-Sifarish Services",
-    "description": "Select from the online services provided by Chandannath Ward No. 1.",
-    "applyAction": "Apply Now",
-    "vitalTitle": "Vital Records & Relationship Verification",
-    "vitalDesc": "Relationship verification, birth, marriage, death registration, and migration recommendations.",
-    "citizenshipTitle": "Citizenship & Passport",
-    "citizenshipDesc": "Ward recommendations for new citizenship, duplicate copies, and passport applications.",
-    "propertyTitle": "Property & Land Tax",
-    "propertyDesc": "Property valuation, four-boundary verification, and tax clearance certificates."
-  }
-  ,
-  
+   
   "footer": {
     "aboutTitle": "Chandannath Municipality",
-    "aboutSub": "Ward No. 1 Office, Jumla",
-    "aboutDesc": "Official digital E-Sifarish portal of Chandannath Municipality Ward No. 1, Jumla, Karnali Province.",
-    "contactTitle": "Contact Information",
-    "address": "Chandannath-1, Airport Road, Jumla, Karnali Province",
-    "phone": "9843231234 (Office / Helpline)",
-    "email": "chandannath78@gmail.com",
-    "hours": "Sun - Thu: 10:00 AM - 5:00 PM | Fri: 10:00 AM - 3:00 PM",
-    "linksTitle": "Useful Links",
-    "sifarishServices": "E-Sifarish Services",
+    "aboutSub": "Ward No. 1, Jumla",
+    "aboutDesc": "Official online portal for ward-level Sifarish (recommendation) services, connecting citizens with the ward office digitally.",
+    "contactTitle": "Contact Us",
+    "address": "Ward Office, Chandannath-1, Jumla, Karnali Province",
+    "phone": "+977-87-XXXXXX",
+    "email": "ward1@chandannathmun.gov.np",
+    "hours": "Sun–Fri, 10:00 AM – 5:00 PM",
+    "linksTitle": "Quick Links",
+    "sifarishServices": "Sifarish Services",
     "trackApp": "Track Application",
-    "qrVerify": "QR Verification",
+    "qrVerify": "Verify Certificate",
     "citizenCharter": "Citizen Charter",
-    "grievanceTitle": "Grievance & Feedback",
-    "grievanceDesc": "For any issues or complaints regarding services, contact the Ward Grievance Officer:",
-    "copyright": "Chandannath Municipality Ward No. 1, Jumla. All rights reserved.",
+    "grievanceTitle": "Grievance & Support",
+    "grievanceDesc": "For complaints or help with your application, contact our information officer directly.",
+    "infoOfficerLabel": "Information Officer",
+    "infoOfficerPhone": "+977-98XXXXXXXX",
+    "copyright": "Chandannath Municipality Ward No. 1. All rights reserved.",
     "privacy": "Privacy Policy",
-    "terms": "Terms & Conditions"
+    "terms": "Terms of Use"
   }
+,
 
+  
+  "services": {
+    "badge": "Ward Services",
+    "title": "Sifarish Services We Offer",
+    "description": "Apply for common ward-level recommendations online, without visiting the office multiple times.",
+    "vitalTitle": "Vital Event Recommendation",
+    "vitalDesc": "Birth, death, marriage, and relationship-related recommendation letters.",
+    "citizenshipTitle": "Citizenship Recommendation",
+    "citizenshipDesc": "Recommendation letters supporting citizenship certificate applications.",
+    "propertyTitle": "Property & Residence",
+    "propertyDesc": "Recommendations related to land, property, and proof of residence.",
+    "dashboardAction": "Go to Dashboard",
+    "applyAction": "Apply Now",
+    "viewAllButton": "View All Services"
+  },
+  "hero": {
+    "badge": "Government of Nepal — Ward Office",
+    "titleLine1": "Digital Sifarish",
+    "titleLine2": "for Ward No. 1, Jumla",
+    "description": "Apply for ward recommendations online, track your application at every stage, and download a verified, QR-coded certificate — all without standing in line.",
+    "goToDashboard": "Go to Dashboard",
+    "applyButton": "Apply for Sifarish",
+    "verifyButton": "Verify Certificate",
+    "secure": "Secure & Verified",
+    "tracking": "Real-time Tracking",
+    "qrVerification": "QR Verification",
+    "cardLabel": "Application Status",
+    "cardStatus": "Live",
+    "feature1Title": "Submit Online",
+    "feature1Desc": "Upload documents and payment voucher from anywhere.",
+    "feature2Title": "Track Progress",
+    "feature2Desc": "Follow your application through each approval stage.",
+    "feature3Title": "Download Certificate",
+    "feature3Desc": "Get a QR-verified PDF certificate once approved.",
+    "statsServicesLabel": "Services Available",
+    "statsProcessedLabel": "Digitally Processed",
+    "statsCitizensLabel": "Citizen Access"
+  }
 ,
 
   "auth": {
@@ -95,7 +104,7 @@
     "noAccount": "Don't have an account?",
     "register": "Register",
 
-    "staffInfo": "Staff accounts are created by the system administrator. Please use your official email and assigned password.",
+    "staffInfo": "Staff accounts are issued only by the Municipal Executive Officer. Contact your office administrator if you do not have login credentials.",
 
     "backHome": "Back to Home",
 
@@ -113,45 +122,40 @@
 
     "hasAccount": "Already have an account?",
     "loginLink": "Login"
-  }
-,
+  },
 
+  "citizenLayout": {
+    "portalName": "E-WARD SIFARISH",
+    "governmentPortal": "Government Service Portal",
+    "citizenServices": "Citizen Services"
+  },
 
-"citizenLayout": {
-  "portalName": "E-WARD SIFARISH",
-  "governmentPortal": "Government Service Portal",
-  "citizenServices": "Citizen Services"
-},
+  "citizenSidebar": {
+    "servicePortal": "Government Service Portal",
+    "citizen": "Citizen",
+    "citizenAccount": "Citizen Account",
 
+    "mainMenu": "Main Menu",
+    "dashboard": "Dashboard",
+    "newApplication": "New Application",
+    "myApplications": "My Applications",
+    "trackApplication": "Track Application",
 
+    "services": "Services",
+    "recommendationServices": "Recommendation Services",
+    "recommendationDescription": "Apply for ward recommendation services online.",
 
-"citizenSidebar": {
-  "servicePortal": "Government Service Portal",
-  "citizen": "Citizen",
-  "citizenAccount": "Citizen Account",
+    "documentsPayments": "Documents & Payment",
+    "documents": "Documents",
+    "paymentVoucher": "Payment Voucher",
 
-  "mainMenu": "Main Menu",
-  "dashboard": "Dashboard",
-  "newApplication": "New Application",
-  "myApplications": "My Applications",
-  "trackApplication": "Track Application",
+    "other": "Other",
+    "notifications": "Notifications",
+    "help": "Help & Support",
+    "publicHome": "Public Home",
 
-  "services": "Services",
-  "recommendationServices": "Recommendation Services",
-  "recommendationDescription": "Apply for ward recommendation services online.",
-
-  "documentsPayments": "Documents & Payment",
-  "documents": "Documents",
-  "paymentVoucher": "Payment Voucher",
-
-  "other": "Other",
-  "notifications": "Notifications",
-  "help": "Help & Support",
-  "publicHome": "Public Home",
-
-  "logout": "Logout"
-}
-,
+    "logout": "Logout"
+  },
 
   "admin": {
     "dashboard": {
@@ -192,8 +196,7 @@
       "heading": "Office Settings",
       "description": "Ward official user management and digital signature settings."
     }
-  }
-,
+  },
 
   "citizenDashboard": {
     "welcomeLabel": "Citizen Service Portal",
@@ -240,71 +243,72 @@
     "stepCertificate": "Certificate",
     "stepCertificateDescription": "Receive your approved recommendation and download the certificate."
   },
-"newApplication": {
-  "title": "New Application",
-  "description": "Apply online for a ward recommendation service. Select the service you need to continue.",
 
-  "stepOne": "Select Recommendation Service",
-  "stepOneDescription": "Choose the ward recommendation service you want to apply for.",
+  "newApplication": {
+    "title": "New Application",
+    "description": "Apply online for a ward recommendation service. Select the service you need to continue.",
 
-  "selectService": "Select Recommendation Service",
-  "selectServiceDescription": "Choose a service from the available categories below.",
-  "searchPlaceholder": "Search recommendation services...",
+    "stepOne": "Select Recommendation Service",
+    "stepOneDescription": "Choose the ward recommendation service you want to apply for.",
 
-  "availableServices": "Available Services",
-  "availableServicesDescription": "Select the recommendation service you need.",
-  "servicesFound": "services found",
+    "selectService": "Select Recommendation Service",
+    "selectServiceDescription": "Choose a service from the available categories below.",
+    "searchPlaceholder": "Search recommendation services...",
 
-  "select": "Select",
-  "selected": "Selected",
-  "selectedService": "Selected Service",
-  "selectServiceToContinue": "Select a recommendation service to continue.",
-  "continue": "Continue",
+    "availableServices": "Available Services",
+    "availableServicesDescription": "Select the recommendation service you need.",
+    "servicesFound": "services found",
 
-  "free": "Free",
+    "select": "Select",
+    "selected": "Selected",
+    "selectedService": "Selected Service",
+    "selectServiceToContinue": "Select a recommendation service to continue.",
+    "continue": "Continue",
 
-  "beforeContinue": "Before you continue",
-  "beforeContinueDescription": "Select the recommendation service that matches your requirement. Free services will not require a payment voucher, while paid services will require payment verification.",
+    "free": "Free",
 
-  "noServices": "No services found",
-  "noServicesDescription": "Try another search or select a different category.",
+    "beforeContinue": "Before you continue",
+    "beforeContinueDescription": "Select the recommendation service that matches your requirement. Free services will not require a payment voucher, while paid services will require payment verification.",
 
-  "categories": {
-    "all": "All Services",
-    "personal": "Personal & Civil",
-    "residence": "Residence",
-    "education": "Education",
-    "business": "Business",
-    "property": "Property",
-    "other": "Other"
+    "noServices": "No services found",
+    "noServicesDescription": "Try another search or select a different category.",
+
+    "categories": {
+      "all": "All Services",
+      "personal": "Personal & Civil",
+      "residence": "Residence",
+      "education": "Education",
+      "business": "Business",
+      "property": "Property",
+      "other": "Other"
+    },
+
+    "services": {
+      "permanentResidence": "Permanent Residence Recommendation",
+      "permanentResidenceDescription": "Apply for a recommendation confirming your permanent residence.",
+
+      "temporaryResidence": "Temporary Residence Recommendation",
+      "temporaryResidenceDescription": "Apply for a recommendation confirming your temporary residence.",
+
+      "citizenship": "Citizenship Recommendation",
+      "citizenshipDescription": "Apply for a recommendation related to citizenship matters.",
+
+      "relationship": "Relationship Verification Recommendation",
+      "relationshipDescription": "Apply for a recommendation to verify family or personal relationships.",
+
+      "education": "Education Recommendation",
+      "educationDescription": "Apply for a recommendation related to education and academic purposes.",
+
+      "business": "Business Recommendation",
+      "businessDescription": "Apply for a recommendation related to business activities.",
+
+      "property": "Property / House Recommendation",
+      "propertyDescription": "Apply for a recommendation related to property or house matters.",
+
+      "other": "Other Recommendation",
+      "otherDescription": "Apply for other ward recommendation services."
+    }
   },
-
-  "services": {
-    "permanentResidence": "Permanent Residence Recommendation",
-    "permanentResidenceDescription": "Apply for a recommendation confirming your permanent residence.",
-
-    "temporaryResidence": "Temporary Residence Recommendation",
-    "temporaryResidenceDescription": "Apply for a recommendation confirming your temporary residence.",
-
-    "citizenship": "Citizenship Recommendation",
-    "citizenshipDescription": "Apply for a recommendation related to citizenship matters.",
-
-    "relationship": "Relationship Verification Recommendation",
-    "relationshipDescription": "Apply for a recommendation to verify family or personal relationships.",
-
-    "education": "Education Recommendation",
-    "educationDescription": "Apply for a recommendation related to education and academic purposes.",
-
-    "business": "Business Recommendation",
-    "businessDescription": "Apply for a recommendation related to business activities.",
-
-    "property": "Property / House Recommendation",
-    "propertyDescription": "Apply for a recommendation related to property or house matters.",
-
-    "other": "Other Recommendation",
-    "otherDescription": "Apply for other ward recommendation services."
-  }
-},
 
   "applicationDetails": {
     "title": "Applicant Information",
@@ -360,54 +364,48 @@
     "continue": "Continue"
   },
 
-  
+  "documentsPage": {
+    "title": "Upload Documents",
+    "stepThree": "STEP 3 OF 5",
+    "description": "Upload the required documents to support your application.",
+    "progress": "Application Progress",
 
+    "application": "Application",
+    "applicant": "Applicant",
+    "documentsTitle": "Documents",
+    "payment": "Payment",
+    "review": "Review",
 
+    "selectedService": "SELECTED SERVICE",
+    "recommendationService": "Recommendation Service",
+    "freeService": "Free Service",
 
-"documentsPage": {
-  "title": "Upload Documents",
-  "stepThree": "STEP 3 OF 5",
-  "description": "Upload the required documents to support your application.",
-  "progress": "Application Progress",
+    "requiredDocuments": "Required Documents",
+    "requiredDocumentsDescription": "Please upload all required documents before continuing.",
 
-  "application": "Application",
-  "applicant": "Applicant",
-  "documentsTitle": "Documents",
-  "payment": "Payment",
-  "review": "Review",
+    "documents": {
+      "citizenship": "Citizenship Certificate",
+      "citizenshipDescription": "Upload a clear copy of your citizenship certificate.",
 
-  "selectedService": "SELECTED SERVICE",
-  "recommendationService": "Recommendation Service",
-  "freeService": "Free Service",
+      "application": "Application Letter",
+      "applicationDescription": "Upload your completed application letter.",
 
-  "requiredDocuments": "Required Documents",
-  "requiredDocumentsDescription": "Please upload all required documents before continuing.",
+      "supporting": "Supporting Document",
+      "supportingDescription": "Upload any additional supporting document if available."
+    },
 
-  "documents": {
-    "citizenship": "Citizenship Certificate",
-    "citizenshipDescription": "Upload a clear copy of your citizenship certificate.",
+    "upload": "Upload",
+    "uploaded": "Uploaded",
 
-    "application": "Application Letter",
-    "applicationDescription": "Upload your completed application letter.",
+    "requiredError": "Please upload all required documents.",
+    "invalidFile": "Please upload only PDF, JPG, JPEG, or PNG files.",
 
-    "supporting": "Supporting Document",
-    "supportingDescription": "Upload any additional supporting document if available."
+    "uploadNoteTitle": "Upload Instructions",
+    "uploadNote": "Accepted formats: PDF, JPG, JPEG, and PNG. Please upload clear and readable documents.",
+
+    "back": "Back",
+    "continue": "Continue"
   },
-
-  "upload": "Upload",
-  "uploaded": "Uploaded",
-
-  "requiredError": "Please upload all required documents.",
-  "invalidFile": "Please upload only PDF, JPG, JPEG, or PNG files.",
-
-  "uploadNoteTitle": "Upload Instructions",
-  "uploadNote": "Accepted formats: PDF, JPG, JPEG, and PNG. Please upload clear and readable documents.",
-
-  "back": "Back",
-  "continue": "Continue"
-}
-,
-
 
   "paymentPage": {
     "title": "Payment Voucher",
@@ -426,10 +424,27 @@
 
     "paymentInformation": "Payment Information",
     "service": "Service",
+    "amount": "Amount",
     "paymentStatus": "Payment Status",
     "pending": "Pending",
+    "notRequired": "Not Required",
+    "free": "Free",
     "voucherStatus": "Voucher Status",
     "notUploaded": "Not Uploaded",
+
+    "freeDescription": "This service does not require any payment. You can continue directly to the next step.",
+
+    "paymentMethod": "Payment Method",
+    "bankName": "Bank Name",
+    "bankNameValue": "Nepal Bank Limited, Jumla Branch",
+    "accountNumber": "Account Number",
+    "accountNumberValue": "01234567890123",
+    "accountName": "Account Name",
+    "accountNameValue": "Chandannath Municipality Ward No. 1",
+    "amountToPay": "Amount to Pay",
+
+    "freeService": "Free Service",
+    "freeServiceDescription": "This recommendation service does not require any payment. You can continue to the next step.",
 
     "uploadVoucher": "Upload Payment Voucher",
     "uploadVoucherDescription": "Upload a clear copy of your payment voucher.",
@@ -441,9 +456,11 @@
 
     "noteTitle": "Important",
     "note": "Make sure the payment voucher is clear and readable before submitting your application.",
+    "freeNote": "No payment voucher is required for this service. You can continue directly to review your application.",
 
     "back": "Back",
-    "continue": "Continue"
+    "continue": "Continue",
+    "continueFree": "Continue"
   },
 
   "myApplications": {
@@ -465,243 +482,278 @@
 
     "recommendation": "Recommendation Service",
 
+    "detailsTitle": "Application Details",
+    "fullName": "Full Name",
+    "citizenshipNumber": "Citizenship Number",
+    "phone": "Phone",
+    "email": "Email",
+
     "applicantInformation": "Applicant Information",
     "applicantInformationDescription": "Applicant details have been provided.",
 
     "documents": "Documents",
     "documentsUploaded": "Required documents have been uploaded.",
+    "documentsUploadedCount": "{{count}} document(s) uploaded",
 
     "payment": "Payment",
     "paymentVoucherUploaded": "Payment voucher has been uploaded.",
+    "noPaymentRequired": "No payment required for this service",
 
     "reviewBeforeSubmit": "Please review your application carefully",
     "reviewBeforeSubmitDescription": "Make sure all information and uploaded documents are correct. Once submitted, your application will be sent to the ward office for review.",
 
+    "importantInformation": "Important Information",
+    "importantInformationDescription": "Please review all your information carefully before submitting your application.",
+
     "confirmation": "I confirm that the information and documents provided in this application are true and correct.",
 
     "back": "Back",
-    "submit": "Submit Application"
+    "submit": "Submit Application",
+    "submitting": "Submitting...",
+
+    "errorConfirmRequired": "Please confirm the information before submitting.",
+    "errorNoToken": "No login token found. Please login again.",
+    "errorMissingDetails": "Some required applicant details are missing. Please go back and complete them.",
+    "errorNoDocuments": "Please go back and upload at least one required document.",
+    "errorNoVoucher": "Please go back and upload your payment voucher.",
+    "errorServerResponse": "Server returned an unexpected response. Please try again.",
+    "errorSubmitFailed": "Failed to submit application"
+  },
+
+  "frontOfficeLayout": {
+    "eWardSifarish": "E-WARD SIFARISH",
+    "portal": "Front Office Portal",
+    "applicationManagement": "Application Management"
+  },
+
+  "frontOfficeSidebar": {
+    "portal": "Front Office Portal",
+    "staff": "Front Office Staff",
+    "account": "Front Office Account",
+    "mainMenu": "Main Menu",
+    "dashboard": "Dashboard",
+    "pendingApplications": "Pending Applications",
+    "verifiedApplications": "Verified Applications",
+    "notifications": "Notifications",
+    "reports": "Reports",
+    "settings": "Settings",
+    "publicHome": "Public Home",
+    "logout": "Logout"
+  },
+
+  "frontOfficeDashboard": {
+    "welcomeLabel": "FRONT OFFICE PORTAL",
+    "welcomeTitle": "Welcome to the Front Office Dashboard",
+    "welcomeDescription": "Manage, review and verify citizen applications efficiently from one central workspace.",
+    "reviewNow": "Review Applications",
+
+    "totalApplications": "Total Applications",
+    "pendingApplications": "Pending Applications",
+    "verifiedApplications": "Verified Applications",
+    "newNotifications": "New Notifications",
+
+    "recentApplications": "Recent Applications",
+    "recentApplicationsDescription": "Latest applications submitted by citizens.",
+    "viewAll": "View All",
+
+    "quickActions": "Quick Actions",
+    "quickActionsDescription": "Access frequently used Front Office services.",
+
+    "reviewApplications": "Review Applications",
+    "reviewApplicationsDescription": "Review and process pending citizen applications.",
+
+    "verifiedApplicationsDescription": "View applications that have been successfully verified.",
+
+    "viewNotifications": "Notifications",
+    "viewNotificationsDescription": "Check important system updates and notifications.",
+
+    "viewReports": "Reports",
+    "viewReportsDescription": "View application statistics and system reports.",
+
+    "workSummary": "Work Summary",
+    "workSummaryDescription": "A quick overview of today's Front Office activities.",
+
+    "pendingReview": "Pending Review",
+    "completedToday": "Completed Today",
+    "requiresAttention": "Requires Attention"
+  },
+
+  "pendingApplications": {
+    "label": "FRONT OFFICE",
+    "title": "Pending Applications",
+    "description": "Review and manage citizen applications that are waiting for verification.",
+
+    "totalPending": "Total Pending",
+    "newToday": "New Today",
+    "waitingReview": "Waiting for Review",
+
+    "applicationList": "Applications Waiting for Review",
+    "applicationListDescription": "Review the submitted information before verifying the application.",
+
+    "searchPlaceholder": "Search by application ID, applicant or service...",
+
+    "pending": "Pending",
+
+    "view": "View",
+
+    "noApplications": "No applications found",
+    "noApplicationsDescription": "There are no pending applications matching your search.",
+
+    "loadingText": "Loading applications...",
+    "noSearchResults": "No matching applications found."
+  }
+,
+ 
+  "verifiedApplications": {
+    "label": "FRONT OFFICE",
+    "title": "Verified Applications",
+    "description": "Applications you have reviewed and verified, now awaiting secretary review.",
+
+    "totalVerified": "Total Verified",
+    "verifiedToday": "Verified Today",
+    "completedApplications": "Completed Applications",
+
+    "applicationList": "Verified Applications",
+    "applicationListDescription": "Applications that have passed front office verification.",
+
+    "searchPlaceholder": "Search by application ID, applicant or service...",
+
+    "verified": "Verified",
+    "verifiedOn": "Verified on",
+
+    "view": "View",
+
+    "noApplications": "No applications found",
+    "noApplicationsDescription": "There are no verified applications matching your search.",
+
+    "loadingText": "Loading verified applications...",
+    "noSearchResults": "No matching applications found."
   }
 ,
 
+  "notifications": {
+    "label": "NOTIFICATION CENTER",
+    "title": "Notifications",
+    "description": "Stay updated with the latest application activities and system updates.",
+    "markAllRead": "Mark all as read",
 
-"frontOfficeLayout": {
-  "eWardSifarish": "E-WARD SIFARISH",
-  "portal": "Front Office Portal",
-  "applicationManagement": "Application Management"
-},
+    "total": "Total Notifications",
+    "unread": "Unread Notifications",
+    "read": "Read Notifications",
 
-"frontOfficeSidebar": {
-"portal": "Front Office Portal",
-"staff": "Front Office Staff",
-"account": "Front Office Account",
-"mainMenu": "Main Menu",
-"dashboard": "Dashboard",
-"pendingApplications": "Pending Applications",
-"verifiedApplications": "Verified Applications",
-"notifications": "Notifications",
-"reports": "Reports",
-"settings": "Settings",
-"publicHome": "Public Home",
-"logout": "Logout"
-}
-,
+    "recentNotifications": "Recent Notifications",
+    "recentNotificationsDescription": "Latest updates and activities in the system.",
 
-"frontOfficeDashboard": {
-  "welcomeLabel": "FRONT OFFICE PORTAL",
-  "welcomeTitle": "Welcome to the Front Office Dashboard",
-  "welcomeDescription": "Manage, review and verify citizen applications efficiently from one central workspace.",
-  "reviewNow": "Review Applications",
+    "new": "new",
+    "markAsRead": "Mark as read"
+  },
 
-  "totalApplications": "Total Applications",
-  "pendingApplications": "Pending Applications",
-  "verifiedApplications": "Verified Applications",
-  "newNotifications": "New Notifications",
+  "reports": {
+    "label": "REPORTS & ANALYTICS",
+    "title": "Reports",
+    "description": "View application statistics and service activity in the Front Office.",
 
-  "recentApplications": "Recent Applications",
-  "recentApplicationsDescription": "Latest applications submitted by citizens.",
-  "viewAll": "View All",
+    "overview": "Application Overview",
+    "overviewDescription": "A summary of application activity and verification status.",
 
-  "quickActions": "Quick Actions",
-  "quickActionsDescription": "Access frequently used Front Office services.",
+    "totalApplications": "Total Applications",
+    "pendingApplications": "Pending Applications",
+    "verifiedApplications": "Verified Applications",
+    "rejectedApplications": "Rejected Applications",
 
-  "reviewApplications": "Review Applications",
-  "reviewApplicationsDescription": "Review and process pending citizen applications.",
+    "applicationsByStatus": "Applications by Status",
+    "applicationsByStatusDescription": "Distribution of applications based on their current status.",
 
-  "verifiedApplicationsDescription": "View applications that have been successfully verified.",
+    "applicationsByService": "Applications by Service",
+    "applicationsByServiceDescription": "Number of applications submitted for each recommendation service.",
 
-  "viewNotifications": "Notifications",
-  "viewNotificationsDescription": "Check important system updates and notifications.",
+    "pending": "Pending",
+    "verified": "Verified",
+    "rejected": "Rejected",
 
-  "viewReports": "Reports",
-  "viewReportsDescription": "View application statistics and system reports.",
+    "residence": "Residence Recommendation",
+    "personal": "Personal & Civil Recommendation",
+    "education": "Education Recommendation",
+    "business": "Business Recommendation",
+    "other": "Other Services",
 
-  "workSummary": "Work Summary",
-  "workSummaryDescription": "A quick overview of today's Front Office activities.",
+    "insight": "Report Insight",
+    "insightDescription": "Most applications are currently being processed successfully. Residence recommendation remains one of the most requested services."
+  },
 
-  "pendingReview": "Pending Review",
-  "completedToday": "Completed Today",
-  "requiresAttention": "Requires Attention"
-},
-"pendingApplications": {
-  "label": "FRONT OFFICE",
-  "title": "Pending Applications",
-  "description": "Review and manage citizen applications that are waiting for verification.",
+  "settings": {
+    "label": "ACCOUNT SETTINGS",
+    "title": "Settings",
+    "description": "Manage your account preferences and Front Office settings.",
 
-  "totalPending": "Total Pending",
-  "newToday": "New Today",
-  "waitingReview": "Waiting for Review",
+    "profile": "Profile Settings",
+    "profileDescription": "Update your Front Office account information.",
 
-  "applicationList": "Applications Waiting for Review",
-  "applicationListDescription": "Review the submitted information before verifying the application.",
+    "fullName": "Full Name",
+    "email": "Email Address",
 
-  "searchPlaceholder": "Search by application ID, applicant or service...",
+    "notifications": "Notification Settings",
+    "notificationsDescription": "Control how you receive application updates.",
 
-  "pending": "Pending",
+    "applicationNotifications": "Application Notifications",
+    "applicationNotificationsDescription": "Receive notifications when new applications are submitted.",
 
-  "view": "View",
+    "language": "Language",
+    "languageDescription": "Choose your preferred system language.",
 
-  "noApplications": "No applications found",
-  "noApplicationsDescription": "There are no pending applications matching your search."
-},
-"verifiedApplications": {
-  "label": "FRONT OFFICE",
-  "title": "Verified Applications",
-  "description": "View and manage applications that have been successfully verified.",
+    "englishDescription": "Use the system in English.",
+    "nepaliDescription": "प्रणाली नेपाली भाषामा प्रयोग गर्नुहोस्।",
 
-  "totalVerified": "Total Verified",
-  "verifiedToday": "Verified Today",
-  "completedApplications": "Completed Applications",
+    "security": "Account Security",
+    "securityDescription": "Your account and Front Office activities are protected through secure system access.",
 
-  "applicationList": "Verified Application List",
-  "applicationListDescription": "Applications successfully reviewed and verified by the Front Office.",
-
-  "searchPlaceholder": "Search by application ID, applicant or service...",
-
-  "verified": "Verified",
-  "verifiedOn": "Verified on",
-
-  "view": "View",
-
-  "noApplications": "No verified applications found",
-  "noApplicationsDescription": "There are no verified applications matching your search."
-},
-"notifications": {
-  "label": "NOTIFICATION CENTER",
-  "title": "Notifications",
-  "description": "Stay updated with the latest application activities and system updates.",
-  "markAllRead": "Mark all as read",
-
-  "total": "Total Notifications",
-  "unread": "Unread Notifications",
-  "read": "Read Notifications",
-
-  "recentNotifications": "Recent Notifications",
-  "recentNotificationsDescription": "Latest updates and activities in the system.",
-
-  "new": "new",
-  "markAsRead": "Mark as read"
-}
-,
-"reports": {
-  "label": "REPORTS & ANALYTICS",
-  "title": "Reports",
-  "description": "View application statistics and service activity in the Front Office.",
-
-  "overview": "Application Overview",
-  "overviewDescription": "A summary of application activity and verification status.",
-
-  "totalApplications": "Total Applications",
-  "pendingApplications": "Pending Applications",
-  "verifiedApplications": "Verified Applications",
-  "rejectedApplications": "Rejected Applications",
-
-  "applicationsByStatus": "Applications by Status",
-  "applicationsByStatusDescription": "Distribution of applications based on their current status.",
-
-  "applicationsByService": "Applications by Service",
-  "applicationsByServiceDescription": "Number of applications submitted for each recommendation service.",
-
-  "pending": "Pending",
-  "verified": "Verified",
-  "rejected": "Rejected",
-
-  "residence": "Residence Recommendation",
-  "personal": "Personal & Civil Recommendation",
-  "education": "Education Recommendation",
-  "business": "Business Recommendation",
-  "other": "Other Services",
-
-  "insight": "Report Insight",
-  "insightDescription": "Most applications are currently being processed successfully. Residence recommendation remains one of the most requested services."
-},
-"settings": {
-  "label": "ACCOUNT SETTINGS",
-  "title": "Settings",
-  "description": "Manage your account preferences and Front Office settings.",
-
-  "profile": "Profile Settings",
-  "profileDescription": "Update your Front Office account information.",
-
-  "fullName": "Full Name",
-  "email": "Email Address",
-
-  "notifications": "Notification Settings",
-  "notificationsDescription": "Control how you receive application updates.",
-
-  "applicationNotifications": "Application Notifications",
-  "applicationNotificationsDescription": "Receive notifications when new applications are submitted.",
-
-  "language": "Language",
-  "languageDescription": "Choose your preferred system language.",
-
-  "englishDescription": "Use the system in English.",
-  "nepaliDescription": "प्रणाली नेपाली भाषामा प्रयोग गर्नुहोस्।",
-
-  "security": "Account Security",
-  "securityDescription": "Your account and Front Office activities are protected through secure system access.",
-
-  "saveChanges": "Save Changes"
-}
-,
-  "frontOfficeApplicationDetails": {
+    "saveChanges": "Save Changes"
+  },
+"frontOfficeApplicationDetails": {
     "back": "Back",
     "label": "APPLICATION DETAILS",
     "title": "Application Details",
     "description": "Review the complete application information and verify the submitted details.",
-
     "pending": "Pending",
-
     "applicationId": "Application ID",
     "submittedOn": "Submitted on",
-
     "applicantInformation": "Applicant Information",
     "applicantInformationDescription": "Personal information provided by the applicant.",
-
     "fullName": "Full Name",
     "citizenshipNumber": "Citizenship Number",
     "phone": "Phone Number",
     "email": "Email Address",
     "address": "Address",
-
     "applicationInformation": "Application Information",
     "applicationInformationDescription": "Details about the requested service.",
     "requestedService": "Requested Service",
-
     "documents": "Documents",
     "documentsDescription": "Documents submitted by the applicant.",
-
     "paymentInformation": "Payment Information",
     "paymentInformationDescription": "Payment details for this application.",
     "paymentStatus": "Payment Status",
     "paid": "Paid",
-
     "verification": "Application Verification",
     "verificationDescription": "Please review all applicant information, submitted documents, and payment details before verifying this application.",
-    "verifyApplication": "Verify Application"
+    "verifyApplication": "Verify Application",
+    "loadingText": "Loading application...",
+    "notFound": "Application not found",
+    "unknownApplicant": "Unknown Applicant",
+    "notAvailable": "N/A",
+    "noDocuments": "No documents uploaded.",
+    "documentFallback": "Document",
+    "verifying": "Verifying...",
+    "verifySuccess": "Application verified successfully!",
+    "applicationVerified": "Application Verified",
+    "applicationVerifiedDescription": "This application has been successfully verified.",
+    
+
+    "viewFile": "View",
+    "voucher": "Payment Voucher"
+  
+
   }
 ,
- 
 
   "secretarySidebar": {
     "portal": "Ward Secretary Portal",
@@ -716,8 +768,8 @@
 
     "publicHome": "Public Home",
     "logout": "Logout"
-  }
-,
+  },
+
   "secretaryDashboard": {
     "welcomeLabel": "Secretary Portal",
     "welcomeTitle": "Welcome to the Secretary Dashboard",
@@ -751,9 +803,7 @@
     "stepReviewDescription": "Check applicant information, documents, and application details.",
     "stepRecommend": "Recommend Application",
     "stepRecommendDescription": "Recommend eligible applications for the next approval process."
-  }
-
-,
+  },
 
   "secretaryApplications": {
     "label": "SECRETARY PORTAL",
@@ -779,10 +829,8 @@
       "verified": "Verified",
       "recommended": "Recommended"
     }
-  }
+  },
 
-
-,
   "secretaryDetails": {
     "label": "Secretary Review",
     "loading": "Loading application...",
@@ -810,253 +858,119 @@
     "remarksRequired": "Please provide remarks before recommending.",
 
     "recommend": "Recommend to Chairperson"
-  }
-
-,
-
-  "chairpersonSidebar": {
-    "title": "Chairperson Panel",
-    "dashboard": "Dashboard",
-    "applications": "Applications",
-    "approved": "Approved Applications",
-    "rejected": "Rejected Applications",
-    "logout": "Logout"
+    ,
+    "alreadyRecommended": "You already recommended this application",
+    "alreadyRejected": "You already rejected this application",
+    "processing": "Processing..."
+  },
+  
+  "secretaryRecommended": {
+    "label": "Recommended",
+    "title": "Recommended Applications",
+    "description": "Applications you have recommended to the chairperson.",
+    "total": "Total Recommended",
+    "loading": "Loading recommended applications...",
+    "empty": "You haven't recommended any applications yet.",
+    "unknown": "Unknown Applicant",
+    "recommended": "Recommended",
+    "view": "View"
   },
 
-  "chairpersonDashboard": {
-    "label": "CHAIRPERSON PANEL",
-    "title": "Chairperson Dashboard",
-    "description": "Review recommended applications and make the final approval or rejection decision.",
-    "reviewNow": "Review Applications",
 
-    "waitingDecision": "Waiting for Decision",
-    "approved": "Approved",
-    "rejected": "Rejected",
-    "total": "Total Applications",
-
-    "pendingTitle": "Applications Waiting for Decision",
-    "pendingDescription": "Recommended applications that require your final decision.",
-    "viewAll": "View All",
-
-    "loading": "Loading applications...",
-    "noApplications": "No applications are waiting for your decision.",
-    "unknownApplicant": "Unknown Applicant",
-
-    "review": "Review",
-
-    "quickActions": "Quick Actions",
-
-    "reviewApplications": "Review Applications",
-    "reviewApplicationsDescription": "Review recommended applications and make final decisions.",
-
-    "approvedApplications": "Approved Applications",
-    "approvedApplicationsDescription": "View applications that have been approved."
-  }
-,
-"chairpersonApplications": {
-  "label": "CHAIRPERSON PANEL",
-  "title": "Applications",
-  "description": "Review recommended applications and view final application decisions.",
-
-  "recommended": "Waiting for Decision",
-  "approved": "Approved",
-  "rejected": "Rejected",
-
-  "listTitle": "Application List",
-  "listDescription": "Manage applications and make final decisions.",
-  "search": "Search applications...",
-
-  "loading": "Loading applications...",
-  "noApplications": "No applications found.",
-  "unknownApplicant": "Unknown Applicant",
-
-  "review": "Review",
-
-  "status": {
-    "recommended": "Recommended",
-    "approved": "Approved",
-    "rejected": "Rejected"
-  }
-}
-,
-"chairpersonDetails": {
-  "back": "Back to Applications",
-
-  "submittedOn": "Submitted on",
-
-  "notFound": "Application not found.",
-
-  "applicantInformation": "Applicant Information",
-  "fullName": "Full Name",
-  "citizenshipNumber": "Citizenship Number",
-  "dateOfBirth": "Date of Birth",
-  "phone": "Phone Number",
-  "email": "Email Address",
-
-  "address": "Address Information",
-  "province": "Province",
-  "district": "District",
-  "municipality": "Municipality",
-  "wardNumber": "Ward Number",
-  "tole": "Tole",
-
-  "documents": "Uploaded Documents",
-  "document": "Document",
-  "noDocuments": "No documents uploaded.",
-  "view": "View",
-
-  "paymentInformation": "Payment Information",
-  "paymentStatus": "Payment Status",
-  "voucher": "Payment Voucher",
-
-  "reviewHistory": "Review History",
-  "reviewHistoryDescription": "Review remarks provided by previous officials.",
-
-  "frontOfficeRemarks": "Front Office Remarks",
-  "secretaryRemarks": "Secretary Remarks",
-
-  "finalDecision": "Final Decision",
-  "finalDecisionDescription": "Review the application and make the final decision.",
-  "finalDecisionCompleted": "The final decision has already been made.",
-
-  "chairpersonRemarks": "Chairperson Remarks",
-  "remarksPlaceholder": "Write your remarks or decision details here...",
-  "noRemarks": "No remarks provided.",
-
-  "approve": "Approve Application",
-  "reject": "Reject Application",
-
-  "rejectRemarksRequired": "Please provide remarks before rejecting the application.",
-
-  "status": {
-    "recommended": "Recommended",
-    "approved": "Approved",
-    "rejected": "Rejected"
-  }
-}
-
-,
-
-
-  "staffManagement": {
-    "label": "ADMINISTRATION",
-    "title": "Staff Management",
-    "description": "Manage ward staff and their system access.",
-    "addStaff": "Add Staff",
-
-    "staffList": "Staff Members",
-    "totalStaff": "Staff Members",
-
-    "search": "Search staff...",
-    "loading": "Loading staff...",
-    "noStaff": "No staff found.",
-
-    "view": "View",
-    "edit": "Edit",
-    "delete": "Delete",
-
-    "roles": {
-      "frontoffice": "Front Office",
-      "secretary": "Secretary",
-      "chairperson": "Chairperson"
-    }
-  }
-
-
- ,
-
-  "createStaff": {
-    "label": "ADMINISTRATION",
-    "title": "Create Staff Account",
-    "description": "Create a new staff account and assign the appropriate role for the E-Ward Sifarish system.",
-
-    "back": "Back to Staff Management",
-
-    "chooseRole": "Choose Staff Role",
-    "chooseRoleDescription": "Select the role and responsibilities for this staff member.",
-
-    "accountInformation": "Account Information",
-    "accountInformationDescription": "Enter the required information to create the staff account.",
-
-    "name": "Full Name",
-    "namePlaceholder": "Enter staff full name",
-
-    "email": "Email Address",
-    "emailPlaceholder": "Enter staff email address",
-
-    "password": "Password",
-    "passwordPlaceholder": "Create a secure password",
-
-    "cancel": "Cancel",
-    "creating": "Creating Account...",
-    "createButton": "Create Staff Account",
-
-    "roles": {
-      "frontoffice": "Front Office",
-      "secretary": "Secretary",
-      "chairperson": "Chairperson"
-    },
-
-    "roleDescriptions": {
-      "frontoffice": "Review and verify applications submitted by citizens.",
-      "secretary": "Process verified applications and prepare them for approval.",
-      "chairperson": "Review final applications and provide final approval."
-    }
-  }
-
-,
-  "adminSidebar": {
-    "adminPortal": "Administration Portal",
-    "admin": "Administrator",
-    "administrator": "System Administrator",
+  "chairpersonSidebar": {
+    "portal": "Chairperson Portal",
+    "chairperson": "Chairperson",
+    "account": "Ward Chairperson Account",
     "mainMenu": "Main Menu",
-
     "dashboard": "Dashboard",
-    "staffManagement": "Staff Management",
-    "createStaff": "Create Staff",
-
+    "applications": "Applications",
     "publicHome": "Public Home",
     "logout": "Logout"
   }
 ,
-
-  "adminDashboard": {
-    "label": "ADMIN PORTAL",
-    "title": "Administration Dashboard",
-    "description": "Manage applications, staff members and ward system activities from one place.",
-
-    "totalApplications": "Total Applications",
-    "pendingApplications": "Pending Applications",
-    "approvedApplications": "Approved Applications",
-    "totalStaff": "Total Staff",
-
-    "quickActions": "Quick Actions",
-    "quickActionsDescription": "Manage important administrative activities.",
-
-    "manageStaff": "Manage Staff",
-    "manageStaffDescription": "View and manage Front Office, Secretary and Chairperson accounts.",
-
-    "createStaff": "Create Staff",
-    "createStaffDescription": "Create a new staff account and assign a system role.",
-
-    "recentStaff": "Recent Staff",
-    "recentStaffDescription": "Recently added staff members in the system.",
-
+  "chairpersonDashboard": {
+    "welcomeLabel": "Chairperson Portal",
+    "welcomeTitle": "Final Approval Dashboard",
+    "welcomeDescription": "Review applications recommended by the ward secretary and issue the final decision. Approving an application generates a QR-coded certificate for the citizen.",
+    "reviewNow": "Review Applications",
+    "waitingDecision": "Waiting Decision",
+    "approvedToday": "Approved Today",
+    "rejectedToday": "Rejected Today",
+    "totalApproved": "Total Approved",
+    "applicationsForDecision": "Applications Awaiting Decision",
+    "applicationsForDecisionDescription": "Applications recommended by the secretary, ready for your final decision.",
     "viewAll": "View All",
-    "loading": "Loading dashboard...",
-    "noStaff": "No staff members found."
+    "loading": "Loading applications...",
+    "noApplications": "No applications waiting for decision right now.",
+    "review": "Review",
+    "quickActions": "Quick Actions",
+    "quickActionsDescription": "Jump straight to what you need.",
+    "reviewApplications": "Review Applications",
+    "reviewApplicationsDescription": "See all applications currently waiting for your decision.",
+    "approvedApplications": "Approved Applications",
+    "approvedApplicationsDescription": "View applications you have already approved and their certificates.",
+    "decisionProcess": "Decision Process",
+    "decisionProcessDescription": "How an application reaches you and what happens next.",
+    "stepRecommended": "Recommended",
+    "stepRecommendedDescription": "The ward secretary reviews and recommends the application for final approval.",
+    "stepReview": "Final Review",
+    "stepReviewDescription": "You review the applicant details, documents, and the full verification trail.",
+    "stepDecide": "Decision",
+    "stepDecideDescription": "Approve to generate the certificate, or reject with remarks to close the application."
+  },
+  "chairpersonApplications": {
+    "label": "Chairperson",
+    "title": "Applications Awaiting Decision",
+    "description": "All applications recommended by the secretary and waiting for your final approval or rejection.",
+    "total": "Total Applications",
+    "waitingDecision": "Waiting Decision",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "listTitle": "Applications",
+    "listDescription": "Search and review applications waiting on your decision.",
+    "search": "Search by name, number, or service...",
+    "loading": "Loading applications...",
+    "noSearchResults": "No applications match your search.",
+    "noApplications": "No applications waiting for decision right now.",
+    "unknownApplicant": "Unknown Applicant",
+    "review": "Review",
+    "status": {
+      "recommended": "Waiting Decision",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    }
+  },
+  "chairpersonDetails": {
+    "label": "Chairperson Review",
+    "loading": "Loading application...",
+    "applicant": "Applicant Details",
+    "address": "Address",
+    "documents": "Documents",
+    "noDocuments": "No documents uploaded.",
+    "view": "View",
+    "voucher": "Payment Voucher",
+    "payment": "Payment",
+    "status": "Status",
+    "noVoucher": "No voucher uploaded",
+    "frontOfficeReview": "Front Office Verification",
+    "verifiedByFrontOffice": "Verified by Front Office",
+    "secretaryReview": "Secretary Recommendation",
+    "recommendedBySecretary": "Recommended by Secretary",
+    "noRemarks": "No remarks provided.",
+    "certificateGenerated": "Application Approved — Certificate Generated",
+    "certificateGeneratedDescription": "A QR-coded certificate has been generated. The citizen can now download it from their dashboard.",
+    "previewCertificate": "Preview Certificate",
+    "backToApplications": "Back to Applications",
+    "chairpersonReview": "Chairperson Decision",
+    "reviewDescription": "Review the applicant details and the full verification trail before making your final decision.",
+    "remarksPlaceholder": "Enter your remarks for this decision...",
+    "remarksRequired": "Please add remarks before approving or rejecting this application.",
+    "processing": "Processing...",
+    "approve": "Approve",
+    "reject": "Reject",
+    "alreadyRejected": "This application has been rejected.",
+    "alreadyApproved": "This application has been approved."
   }
-  ,
-  
-  "staffDetails": {
-    "loading": "Loading staff details...",
-    "notFound": "Staff member not found.",
-    "back": "Back to Staff Management",
-    "staffProfile": "STAFF PROFILE",
-    "email": "Email Address",
-    "role": "Role",
-    "joined": "Joined Date",
-    "editStaff": "Edit Staff"
-  }
+
 
 }

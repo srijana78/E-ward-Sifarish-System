@@ -20,13 +20,26 @@ router.post(
   ]),
   ctrl.submitApplication
 );
-router.get("/my", auth, requireRole("citizen"), ctrl.getMyApplications);
+router.get("/my-applications", auth, requireRole("citizen"), ctrl.getMyApplications);
 
 // --- STAFF: queue + actions ---
 router.get("/", auth, requireRole("frontoffice", "secretary", "chairperson", "admin"), ctrl.listForRole);
 router.patch("/:id/frontoffice", auth, requireRole("frontoffice"), ctrl.frontOfficeAction);
 router.patch("/:id/secretary", auth, requireRole("secretary"), ctrl.secretaryAction);
 router.patch("/:id/chairperson", auth, requireRole("chairperson"), ctrl.chairpersonAction);
+
+router.get(
+  "/frontoffice/verified",
+  auth,
+  requireRole("frontoffice","admin"),
+  ctrl.getFrontOfficeVerified
+);
+router.get(
+  "/secretary/recommended",
+  auth,
+  requireRole("secretary", "admin"),
+  ctrl.getSecretaryRecommended
+);
 
 // --- SHARED ---
 router.get("/:id", auth, ctrl.getApplicationById);
