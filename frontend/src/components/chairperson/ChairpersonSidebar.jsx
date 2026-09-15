@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import {
   LayoutDashboard,
   ClipboardList,
+  Bell,
   Home,
   LogOut,
   X,
@@ -29,6 +30,11 @@ const ChairpersonSidebar = ({ isOpen, onClose }) => {
       name: "applications",
       path: "/chairperson/applications",
       icon: ClipboardList,
+    },
+    {
+      name: "notifications",
+      path: "/chairperson/notifications",
+      icon: Bell,
     },
   ];
 
@@ -65,9 +71,7 @@ const ChairpersonSidebar = ({ isOpen, onClose }) => {
             </div>
 
             <div>
-              <h1 className="text-base font-bold">
-                E-WARD SIFARISH
-              </h1>
+              <h1 className="text-base font-bold">E-WARD SIFARISH</h1>
 
               <p className="text-[11px] text-blue-200">
                 {t("chairpersonSidebar.portal")}

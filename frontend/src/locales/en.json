@@ -81,82 +81,44 @@
   }
 ,
 
+ 
+ 
   "auth": {
     "loginTitle": "Welcome Back",
-    "citizenLoginSubtitle": "Access your citizen account",
-    "staffLoginSubtitle": "Access your government staff account",
-
+    "citizenLoginSubtitle": "Log in to track and manage your applications",
+    "staffLoginSubtitle": "Staff login for ward office employees",
     "citizen": "Citizen",
     "staff": "Staff",
-
     "phoneLabel": "Phone Number",
     "phonePlaceholder": "Enter your phone number",
-
-    "emailLabel": "Official Email",
-    "emailPlaceholder": "Enter your official email",
-
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "Enter your email",
     "passwordLabel": "Password",
     "passwordPlaceholder": "Enter your password",
-
-    "loginButton": "Login",
+    "forgotPassword": "Forgot password?",
     "loggingIn": "Logging in...",
-
+    "loginButton": "Login",
     "noAccount": "Don't have an account?",
     "register": "Register",
-
-    "staffInfo": "Staff accounts are issued only by the Municipal Executive Officer. Contact your office administrator if you do not have login credentials.",
-
+    "staffInfo": "Staff accounts are created by the admin. Contact your office if you don't have login credentials.",
     "backHome": "Back to Home",
-
-    "registerTitle": "Create Citizen Account",
-    "registerSubtitle": "Register to access online ward recommendation services.",
-
+    "registerTitle": "Create an Account",
+    "registerSubtitle": "Register to submit and track your applications",
     "fullNameLabel": "Full Name",
     "fullNamePlaceholder": "Enter your full name",
-
     "citizenshipLabel": "Citizenship Number",
     "citizenshipPlaceholder": "Enter your citizenship number",
-
-    "registerButton": "Create Account",
-    "creatingAccount": "Creating Account...",
-
+    "creatingAccount": "Creating account...",
+    "registerButton": "Register",
     "hasAccount": "Already have an account?",
-    "loginLink": "Login"
-  },
-
-  "citizenLayout": {
-    "portalName": "E-WARD SIFARISH",
-    "governmentPortal": "Government Service Portal",
-    "citizenServices": "Citizen Services"
-  },
-
-  "citizenSidebar": {
-    "servicePortal": "Government Service Portal",
-    "citizen": "Citizen",
-    "citizenAccount": "Citizen Account",
-
-    "mainMenu": "Main Menu",
-    "dashboard": "Dashboard",
-    "newApplication": "New Application",
-    "myApplications": "My Applications",
-    "trackApplication": "Track Application",
-
-    "services": "Services",
-    "recommendationServices": "Recommendation Services",
-    "recommendationDescription": "Apply for ward recommendation services online.",
-
-    "documentsPayments": "Documents & Payment",
-    "documents": "Documents",
-    "paymentVoucher": "Payment Voucher",
-
-    "other": "Other",
-    "notifications": "Notifications",
-    "help": "Help & Support",
-    "publicHome": "Public Home",
-
-    "logout": "Logout"
-  },
-
+    "loginLink": "Login",
+    "forgotPasswordTitle": "Reset your password",
+    "forgotPasswordSubtitle": "Enter your email and we'll send you a reset link",
+    "sendResetLink": "Send reset link",
+    "resetLinkSent": "If an account exists with that email, a reset link has been sent.",
+    "backToLogin": "Back to login"
+  }
+,
   "admin": {
     "dashboard": {
       "heading": "Ward Front Office Dashboard",
@@ -197,6 +159,41 @@
       "description": "Ward official user management and digital signature settings."
     }
   },
+
+
+  "citizenLayout": {
+    "portalName": "E-WARD SIFARISH",
+    "governmentPortal": "Government Service Portal",
+    "citizenServices": "Citizen Services"
+  },
+
+  "citizenSidebar": {
+    "servicePortal": "Government Service Portal",
+    "citizen": "Citizen",
+    "citizenAccount": "Citizen Account",
+
+    "mainMenu": "Main Menu",
+    "dashboard": "Dashboard",
+    "newApplication": "New Application",
+    "myApplications": "My Applications",
+    "trackApplication": "Track Application",
+
+    "services": "Services",
+    "recommendationServices": "Recommendation Services",
+    "recommendationDescription": "Apply for ward recommendation services online.",
+
+    "documentsPayments": "Documents & Payment",
+    "documents": "Documents",
+    "paymentVoucher": "Payment Voucher",
+
+    "other": "Other",
+    "notifications": "Notifications",
+    "help": "Help & Support",
+    "publicHome": "Public Home",
+
+    "logout": "Logout"
+  },
+
 
   "citizenDashboard": {
     "welcomeLabel": "Citizen Service Portal",
@@ -463,16 +460,74 @@
     "continueFree": "Continue"
   },
 
-  "myApplications": {
-    "label": "Citizen Applications",
-    "title": "My Applications",
-    "description": "View and manage your submitted ward recommendation applications.",
-    "searchPlaceholder": "Search by application ID or recommendation type...",
-    "applicationList": "Submitted Applications",
-    "view": "View",
-    "noApplications": "No applications found",
-    "noApplicationsDescription": "You have not submitted any applications matching your search."
+  
+  "status": {
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "submitted": "Submitted",
+    "pending": "Pending",
+    "under_review": "Under Review",
+    "verified": "Verified",
+    "recommended": "Recommended",
+    "draft": "Draft"
   },
+
+  "applicationView": {
+    "documentLabel": "Document",
+    "pdfDocument": "PDF Document",
+    "previewUnavailable": "Preview unavailable",
+    "view": "View",
+    "download": "Download",
+    "noToken": "You must be logged in to view this application.",
+    "fetchError": "Failed to load application details.",
+    "errorTitle": "Something went wrong",
+    "backToApplications": "Back to Applications",
+    "badge": "Application Details",
+    "applicationNumber": "Application Number",
+    "appInfoTitle": "Application Information",
+    "appInfoDesc": "Basic details about this application",
+    "service": "Service",
+    "status": "Status",
+    "applicantTitle": "Applicant Details",
+    "applicantDesc": "Personal information of the applicant",
+    "dateOfBirth": "Date of Birth",
+    "phone": "Phone Number",
+    "email": "Email Address",
+    "addressTitle": "Address",
+    "addressDesc": "Permanent address of the applicant",
+    "province": "Province",
+    "district": "District",
+    "municipality": "Municipality",
+    "wardNumber": "Ward Number",
+    "tole": "Tole",
+    "documentsTitle": "Uploaded Documents",
+    "documentsDesc": "Documents submitted with this application",
+    "noDocuments": "No documents have been uploaded",
+    "paymentTitle": "Payment Details",
+    "paymentDesc": "Application fee and payment status",
+    "applicationFee": "Application Fee",
+    "paymentStatus": "Payment Status",
+    "paymentVoucher": "Payment Voucher",
+    "loading": "Loading application details..."
+  },
+
+  "myApplications": {
+    "pageLabel": "My Applications",
+    "title": "Track Your Applications",
+    "description": "View the status and details of all the applications you have submitted.",
+    "sectionTitle": "Submitted Applications",
+    "sectionSubtitle": "A list of all your applications and their current status",
+    "count_one": "{{count}} Application",
+    "count_other": "{{count}} Applications",
+    "loading": "Loading your applications...",
+    "fetchError": "Failed to load your applications.",
+    "emptyTitle": "No Applications Yet",
+    "emptyDescription": "You haven't submitted any applications yet. Start by applying for a service.",
+    "submittedDate": "Submitted Date",
+    "currentStatus": "Current Status",
+    "viewApplication": "View Application"
+  }
+,
 
   "reviewPage": {
     "title": "Review & Submit Application",
@@ -520,63 +575,58 @@
     "errorSubmitFailed": "Failed to submit application"
   },
 
-  "frontOfficeLayout": {
-    "eWardSifarish": "E-WARD SIFARISH",
-    "portal": "Front Office Portal",
-    "applicationManagement": "Application Management"
-  },
 
+
+ 
   "frontOfficeSidebar": {
     "portal": "Front Office Portal",
-    "staff": "Front Office Staff",
-    "account": "Front Office Account",
-    "mainMenu": "Main Menu",
     "dashboard": "Dashboard",
     "pendingApplications": "Pending Applications",
     "verifiedApplications": "Verified Applications",
     "notifications": "Notifications",
-    "reports": "Reports",
-    "settings": "Settings",
+    "mainMenu": "Main Menu",
+    "staff": "Front Office Staff",
+    "account": "Staff Account",
     "publicHome": "Public Home",
-    "logout": "Logout"
+    "english": "English",
+    "nepali": "नेपाली",
+    "logout": "Logout",
+    "closeSidebar": "Close sidebar"
   },
 
   "frontOfficeDashboard": {
-    "welcomeLabel": "FRONT OFFICE PORTAL",
-    "welcomeTitle": "Welcome to the Front Office Dashboard",
-    "welcomeDescription": "Manage, review and verify citizen applications efficiently from one central workspace.",
+    "welcomeLabel": "Front Office",
+    "welcomeTitle": "Application Verification Dashboard",
+    "welcomeDescription": "Review submitted applications, verify documents and payment, and forward verified applications to the Secretary.",
     "reviewNow": "Review Applications",
 
     "totalApplications": "Total Applications",
     "pendingApplications": "Pending Applications",
     "verifiedApplications": "Verified Applications",
-    "newNotifications": "New Notifications",
+    "notifications": "Notifications",
 
-    "recentApplications": "Recent Applications",
-    "recentApplicationsDescription": "Latest applications submitted by citizens.",
+    "pendingTitle": "Applications Waiting for Review",
+    "pendingDescription": "Applications currently waiting for Front Office verification.",
     "viewAll": "View All",
 
     "quickActions": "Quick Actions",
-    "quickActionsDescription": "Access frequently used Front Office services.",
+    "quickActionsDescription": "Access the main Front Office tasks quickly.",
 
     "reviewApplications": "Review Applications",
-    "reviewApplicationsDescription": "Review and process pending citizen applications.",
+    "reviewApplicationsDescription": "Check documents, payment details, and verify pending applications.",
 
-    "verifiedApplicationsDescription": "View applications that have been successfully verified.",
+    "verifiedApplicationsDescription": "View applications that have already been verified and forwarded to the Secretary.",
 
-    "viewNotifications": "Notifications",
-    "viewNotificationsDescription": "Check important system updates and notifications.",
+    "notificationsDescription": "View important application and workflow notifications.",
 
-    "viewReports": "Reports",
-    "viewReportsDescription": "View application statistics and system reports.",
+    "loading": "Loading applications...",
+    "noPending": "No applications are currently waiting for review.",
 
-    "workSummary": "Work Summary",
-    "workSummaryDescription": "A quick overview of today's Front Office activities.",
-
-    "pendingReview": "Pending Review",
-    "completedToday": "Completed Today",
-    "requiresAttention": "Requires Attention"
-  },
+    "retry": "Retry",
+    "invalidResponse": "Server returned an invalid response. Please check the backend.",
+    "loadFailed": "Failed to load applications."
+  }
+,
 
   "pendingApplications": {
     "label": "FRONT OFFICE",
@@ -709,127 +759,133 @@
 
     "saveChanges": "Save Changes"
   },
-"frontOfficeApplicationDetails": {
+
+
+  "frontOfficeLayout": {
+    "eWardSifarish": "E-Ward Sifarish",
+    "portal": "Front Office Portal",
+    "applicationManagement": "Application Management",
+    "notifications": "Notifications",
+    "openMenu": "Open menu"
+  },
+
+  "frontOfficeApplicationDetails": {
     "back": "Back",
-    "label": "APPLICATION DETAILS",
-    "title": "Application Details",
-    "description": "Review the complete application information and verify the submitted details.",
-    "pending": "Pending",
+    "label": "Application",
     "applicationId": "Application ID",
     "submittedOn": "Submitted on",
+
+    "pending": "Pending Verification",
+    "applicationVerified": "Application Verified",
+    "applicationVerifiedDescription": "This application has been verified and forwarded to the Secretary.",
+
     "applicantInformation": "Applicant Information",
-    "applicantInformationDescription": "Personal information provided by the applicant.",
+    "applicantInformationDescription": "Basic information provided by the applicant.",
     "fullName": "Full Name",
     "citizenshipNumber": "Citizenship Number",
     "phone": "Phone Number",
-    "email": "Email Address",
+    "email": "Email",
     "address": "Address",
+
     "applicationInformation": "Application Information",
-    "applicationInformationDescription": "Details about the requested service.",
+    "applicationInformationDescription": "Details of the requested service.",
     "requestedService": "Requested Service",
+
     "documents": "Documents",
-    "documentsDescription": "Documents submitted by the applicant.",
+    "documentsDescription": "Documents submitted with this application.",
+    "documentFallback": "Document",
+    "viewFile": "View File",
+    "noDocuments": "No documents were submitted.",
+
     "paymentInformation": "Payment Information",
-    "paymentInformationDescription": "Payment details for this application.",
+    "paymentInformationDescription": "Payment and voucher details.",
     "paymentStatus": "Payment Status",
     "paid": "Paid",
+    "voucher": "Payment Voucher",
+
     "verification": "Application Verification",
-    "verificationDescription": "Please review all applicant information, submitted documents, and payment details before verifying this application.",
+    "verificationDescription": "Review the submitted information and documents before making a decision.",
     "verifyApplication": "Verify Application",
-    "loadingText": "Loading application...",
-    "notFound": "Application not found",
-    "unknownApplicant": "Unknown Applicant",
-    "notAvailable": "N/A",
-    "noDocuments": "No documents uploaded.",
-    "documentFallback": "Document",
+    "rejectApplication": "Reject Application",
     "verifying": "Verifying...",
-    "verifySuccess": "Application verified successfully!",
-    "applicationVerified": "Application Verified",
-    "applicationVerifiedDescription": "This application has been successfully verified.",
-    
 
-    "viewFile": "View",
-    "voucher": "Payment Voucher"
-  
+    "verifySuccess": "Application verified successfully.",
+    "rejectSuccess": "Application rejected successfully.",
+    "rejectConfirm": "Are you sure you want to reject this application?",
 
+    "loadingText": "Loading application...",
+    "notFound": "Application not found.",
+    "notAvailable": "Not available",
+    "invalidResponse": "Server returned an invalid response.",
+    "actionFailed": "The requested action failed. Please try again."
+,
+    "viewImage": "Click to view full image",
+"fileUnavailable": "File is not available."
   }
+
 ,
 
-  "secretarySidebar": {
-    "portal": "Ward Secretary Portal",
-    "secretary": "Ward Secretary",
-    "account": "Secretary Account",
 
+
+  
+  "secretarySidebar": {
+    "portal": "Secretary Portal",
+    "secretary": "Secretary",
+    "account": "Secretary Account",
     "mainMenu": "Main Menu",
 
     "dashboard": "Dashboard",
     "applications": "Applications",
-    "recommended": "Recommended Applications",
+    "recommended": "Recommended",
+    "notifications": "Notifications",
 
     "publicHome": "Public Home",
-    "logout": "Logout"
-  },
+    "logout": "Logout",
+    "openMenu": "Open menu"
+  }
+,
 
+ 
   "secretaryDashboard": {
-    "welcomeLabel": "Secretary Portal",
-    "welcomeTitle": "Welcome to the Secretary Dashboard",
-    "welcomeDescription": "Review verified applications, check submitted information, and recommend eligible applications for the next approval process.",
-    "reviewNow": "Review Applications",
-
-    "totalVerified": "Verified Applications",
-    "waitingReview": "Waiting for Review",
-    "recommended": "Recommended",
-    "attentionRequired": "Attention Required",
-
-    "applicationsForReview": "Applications for Review",
-    "applicationsForReviewDescription": "Verified applications waiting for secretary review.",
-    "viewAll": "View All",
-    "loading": "Loading applications...",
-    "noApplications": "No applications available for review.",
-    "review": "Review",
-
-    "quickActions": "Quick Actions",
-    "quickActionsDescription": "Manage your secretary tasks quickly.",
-    "reviewApplications": "Review Applications",
-    "reviewApplicationsDescription": "Review verified applications and check their details.",
-    "recommendedApplications": "Recommended Applications",
-    "recommendedApplicationsDescription": "View applications that have already been recommended.",
-
-    "reviewProcess": "Secretary Workflow",
-    "reviewProcessDescription": "Follow these steps to process applications.",
-    "stepVerified": "Verified Application",
-    "stepVerifiedDescription": "Receive applications that have been verified by the Front Office.",
-    "stepReview": "Review Details",
-    "stepReviewDescription": "Check applicant information, documents, and application details.",
-    "stepRecommend": "Recommend Application",
-    "stepRecommendDescription": "Recommend eligible applications for the next approval process."
-  },
-
-  "secretaryApplications": {
-    "label": "SECRETARY PORTAL",
-    "title": "Applications for Review",
-    "description": "Review verified applications and prepare recommendations for the next approval process.",
-
+    "welcome": "Secretary Portal",
+    "secretary": "Secretary",
+    "description": "Review verified applications, provide recommendations, and forward applications for final approval.",
     "total": "Total Applications",
     "waitingReview": "Waiting for Review",
     "recommended": "Recommended",
-
-    "listTitle": "Application List",
-    "listDescription": "View and review applications assigned to the secretary.",
-
-    "search": "Search by name, application ID or service",
-
+    "pending": "Pending Review",
+    "pendingTitle": "Applications Waiting for Review",
+    "pendingDescription": "Applications verified by the Front Office and waiting for your recommendation.",
+    "recommendedTitle": "Recently Recommended",
+    "recommendedDescription": "Applications already recommended and forwarded to the Chairperson.",
+    "viewAll": "View All",
+    "view": "View",
     "loading": "Loading applications...",
-    "noApplications": "No applications found.",
+    "noPending": "No applications are waiting for review.",
+    "noRecommended": "No recommended applications yet.",
+    "unknown": "Unknown Applicant"
+  }
+,
+
+ 
+  "secretaryApplications": {
+    "label": "Secretary Review",
+    "title": "Applications",
+    "description": "Review applications verified by the Front Office and make your recommendation.",
+    "waitingReview": "Waiting for Review",
+    "listTitle": "Applications Waiting for Review",
+    "listDescription": "These applications have been verified by the Front Office.",
+    "search": "Search by name, application number or service...",
+    "loading": "Loading applications...",
+    "noApplications": "No applications are waiting for review.",
+    "noSearchResults": "No applications match your search.",
     "unknownApplicant": "Unknown Applicant",
-
     "review": "Review",
-
     "status": {
-      "verified": "Verified",
-      "recommended": "Recommended"
+      "verified": "Verified"
     }
-  },
+  }
+,
 
   "secretaryDetails": {
     "label": "Secretary Review",
@@ -862,32 +918,49 @@
     "alreadyRecommended": "You already recommended this application",
     "alreadyRejected": "You already rejected this application",
     "processing": "Processing..."
+,    "frontOfficeVerified": "Front Office Verified",
+"readyForReview": "Ready for Secretary Review",
+"actionRequired": "Action Required",
+"actionDescription": "Review the submitted information and documents carefully before making your decision.",
+"required": "Required",
+"selectDecision": "Select Decision",
+"recommendDescription": "Forward this application to the Chairperson for final approval.",
+"rejectDescription": "Reject this application if the requirements are not satisfied."
   },
   
+
   "secretaryRecommended": {
-    "label": "Recommended",
     "title": "Recommended Applications",
-    "description": "Applications you have recommended to the chairperson.",
+    "description": "Applications you have recommended and forwarded to the Chairperson.",
     "total": "Total Recommended",
-    "loading": "Loading recommended applications...",
-    "empty": "You haven't recommended any applications yet.",
+    "loading": "Loading applications...",
+    "empty": "No recommended applications yet.",
     "unknown": "Unknown Applicant",
     "recommended": "Recommended",
     "view": "View"
-  },
-
-
-  "chairpersonSidebar": {
-    "portal": "Chairperson Portal",
-    "chairperson": "Chairperson",
-    "account": "Ward Chairperson Account",
-    "mainMenu": "Main Menu",
-    "dashboard": "Dashboard",
-    "applications": "Applications",
-    "publicHome": "Public Home",
-    "logout": "Logout"
   }
 ,
+"secretaryNotifications": {
+  "label": "Notifications",
+  "title": "Notifications",
+  "description": "View notifications related to your secretary activities and applications.",
+  "loading": "Loading notifications...",
+  "empty": "No notifications yet.",
+  "markAll": "Mark all as read"
+},
+
+"chairpersonSidebar": {
+  "portal": "Chairperson Portal",
+  "chairperson": "Chairperson",
+  "account": "Chairperson Account",
+  "mainMenu": "Main Menu",
+  "dashboard": "Dashboard",
+  "applications": "Applications",
+  "notifications": "Notifications",
+  "publicHome": "Public Home",
+  "logout": "Logout",
+  "openMenu": "Open menu"
+},
   "chairpersonDashboard": {
     "welcomeLabel": "Chairperson Portal",
     "welcomeTitle": "Final Approval Dashboard",
@@ -970,7 +1043,178 @@
     "reject": "Reject",
     "alreadyRejected": "This application has been rejected.",
     "alreadyApproved": "This application has been approved."
+  },
+"chairpersonNotifications": {
+  "label": "Chairperson",
+  "title": "Notifications",
+  "description": "View application updates and important notifications.",
+  "markAll": "Mark all as read",
+  "new": "New",
+  "markRead": "Mark as read",
+  "view": "View",
+  "loading": "Loading notifications...",
+  "empty": "No notifications found.",
+  "loadError": "Failed to load notifications."
+}
+,
+
+  "adminLayout": {
+    "title": "Admin Portal",
+    "subtitle": "Ward Office Administration",
+    "openMenu": "Open menu"
+  }
+,
+
+  "adminSidebar": {
+    "adminPortal": "Admin Portal",
+    "admin": "Admin",
+    "administrator": "Administrator",
+    "mainMenu": "Main Menu",
+    "dashboard": "Dashboard",
+    "staffManagement": "Staff Management",
+    "createStaff": "Create Staff",
+    "publicHome": "Public Home",
+    "logout": "Logout"
   }
 
+  ,
+  
+  "adminDashboard": {
+    "label": "ADMINISTRATION",
+    "title": "Admin Dashboard",
+    "description": "Manage staff accounts and monitor the ward office system from one place.",
+    
+    "totalApplications": "Total Applications",
+    "pendingApplications": "Pending Applications",
+    "approvedApplications": "Approved Applications",
+    "totalStaff": "Staff Accounts",
 
+    "quickActions": "Quick Actions",
+    "quickActionsDescription": "Manage staff accounts and access important administrative functions.",
+    
+    "manageStaff": "Staff Management",
+    "manageStaffDescription": "View and manage the staff accounts of this ward office.",
+    
+    "createStaff": "Create Staff",
+    "createStaffDescription": "Create an account for the Front Desk, Secretary, or Chairperson.",
+
+    "staffAccounts": "Staff Accounts",
+    "staffAccountsDescription": "Staff members currently registered in this ward office.",
+    
+    "viewAll": "View All",
+    "loading": "Loading...",
+    "noStaff": "No staff accounts found."
+  },
+  
+  "createStaff": {
+    "back": "Back to Staff Management",
+    "label": "STAFF MANAGEMENT",
+    "title": "Create Staff Account",
+    "description": "Create an account for a staff member of this ward office.",
+
+    "chooseRole": "Select Staff Role",
+    "chooseRoleDescription": "Choose the position for the new staff account.",
+
+    "roles": {
+      "frontoffice": "Front Desk",
+      "secretary": "Secretary",
+      "chairperson": "Chairperson"
+    },
+
+    "roleDescriptions": {
+      "frontoffice": "Handles applications and documents.",
+      "secretary": "Reviews and recommends applications.",
+      "chairperson": "Approves or rejects applications."
+    },
+
+    "accountInformation": "Account Information",
+
+    "name": "Full Name",
+    "namePlaceholder": "Enter full name",
+
+    "email": "Email",
+    "emailPlaceholder": "Enter email address",
+
+    "password": "Password",
+    "passwordPlaceholder": "Create a password",
+
+    "cancel": "Cancel",
+    "createButton": "Create Account",
+    "creating": "Creating...",
+    "success": "Staff account created successfully.",
+    "error": "Failed to create staff account.",
+    "showPassword": "Show password",
+"hidePassword": "Hide password"
+
+  },
+
+  "staffManagement": {
+  "label": "STAFF MANAGEMENT",
+  "title": "Staff Management",
+  "description": "Manage the staff accounts of this ward office.",
+  "addStaff": "Add Staff",
+  "staffList": "Staff Accounts",
+  "totalStaff": "staff accounts",
+  "search": "Search staff...",
+  "refresh": "Refresh",
+  "loading": "Loading staff...",
+  "noStaff": "No staff accounts found.",
+  "loadError": "Failed to load staff.",
+  "view": "View Details",
+  "edit": "Edit Staff",
+  "delete": "Delete Staff",
+  "roles": {
+    "frontoffice": "Front Desk",
+    "secretary": "Secretary",
+    "chairperson": "Chairperson"
+  }
+
+  }
+,
+"staffDetails": {
+  "back": "Back to Staff Management",
+  "staffProfile": "STAFF PROFILE",
+  "email": "Email",
+  "role": "Staff Role",
+  "joined": "Joined On",
+  "editStaff": "Edit Staff",
+  "loading": "Loading staff details...",
+  "notFound": "Staff member not found.",
+  "loadError": "Failed to load staff details."
+},
+"editStaff": {
+  "back": "Back to Staff Details",
+  "label": "STAFF MANAGEMENT",
+  "title": "Edit Staff Account",
+  "description": "Update the account information and role of this staff member.",
+  "chooseRole": "Select Staff Role",
+  "chooseRoleDescription": "Choose the position for this staff account.",
+  "roles": {
+    "frontoffice": "Front Desk",
+    "secretary": "Secretary",
+    "chairperson": "Chairperson"
+  },
+  "roleDescriptions": {
+    "frontoffice": "Handles applications and documents.",
+    "secretary": "Reviews and recommends applications.",
+    "chairperson": "Approves or rejects applications."
+  },
+  "accountInformation": "Account Information",
+  "name": "Full Name",
+  "namePlaceholder": "Enter full name",
+  "email": "Email",
+  "emailPlaceholder": "Enter email address",
+  "password": "New Password",
+  "passwordPlaceholder": "Leave blank to keep current password",
+  "passwordHint": "Only enter a password if you want to change it.",
+  "showPassword": "Show password",
+  "hidePassword": "Hide password",
+  "cancel": "Cancel",
+  "saveButton": "Save Changes",
+  "saving": "Saving...",
+  "loading": "Loading staff details...",
+  "success": "Staff account updated successfully.",
+  "error": "Failed to update staff account.",
+  "loadError": "Failed to load staff details."
+}
 }

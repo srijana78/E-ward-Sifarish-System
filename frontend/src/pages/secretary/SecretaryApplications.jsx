@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
+
 import { useTranslation } from "react-i18next";
+
 import {
   FileText,
   Search,
@@ -9,9 +12,10 @@ import {
   CheckCircle2,
   AlertCircle,
 } from "lucide-react";
+
 import { useAuth } from "../../context/AuthContext";
 
-const API = "http://localhost:5000/api/applications";
+const API = `${import.meta.env.VITE_API_URL}/api/applications`;
 
 const SecretaryApplications = () => {
   const navigate = useNavigate();
@@ -27,7 +31,9 @@ const SecretaryApplications = () => {
     const loadApplications = async () => {
       try {
         const authToken =
-          token || localStorage.getItem("sifarish_token");
+          token ||
+          localStorage.getItem("sifarish_token") ||
+          localStorage.getItem("token");
 
         const res = await fetch(API, {
           headers: {
@@ -35,7 +41,15 @@ const SecretaryApplications = () => {
           },
         });
 
-        const data = await res.json();
+        const text = await res.text();
+
+        let data = {};
+
+        try {
+          data = text ? JSON.parse(text) : {};
+        } catch {
+          data = {};
+        }
 
         if (!res.ok) {
           throw new Error(
@@ -91,7 +105,6 @@ const SecretaryApplications = () => {
 
   return (
     <div className="space-y-7">
-
       {/* Header */}
       <section className="rounded-2xl bg-gradient-to-r from-blue-950 via-blue-900 to-slate-900 p-7 text-white shadow-md sm:p-9">
         <p className="text-sm font-semibold uppercase tracking-wide text-red-300">

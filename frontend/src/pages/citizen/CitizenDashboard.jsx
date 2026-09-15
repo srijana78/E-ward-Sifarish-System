@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
+
 import {
   PlusCircle,
   FileText,
@@ -7,29 +9,38 @@ import {
   Clock3,
   AlertCircle,
 } from "lucide-react";
+
 import { useTranslation } from "react-i18next";
+
 import { useAuth } from "../../context/AuthContext";
 
-const API = "http://localhost:5000/api/applications";
+const API = `${import.meta.env.VITE_API_URL}/api/applications`;
 
 const CitizenDashboard = () => {
   const navigate = useNavigate();
+
   const { t } = useTranslation();
+
   const { token } = useAuth();
 
   const [applications, setApplications] = useState([]);
+
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState("");
 
   // Fetch citizen applications
   useEffect(() => {
     const fetchApplications = async () => {
       try {
+        const authToken =
+          token ||
+          localStorage.getItem("sifarish_token") ||
+          localStorage.getItem("token");
+
         const response = await fetch(`${API}/my-applications`, {
           headers: {
-            Authorization: `Bearer ${
-              token || localStorage.getItem("sifarish_token")
-            }`,
+            Authorization: `Bearer ${authToken}`,
           },
         });
 
@@ -38,7 +49,7 @@ const CitizenDashboard = () => {
         let data;
 
         try {
-          data = JSON.parse(text);
+          data = text ? JSON.parse(text) : {};
         } catch {
           throw new Error(
             "Server returned HTML instead of JSON. Check backend route."
@@ -52,6 +63,7 @@ const CitizenDashboard = () => {
         setApplications(data.applications || []);
       } catch (error) {
         console.error(error);
+
         setError(error.message);
       } finally {
         setLoading(false);
@@ -89,13 +101,13 @@ const CitizenDashboard = () => {
 
   return (
     <div className="space-y-6">
-
       {/* WELCOME */}
       <section className="rounded-2xl bg-gradient-to-r from-blue-950 via-blue-900 to-slate-900 p-6 text-white sm:p-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <p className="text-sm font-semibold text-red-300">
-              {t("citizenDashboard.welcomeLabel")}
+              {t("citizenDashboard.welcomeLabel")} 
+              
             </p>
 
             <h1 className="mt-2 text-2xl font-bold sm:text-3xl">
@@ -112,6 +124,7 @@ const CitizenDashboard = () => {
             className="flex items-center justify-center gap-2 rounded-xl bg-red-600 px-5 py-3 font-semibold hover:bg-red-700"
           >
             <PlusCircle size={18} />
+
             {t("citizenDashboard.newApplication")}
           </button>
         </div>

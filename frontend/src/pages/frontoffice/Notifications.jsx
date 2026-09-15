@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+
 import { useTranslation } from "react-i18next";
+
 import {
   Bell,
   CheckCircle2,
@@ -8,9 +10,10 @@ import {
   AlertCircle,
   Loader2,
 } from "lucide-react";
+
 import { useAuth } from "../../context/AuthContext";
 
-const API = "http://localhost:5000/api/applications";
+const API = `${import.meta.env.VITE_API_URL}/api/applications`;
 
 const Notifications = () => {
   const { t } = useTranslation();
@@ -20,7 +23,10 @@ const Notifications = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const authToken = token || localStorage.getItem("sifarish_token");
+  const authToken =
+    token ||
+    localStorage.getItem("sifarish_token") ||
+    localStorage.getItem("token");
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -31,10 +37,20 @@ const Notifications = () => {
           },
         });
 
-        const data = await response.json();
+        const text = await response.text();
+
+        let data = {};
+
+        try {
+          data = text ? JSON.parse(text) : {};
+        } catch {
+          data = {};
+        }
 
         if (!response.ok) {
-          throw new Error(data.message || "Failed to load notifications");
+          throw new Error(
+            data.message || "Failed to load notifications"
+          );
         }
 
         setApplications(data.applications || []);
@@ -105,7 +121,6 @@ const Notifications = () => {
 
   const formatTime = (date) => {
     if (!date) return "N/A";
-
     return new Date(date).toLocaleString();
   };
 

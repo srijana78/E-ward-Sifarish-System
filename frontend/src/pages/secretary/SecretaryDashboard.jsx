@@ -1,143 +1,132 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  ClipboardCheck,
-  FileCheck2,
   FileText,
-  ArrowRight,
   Clock3,
   CheckCircle2,
+  ArrowRight,
   AlertCircle,
-  ShieldCheck,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
 
-const API = "http://localhost:5000/api/applications";
+const API = `${import.meta.env.VITE_API_URL}/api/applications`;
+
+const getToken = (token) =>
+  token ||
+  localStorage.getItem("sifarish_token") ||
+  localStorage.getItem("token");
 
 const SecretaryDashboard = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { token } = useAuth();
+  const { token, user } = useAuth();
 
-  const [applications, setApplications] = useState([]);
+  const [pending, setPending] = useState([]);
+  const [recommended, setRecommended] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const loadApplications = async () => {
+    const loadDashboard = async () => {
       try {
-        const authToken =
-          token || localStorage.getItem("sifarish_token");
+        setLoading(true);
+        setError("");
 
-        const response = await fetch(API, {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
+        const headers = {
+          Authorization: `Bearer ${getToken(token)}`,
+        };
 
-        const data = await response.json();
+        const [pendingRes, recommendedRes] = await Promise.all([
+          fetch(API, { headers }),
+          fetch(`${API}/secretary/recommended`, { headers }),
+        ]);
 
-        if (!response.ok) {
+        const [pendingData, recommendedData] = await Promise.all([
+          pendingRes.json(),
+          recommendedRes.json(),
+        ]);
+
+        if (!pendingRes.ok) {
           throw new Error(
-            data.message || "Failed to load applications"
+            pendingData.message || "Failed to load applications"
           );
         }
 
-        setApplications(data.applications || []);
+        if (!recommendedRes.ok) {
+          throw new Error(
+            recommendedData.message ||
+              "Failed to load recommended applications"
+          );
+        }
+
+        setPending(pendingData.applications || []);
+        setRecommended(recommendedData.applications || []);
       } catch (err) {
-        console.error(err);
+        console.error("Secretary dashboard:", err);
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
 
-    loadApplications();
+    loadDashboard();
   }, [token]);
-
-  const waitingApplications = applications.filter(
-    (app) =>
-      app.status === "verified" &&
-      app.currentStage === "secretary"
-  );
-
-  const recommendedApplications = applications.filter(
-    (app) => app.status === "recommended"
-  );
-
-  const rejectedApplications = applications.filter(
-    (app) => app.status === "rejected"
-  );
 
   const stats = [
     {
-      title: "totalVerified",
-      value: waitingApplications.length,
+      label: "total",
+      value: pending.length + recommended.length,
       icon: FileText,
     },
     {
-      title: "waitingReview",
-      value: waitingApplications.length,
+      label: "waitingReview",
+      value: pending.length,
       icon: Clock3,
     },
     {
-      title: "recommended",
-      value: recommendedApplications.length,
+      label: "recommended",
+      value: recommended.length,
       icon: CheckCircle2,
-    },
-    {
-      title: "attentionRequired",
-      value: rejectedApplications.length,
-      icon: AlertCircle,
     },
   ];
 
   return (
     <div className="space-y-7">
-
-      {/* Header / Welcome */}
+      {/* Welcome */}
       <section className="rounded-2xl bg-gradient-to-r from-blue-950 via-blue-900 to-slate-900 p-7 text-white shadow-md sm:p-9">
-        <div className="flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-3xl">
-            <div className="mb-3 flex items-center gap-2 text-red-300">
-              <ShieldCheck size={20} />
+        <p className="text-sm font-semibold text-red-300">
+          {t("secretaryDashboard.welcome")}
+        </p>
 
-              <span className="text-sm font-semibold uppercase tracking-wide">
-                {t("secretaryDashboard.welcomeLabel")}
-              </span>
-            </div>
+        <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
+          {user?.name || t("secretaryDashboard.secretary")}
+        </h1>
 
-            <h1 className="text-3xl font-bold sm:text-4xl">
-              {t("secretaryDashboard.welcomeTitle")}
-            </h1>
-
-            <p className="mt-3 text-sm leading-7 text-blue-100 sm:text-base">
-              {t("secretaryDashboard.welcomeDescription")}
-            </p>
-          </div>
-
-          <button
-            onClick={() => navigate("/secretary/applications")}
-            className="flex shrink-0 items-center justify-center gap-2 rounded-xl bg-red-600 px-6 py-3.5 text-sm font-bold shadow-md transition hover:bg-red-700"
-          >
-            <ClipboardCheck size={19} />
-            {t("secretaryDashboard.reviewNow")}
-          </button>
-        </div>
+        <p className="mt-3 max-w-2xl text-sm leading-7 text-blue-100 sm:text-base">
+          {t("secretaryDashboard.description")}
+        </p>
       </section>
 
-      {/* Statistics */}
-      <section className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        {stats.map(({ title, value, icon: Icon }) => (
+      {/* Error */}
+      {error && (
+        <div className="flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+          <AlertCircle size={18} />
+          {error}
+        </div>
+      )}
+
+      {/* Stats */}
+      <section className="grid gap-5 sm:grid-cols-3">
+        {stats.map(({ label, value, icon: Icon }) => (
           <div
-            key={title}
+            key={label}
             className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md"
           >
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-slate-500">
-                  {t(`secretaryDashboard.${title}`)}
+                  {t(`secretaryDashboard.${label}`)}
                 </p>
 
                 <p className="mt-3 text-3xl font-bold text-blue-950">
@@ -153,223 +142,164 @@ const SecretaryDashboard = () => {
         ))}
       </section>
 
-      {/* Error */}
-      {error && (
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 shadow-sm">
-          {error}
-        </div>
-      )}
-
-      {/* Applications For Review */}
+      {/* Pending Applications */}
       <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md">
-        <div className="flex flex-col gap-3 border-b border-slate-200 p-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center justify-between border-b border-slate-200 p-6">
           <div>
             <h2 className="text-lg font-bold text-blue-950">
-              {t("secretaryDashboard.applicationsForReview")}
+              {t("secretaryDashboard.pendingTitle")}
             </h2>
 
             <p className="mt-1 text-sm text-slate-500">
-              {t(
-                "secretaryDashboard.applicationsForReviewDescription"
-              )}
+              {t("secretaryDashboard.pendingDescription")}
             </p>
           </div>
 
           <button
             onClick={() => navigate("/secretary/applications")}
-            className="flex items-center gap-1 text-sm font-semibold text-blue-900 hover:text-red-600"
+            className="hidden items-center gap-1 text-sm font-semibold text-blue-900 hover:text-red-600 sm:flex"
           >
             {t("secretaryDashboard.viewAll")}
             <ArrowRight size={16} />
           </button>
         </div>
 
-        <div className="divide-y divide-slate-100">
-          {loading ? (
-            <Empty text={t("secretaryDashboard.loading")} />
-          ) : waitingApplications.length === 0 ? (
-            <Empty text={t("secretaryDashboard.noApplications")} />
-          ) : (
-            waitingApplications.slice(0, 5).map((app) => (
-              <div
+        {loading ? (
+          <Empty text={t("secretaryDashboard.loading")} />
+        ) : pending.length === 0 ? (
+          <Empty text={t("secretaryDashboard.noPending")} />
+        ) : (
+          <div className="divide-y divide-slate-100">
+            {pending.slice(0, 5).map((app) => (
+              <ApplicationRow
                 key={app._id}
-                className="flex flex-col gap-5 p-6 transition hover:bg-slate-50 sm:flex-row sm:items-center sm:justify-between"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-900">
-                    <FileText size={22} />
-                  </div>
+                app={app}
+                onClick={() =>
+                  navigate(`/secretary/application/${app._id}`)
+                }
+                t={t}
+              />
+            ))}
+          </div>
+        )}
 
-                  <div>
-                    <p className="text-base font-bold text-blue-950">
-                      {app.applicantDetails?.fullName ||
-                        "Unknown Applicant"}
-                    </p>
-
-                    <p className="mt-1 text-sm text-slate-600">
-                      {app.service}
-                    </p>
-
-                    <p className="mt-1 text-xs text-slate-400">
-                      {app.applicationNumber || app._id}
-                      {" • "}
-                      {new Date(
-                        app.createdAt
-                      ).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() =>
-                    navigate(
-                      `/secretary/application/${app._id}`
-                    )
-                  }
-                  className="flex items-center justify-center gap-2 rounded-lg bg-blue-950 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-900"
-                >
-                  {t("secretaryDashboard.review")}
-                  <ArrowRight size={16} />
-                </button>
-              </div>
-            ))
-          )}
-        </div>
+        <button
+          onClick={() => navigate("/secretary/applications")}
+          className="flex w-full items-center justify-center gap-2 border-t border-slate-100 p-4 text-sm font-semibold text-blue-900 hover:bg-slate-50 sm:hidden"
+        >
+          {t("secretaryDashboard.viewAll")}
+          <ArrowRight size={16} />
+        </button>
       </section>
 
-      {/* Quick Actions */}
-      <section>
-        <div className="mb-4">
-          <h2 className="text-lg font-bold text-blue-950">
-            {t("secretaryDashboard.quickActions")}
-          </h2>
+      {/* Recommended */}
+      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md">
+        <div className="flex items-center justify-between border-b border-slate-200 p-6">
+          <div>
+            <h2 className="text-lg font-bold text-blue-950">
+              {t("secretaryDashboard.recommendedTitle")}
+            </h2>
 
-          <p className="mt-1 text-sm text-slate-500">
-            {t("secretaryDashboard.quickActionsDescription")}
-          </p>
+            <p className="mt-1 text-sm text-slate-500">
+              {t("secretaryDashboard.recommendedDescription")}
+            </p>
+          </div>
+
+          <button
+            onClick={() => navigate("/secretary/recommended")}
+            className="hidden items-center gap-1 text-sm font-semibold text-blue-900 hover:text-red-600 sm:flex"
+          >
+            {t("secretaryDashboard.viewAll")}
+            <ArrowRight size={16} />
+          </button>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
-          <QuickAction
-            icon={ClipboardCheck}
-            title={t(
-              "secretaryDashboard.reviewApplications"
-            )}
-            description={t(
-              "secretaryDashboard.reviewApplicationsDescription"
-            )}
-            onClick={() =>
-              navigate("/secretary/applications")
-            }
-          />
+        {loading ? (
+          <Empty text={t("secretaryDashboard.loading")} />
+        ) : recommended.length === 0 ? (
+          <Empty text={t("secretaryDashboard.noRecommended")} />
+        ) : (
+          <div className="divide-y divide-slate-100">
+            {recommended.slice(0, 5).map((app) => (
+              <ApplicationRow
+                key={app._id}
+                app={app}
+                recommended
+                onClick={() =>
+                  navigate(`/secretary/application/${app._id}`)
+                }
+                t={t}
+              />
+            ))}
+          </div>
+        )}
 
-          <QuickAction
-            icon={FileCheck2}
-            title={t(
-              "secretaryDashboard.recommendedApplications"
-            )}
-            description={t(
-              "secretaryDashboard.recommendedApplicationsDescription"
-            )}
-            onClick={() =>
-              navigate("/secretary/recommended")
-            }
-          />
-        </div>
-      </section>
-
-      {/* Workflow */}
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-md sm:p-7">
-        <div>
-          <h2 className="text-lg font-bold text-blue-950">
-            {t("secretaryDashboard.reviewProcess")}
-          </h2>
-
-          <p className="mt-1 text-sm text-slate-500">
-            {t(
-              "secretaryDashboard.reviewProcessDescription"
-            )}
-          </p>
-        </div>
-
-        <div className="mt-6 grid gap-5 md:grid-cols-3">
-          <ProcessCard
-            number="1"
-            title={t("secretaryDashboard.stepVerified")}
-            description={t(
-              "secretaryDashboard.stepVerifiedDescription"
-            )}
-          />
-
-          <ProcessCard
-            number="2"
-            title={t("secretaryDashboard.stepReview")}
-            description={t(
-              "secretaryDashboard.stepReviewDescription"
-            )}
-          />
-
-          <ProcessCard
-            number="3"
-            title={t("secretaryDashboard.stepRecommend")}
-            description={t(
-              "secretaryDashboard.stepRecommendDescription"
-            )}
-          />
-        </div>
+        <button
+          onClick={() => navigate("/secretary/recommended")}
+          className="flex w-full items-center justify-center gap-2 border-t border-slate-100 p-4 text-sm font-semibold text-blue-900 hover:bg-slate-50 sm:hidden"
+        >
+          {t("secretaryDashboard.viewAll")}
+          <ArrowRight size={16} />
+        </button>
       </section>
     </div>
   );
 };
 
-const QuickAction = ({
-  icon: Icon,
-  title,
-  description,
-  onClick,
-}) => (
-  <button
-    onClick={onClick}
-    className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition hover:-translate-y-1 hover:shadow-lg"
-  >
-    <div className="flex items-center justify-between">
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-900">
-        <Icon size={23} />
+const ApplicationRow = ({ app, recommended, onClick, t }) => (
+  <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex min-w-0 items-center gap-3">
+      <div
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
+          recommended
+            ? "bg-green-50 text-green-700"
+            : "bg-blue-50 text-blue-900"
+        }`}
+      >
+        {recommended ? (
+          <CheckCircle2 size={19} />
+        ) : (
+          <FileText size={19} />
+        )}
       </div>
 
-      <ArrowRight
-        size={20}
-        className="text-slate-400 transition group-hover:translate-x-1 group-hover:text-red-600"
-      />
+      <div className="min-w-0">
+        <p className="truncate font-semibold text-blue-950">
+          {app.applicantDetails?.fullName ||
+            t("secretaryDashboard.unknown")}
+        </p>
+
+        <p className="text-sm text-slate-500">
+          {app.service}
+        </p>
+
+        <p className="text-xs text-slate-400">
+          {app.applicationNumber || app._id}
+        </p>
+      </div>
     </div>
 
-    <h3 className="mt-5 text-base font-bold text-blue-950">
-      {title}
-    </h3>
+    <div className="flex items-center justify-between gap-3 sm:justify-end">
+      <span
+        className={`rounded-full px-3 py-1 text-xs font-semibold ${
+          recommended
+            ? "bg-green-50 text-green-700"
+            : "bg-blue-50 text-blue-700"
+        }`}
+      >
+        {recommended
+          ? t("secretaryDashboard.recommended")
+          : t("secretaryDashboard.pending")}
+      </span>
 
-    <p className="mt-2 text-sm leading-6 text-slate-500">
-      {description}
-    </p>
-  </button>
-);
-
-const ProcessCard = ({
-  number,
-  title,
-  description,
-}) => (
-  <div className="rounded-xl border border-slate-100 bg-slate-50 p-5">
-    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-950 text-sm font-bold text-white">
-      {number}
+      <button
+        onClick={onClick}
+        className="flex items-center gap-1.5 rounded-lg bg-blue-950 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-900"
+      >
+        {t("secretaryDashboard.view")}
+        <ArrowRight size={14} />
+      </button>
     </div>
-
-    <h3 className="mt-4 font-bold text-blue-950">
-      {title}
-    </h3>
-
-    <p className="mt-2 text-sm leading-6 text-slate-500">
-      {description}
-    </p>
   </div>
 );
 

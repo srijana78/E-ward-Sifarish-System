@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
+
 import { FileCheck, ArrowRight, AlertCircle, CheckCircle2 } from "lucide-react";
+
 import { useTranslation } from "react-i18next";
+
 import { useAuth } from "../../context/AuthContext";
 
-const API = "http://localhost:5000/api/applications/secretary/recommended";
+const API = `${import.meta.env.VITE_API_URL}/api/applications/secretary/recommended`;
 
 const SecretaryRecommended = () => {
   const navigate = useNavigate();
@@ -16,12 +20,36 @@ const SecretaryRecommended = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const authToken = token || localStorage.getItem("sifarish_token");
+    const authToken =
+      token ||
+      localStorage.getItem("sifarish_token") ||
+      localStorage.getItem("token");
 
-    fetch(API, { headers: { Authorization: `Bearer ${authToken}` } })
-      .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+    fetch(API, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    })
+      .then(async (res) => {
+        const text = await res.text();
+
+        let data = {};
+
+        try {
+          data = text ? JSON.parse(text) : {};
+        } catch {
+          data = {};
+        }
+
+        return { ok: res.ok, data };
+      })
       .then(({ ok, data }) => {
-        if (!ok) throw new Error(data.message || "Failed to load applications");
+        if (!ok) {
+          throw new Error(
+            data.message || "Failed to load applications"
+          );
+        }
+
         setApplications(data.applications || []);
       })
       .catch((err) => setError(err.message))
@@ -35,6 +63,7 @@ const SecretaryRecommended = () => {
         <h1 className="text-xl font-bold text-blue-950">
           {t("secretaryRecommended.title")}
         </h1>
+
         <p className="mt-1 text-sm text-slate-500">
           {t("secretaryRecommended.description")}
         </p>
@@ -52,10 +81,12 @@ const SecretaryRecommended = () => {
         <div className="rounded-lg bg-green-50 p-2.5 text-green-700">
           <CheckCircle2 size={20} />
         </div>
+
         <div>
           <p className="text-xs text-slate-500">
             {t("secretaryRecommended.total")}
           </p>
+
           <p className="text-xl font-bold text-blue-950">
             {loading ? "..." : applications.length}
           </p>
@@ -79,12 +110,17 @@ const SecretaryRecommended = () => {
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-green-50 text-green-700">
                     <FileCheck size={18} />
                   </div>
+
                   <div>
                     <p className="font-semibold text-blue-950">
                       {app.applicantDetails?.fullName ||
                         t("secretaryRecommended.unknown")}
                     </p>
-                    <p className="text-sm text-slate-500">{app.service}</p>
+
+                    <p className="text-sm text-slate-500">
+                      {app.service}
+                    </p>
+
                     <p className="text-xs text-slate-400">
                       {app.applicationNumber || app._id}
                     </p>
@@ -95,8 +131,11 @@ const SecretaryRecommended = () => {
                   <span className="rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-green-700">
                     {t("secretaryRecommended.recommended")}
                   </span>
+
                   <button
-                    onClick={() => navigate(`/secretary/application/${app._id}`)}
+                    onClick={() =>
+                      navigate(`/secretary/application/${app._id}`)
+                    }
                     className="flex items-center gap-1.5 rounded-lg bg-blue-950 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-900"
                   >
                     {t("secretaryRecommended.view")}
@@ -113,7 +152,9 @@ const SecretaryRecommended = () => {
 };
 
 const Empty = ({ text }) => (
-  <div className="p-10 text-center text-sm text-slate-500">{text}</div>
+  <div className="p-10 text-center text-sm text-slate-500">
+    {text}
+  </div>
 );
 
 export default SecretaryRecommended;

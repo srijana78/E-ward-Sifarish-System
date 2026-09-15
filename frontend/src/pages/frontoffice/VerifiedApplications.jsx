@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
+
 import { useTranslation } from "react-i18next";
+
 import {
   Search,
   FileText,
@@ -9,9 +12,10 @@ import {
   Eye,
   Loader2,
 } from "lucide-react";
+
 import { useAuth } from "../../context/AuthContext";
 
-const API = "http://localhost:5000/api/applications";
+const API = `${import.meta.env.VITE_API_URL}/api/applications`;
 
 function VerifiedApplications() {
   const { t } = useTranslation();
@@ -27,7 +31,9 @@ function VerifiedApplications() {
     const loadApplications = async () => {
       try {
         const authToken =
-          token || localStorage.getItem("sifarish_token");
+          token ||
+          localStorage.getItem("sifarish_token") ||
+          localStorage.getItem("token");
 
         const res = await fetch(`${API}/frontoffice/verified`, {
           headers: {
@@ -35,7 +41,15 @@ function VerifiedApplications() {
           },
         });
 
-        const data = await res.json();
+        const text = await res.text();
+
+        let data = {};
+
+        try {
+          data = text ? JSON.parse(text) : {};
+        } catch {
+          data = {};
+        }
 
         if (!res.ok) {
           throw new Error(
@@ -98,7 +112,6 @@ function VerifiedApplications() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 py-8">
-
       {/* Header */}
       <section>
         <p className="text-sm font-bold text-red-600">
@@ -147,7 +160,6 @@ function VerifiedApplications() {
 
       {/* Application List */}
       <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-md">
-
         {/* Search */}
         <div className="flex flex-col gap-4 border-b border-slate-200 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div>

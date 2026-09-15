@@ -16,9 +16,10 @@ import {
 import { useTranslation } from "react-i18next";
 
 import { useAuth } from "../../context/AuthContext";
+
 import { useApplication } from "../../context/ApplicationContext";
 
-const API = "http://localhost:5000/api/applications";
+const API = `${import.meta.env.VITE_API_URL}/api/applications`;
 
 const ReviewSubmit = () => {
   const navigate = useNavigate();
@@ -34,12 +35,17 @@ const ReviewSubmit = () => {
   const service = searchParams.get("service");
 
   const [confirmed, setConfirmed] = useState(false);
+
   const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState("");
 
   const applicant = applicationData?.applicantDetails || {};
+
   const address = applicationData?.address || {};
+
   const documents = applicationData?.documents || {};
+
   const payment = applicationData?.payment || {};
 
   const documentEntries = Object.entries(documents).filter(
@@ -57,7 +63,9 @@ const ReviewSubmit = () => {
     }
 
     const authToken =
-      token || localStorage.getItem("sifarish_token");
+      token ||
+      localStorage.getItem("sifarish_token") ||
+      localStorage.getItem("token");
 
     if (!authToken) {
       setError("Please login again.");
@@ -147,13 +155,25 @@ const ReviewSubmit = () => {
 
       const response = await fetch(API, {
         method: "POST",
+
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
+
         body: formData,
       });
 
-      const data = await response.json();
+      const text = await response.text();
+
+      let data = {};
+
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        throw new Error(
+          "Server returned an invalid response. Please check the backend."
+        );
+      }
 
       if (!response.ok) {
         throw new Error(
@@ -178,7 +198,6 @@ const ReviewSubmit = () => {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 pb-10">
-
       {/* Header */}
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-7">
         <p className="text-sm font-bold uppercase tracking-wider text-red-600">
@@ -462,6 +481,7 @@ const ReviewSubmit = () => {
           {loading ? (
             <>
               <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+
               Submitting...
             </>
           ) : (

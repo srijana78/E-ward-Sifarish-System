@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Menu, Bell } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import SecretarySidebar from "../components/secretary/SecretarySidebar";
@@ -7,6 +7,11 @@ import SecretarySidebar from "../components/secretary/SecretarySidebar";
 const SecretaryLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const openNotifications = () => {
+    navigate("/secretary/notifications");
+  };
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -18,11 +23,13 @@ const SecretaryLayout = () => {
       <main className="lg:ml-[260px]">
         {/* Top Navbar */}
         <header className="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-slate-200 bg-white px-4 shadow-sm sm:px-6">
+          
           <div className="flex items-center gap-3">
             {/* Mobile Menu */}
             <button
               onClick={() => setIsOpen(true)}
-              className="rounded-lg p-2 text-slate-600 transition hover:bg-slate-100 lg:hidden"
+              className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 lg:hidden"
+              aria-label={t("secretarySidebar.openMenu")}
             >
               <Menu size={22} />
             </button>
@@ -38,14 +45,18 @@ const SecretaryLayout = () => {
             </div>
           </div>
 
-          {/* Right side */}
-          <div className="flex items-center gap-3">
-            <button className="relative rounded-lg p-2.5 text-slate-600 transition hover:bg-slate-100">
-              <Bell size={20} />
+          {/* Notification Bell */}
+          <button
+            onClick={openNotifications}
+            title={t("secretarySidebar.notifications")}
+            aria-label={t("secretarySidebar.notifications")}
+            className="relative rounded-lg p-2.5 text-slate-600 transition hover:bg-slate-100 hover:text-blue-900"
+          >
+            <Bell size={20} />
 
-              <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-600" />
-            </button>
-          </div>
+            {/* Notification dot */}
+            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-600" />
+          </button>
         </header>
 
         {/* Page Content */}

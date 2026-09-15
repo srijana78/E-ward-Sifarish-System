@@ -1,16 +1,26 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Menu, Bell } from "lucide-react";
 import { useTranslation } from "react-i18next";
+
 import ChairpersonSidebar from "../components/chairperson/ChairpersonSidebar";
 
 const ChairpersonLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
+
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const openNotifications = () => {
+    navigate("/chairperson/notifications");
+  };
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <ChairpersonSidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <ChairpersonSidebar
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
 
       <main className="lg:ml-[260px]">
         {/* Top Navbar */}
@@ -19,6 +29,7 @@ const ChairpersonLayout = () => {
             <button
               onClick={() => setIsOpen(true)}
               className="rounded-lg p-2 text-slate-600 transition hover:bg-slate-100 lg:hidden"
+              aria-label={t("chairpersonSidebar.openMenu")}
             >
               <Menu size={22} />
             </button>
@@ -27,18 +38,24 @@ const ChairpersonLayout = () => {
               <h1 className="text-lg font-bold text-blue-950">
                 {t("chairpersonSidebar.chairperson")}
               </h1>
+
               <p className="hidden text-xs text-slate-500 sm:block">
                 {t("chairpersonSidebar.portal")}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <button className="relative rounded-lg p-2.5 text-slate-600 transition hover:bg-slate-100">
-              <Bell size={20} />
-              <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-600" />
-            </button>
-          </div>
+          {/* Notification */}
+          <button
+            onClick={openNotifications}
+            title={t("chairpersonSidebar.notifications")}
+            aria-label={t("chairpersonSidebar.notifications")}
+            className="relative rounded-lg p-2.5 text-slate-600 transition hover:bg-slate-100 hover:text-blue-900"
+          >
+            <Bell size={20} />
+
+            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-600" />
+          </button>
         </header>
 
         {/* Page Content */}

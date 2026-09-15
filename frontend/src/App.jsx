@@ -14,6 +14,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+// ...
 
 // ================= CITIZEN PAGES =================
 import CitizenDashboard from "./pages/citizen/CitizenDashboard";
@@ -30,26 +32,28 @@ import FrontOfficeDashboard from "./pages/frontoffice/FrontOfficeDashboard";
 import PendingApplications from "./pages/frontoffice/PendingApplications";
 import VerifiedApplications from "./pages/frontoffice/VerifiedApplications";
 import Notifications from "./pages/frontoffice/Notifications";
-// import Reports from "./pages/frontoffice/Reports";
-// import Settings from "./pages/frontoffice/Settings";
+;
 import FrontOfficeApplicationDetails from "./pages/frontoffice/FrontOfficeApplicationDetails";
 
 // ================= SECRETARY PAGES =================
 import SecretaryDashboard from "./pages/secretary/SecretaryDashboard";
 import SecretaryApplications from "./pages/secretary/SecretaryApplications";
-import SecretaryApplicationDetails from "./pages/secretary/SecretaryApplicationDetails";
 import SecretaryRecommended from "./pages/secretary/SecretaryRecommended";
+import SecretaryApplicationDetails from "./pages/secretary/SecretaryApplicationDetails";
+import SecretaryNotifications from "./pages/secretary/SecretaryNotifications";
+
 
 // ================= CHAIRPERSON PAGES =================
 import ChairpersonDashboard from "./pages/chairperson/ChairpersonDashboard";
 import ChairpersonApplications from "./pages/chairperson/ChairpersonApplications";
 import ChairpersonApplicationDetails from "./pages/chairperson/ChairpersonApplicationDetails";
-
+import ChairpersonNotifications from "./pages/chairperson/ChairpersonNotifications";
 // ================= ADMIN PAGES =================
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import StaffManagement from "./pages/admin/StaffManagement";
 import CreateStaff from "./pages/admin/CreateStaff";
 import StaffDetails from "./pages/admin/StaffDetails";
+import EditStaff from "./pages/admin/EditStaff";
 
 function App() {
   return (
@@ -60,6 +64,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+<Route path="/forgot-password" element={<ForgotPassword />} />
       </Route>
 
       {/* ================= CITIZEN ================= */}
@@ -130,7 +135,15 @@ function App() {
         />
 
         <Route path="recommended" element={<SecretaryRecommended />} />
+
+  <Route
+    path="notifications"
+    element={<SecretaryNotifications />}
+  />
+
+
       </Route>
+      
       {/* ================= CHAIRPERSON ================= */}
 
       <Route
@@ -149,6 +162,9 @@ function App() {
           path="application/:id"
           element={<ChairpersonApplicationDetails />}
         />
+    
+<Route path="notifications" element={<ChairpersonNotifications />} />
+
       </Route>
 
       {/* ================= ADMIN ================= */}
@@ -156,9 +172,9 @@ function App() {
       <Route
         path="/admin"
         element={
-          // <ProtectedRoute allowedRoles={["admin"]}>
+          <ProtectedRoute allowedRoles={["admin"]}>
           <AdminLayout />
-          // </ProtectedRoute>
+          </ProtectedRoute>
         }
       >
         <Route index element={<AdminDashboard />} />
@@ -167,6 +183,10 @@ function App() {
 
         <Route path="staff/:id" element={<StaffDetails />} />
         <Route path="create-staff" element={<CreateStaff />} />
+        <Route
+  path="/admin/staff/edit/:id"
+  element={<EditStaff />}
+/>
       </Route>
 
       {/* ================= FALLBACK ================= */}

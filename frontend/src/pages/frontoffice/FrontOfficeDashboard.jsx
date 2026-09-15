@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+
 import {
   FileText,
   Clock3,
@@ -8,11 +9,12 @@ import {
   Bell,
   ArrowRight,
   ClipboardCheck,
-  AlertCircle,
+  RefreshCw,
 } from "lucide-react";
+
 import { useAuth } from "../../context/AuthContext";
 
-const API = "http://localhost:5000/api/applications";
+const API = `${import.meta.env.VITE_API_URL}/api/applications`;
 
 const FrontOfficeDashboard = () => {
   const { t } = useTranslation();
@@ -23,38 +25,61 @@ const FrontOfficeDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const loadApplications = async () => {
+  const loadApplications = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const authToken =
+        token ||
+        localStorage.getItem("sifarish_token") ||
+        localStorage.getItem("token");
+
+      const res = await fetch(API, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+
+      const text = await res.text();
+
+      let data = {};
+
       try {
-        const res = await fetch(API, {
-          headers: {
-            Authorization: `Bearer ${
-              token || localStorage.getItem("sifarish_token")
-            }`,
-          },
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) throw new Error(data.message);
-
-        setApplications(data.applications || []);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        throw new Error(t("frontOfficeDashboard.invalidResponse"));
       }
-    };
 
+      if (!res.ok) {
+        throw new Error(
+          data.message || t("frontOfficeDashboard.loadFailed")
+        );
+      }
+
+      setApplications(data.applications || []);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     loadApplications();
   }, [token]);
 
-  const count = (statuses) =>
-    applications.filter((app) => statuses.includes(app.status)).length;
+  // Applications currently waiting for Front Office
+  const pendingApplications = applications.filter(
+    (app) =>
+      app.currentStage === "frontoffice" &&
+      app.status !== "rejected"
+  );
 
-  const pending = count(["submitted", "pending", "under_review"]);
-  const verified = count(["verified"]);
-  const rejected = count(["rejected"]);
+  // Applications already verified by Front Office
+  const verifiedApplications = applications.filter(
+    (app) => app.status === "verified"
+  );
 
   const stats = [
     {
@@ -64,22 +89,22 @@ const FrontOfficeDashboard = () => {
     },
     {
       title: t("frontOfficeDashboard.pendingApplications"),
-      value: pending,
+      value: pendingApplications.length,
       icon: Clock3,
     },
     {
       title: t("frontOfficeDashboard.verifiedApplications"),
-      value: verified,
+      value: verifiedApplications.length,
       icon: CheckCircle2,
     },
     {
-      title: t("frontOfficeDashboard.newNotifications"),
-      value: pending,
+      title: t("frontOfficeDashboard.notifications"),
+      value: pendingApplications.length,
       icon: Bell,
     },
   ];
 
-  const actions = [
+  const quickActions = [
     {
       title: t("frontOfficeDashboard.reviewApplications"),
       description: t(
@@ -97,27 +122,20 @@ const FrontOfficeDashboard = () => {
       path: "/frontoffice/verified",
     },
     {
-      title: t("frontOfficeDashboard.viewNotifications"),
+      title: t("frontOfficeDashboard.notifications"),
       description: t(
-        "frontOfficeDashboard.viewNotificationsDescription"
+        "frontOfficeDashboard.notificationsDescription"
       ),
       icon: Bell,
       path: "/frontoffice/notifications",
     },
-    {
-      title: t("frontOfficeDashboard.viewReports"),
-      description: t("frontOfficeDashboard.viewReportsDescription"),
-      icon: FileText,
-      path: "/frontoffice/reports",
-    },
   ];
 
   return (
-    <div className="mx-auto max-w-7xl space-y-6 py-8">
-
+    <div className="mx-auto max-w-7xl space-y-6 py-6 sm:py-8">
       {/* Welcome */}
       <section className="rounded-2xl bg-blue-950 p-6 text-white sm:p-8">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-semibold text-red-300">
               {t("frontOfficeDashboard.welcomeLabel")}
@@ -127,14 +145,14 @@ const FrontOfficeDashboard = () => {
               {t("frontOfficeDashboard.welcomeTitle")}
             </h1>
 
-            <p className="mt-3 max-w-2xl text-sm text-blue-100">
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-blue-100">
               {t("frontOfficeDashboard.welcomeDescription")}
             </p>
           </div>
 
           <button
             onClick={() => navigate("/frontoffice/pending")}
-            className="flex items-center justify-center gap-2 rounded-lg bg-red-600 px-5 py-3 text-sm font-semibold hover:bg-red-700"
+            className="flex shrink-0 items-center justify-center gap-2 rounded-lg bg-red-600 px-5 py-3 text-sm font-semibold transition hover:bg-red-700"
           >
             <ClipboardCheck size={18} />
             {t("frontOfficeDashboard.reviewNow")}
@@ -144,69 +162,56 @@ const FrontOfficeDashboard = () => {
 
       {/* Error */}
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">
-          {error}
+        <div className="flex flex-col gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 sm:flex-row sm:items-center sm:justify-between">
+          <span>{error}</span>
+
+          <button
+            onClick={loadApplications}
+            className="flex items-center gap-2 self-start font-semibold hover:text-red-900"
+          >
+            <RefreshCw size={15} />
+            {t("frontOfficeDashboard.retry")}
+          </button>
         </div>
       )}
 
       {/* Statistics */}
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {stats.map(({ title, value, icon }) => (
+        {stats.map(({ title, value, icon: Icon }) => (
           <StatCard
             key={title}
             title={title}
             value={loading ? "..." : value}
-            icon={icon}
+            icon={Icon}
           />
         ))}
       </section>
 
-      {/* Recent Applications */}
+      {/* Pending Work */}
       <section className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-        <Header
-          title={t("frontOfficeDashboard.recentApplications")}
+        <SectionHeader
+          title={t("frontOfficeDashboard.pendingTitle")}
           description={t(
-            "frontOfficeDashboard.recentApplicationsDescription"
+            "frontOfficeDashboard.pendingDescription"
           )}
           action={t("frontOfficeDashboard.viewAll")}
           onClick={() => navigate("/frontoffice/pending")}
         />
 
         {loading ? (
-          <Empty text="Loading applications..." />
-        ) : applications.length === 0 ? (
-          <Empty text="No applications found." />
+          <EmptyState text={t("frontOfficeDashboard.loading")} />
+        ) : pendingApplications.length === 0 ? (
+          <EmptyState text={t("frontOfficeDashboard.noPending")} />
         ) : (
           <div className="divide-y divide-slate-100">
-            {applications.slice(0, 5).map((app) => (
-              <div
+            {pendingApplications.slice(0, 5).map((app) => (
+              <ApplicationRow
                 key={app._id}
-                className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="rounded-lg bg-blue-50 p-3 text-blue-900">
-                    <FileText size={20} />
-                  </div>
-
-                  <div>
-                    <p className="font-semibold text-blue-950">
-                      {app.applicantDetails?.fullName ||
-                        "Unknown Applicant"}
-                    </p>
-
-                    <p className="text-sm text-slate-500">
-                      {app.service}
-                    </p>
-
-                    <p className="text-xs text-slate-400">
-                      {app.applicationNumber || app._id} •{" "}
-                      {new Date(app.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-
-                <StatusBadge status={app.status} />
-              </div>
+                app={app}
+                onClick={() =>
+                  navigate(`/frontoffice/applications/${app._id}`)
+                }
+              />
             ))}
           </div>
         )}
@@ -218,26 +223,26 @@ const FrontOfficeDashboard = () => {
           {t("frontOfficeDashboard.quickActions")}
         </h2>
 
-        <p className="mt-1 mb-4 text-sm text-slate-500">
+        <p className="mb-4 mt-1 text-sm text-slate-500">
           {t("frontOfficeDashboard.quickActionsDescription")}
         </p>
 
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {actions.map(
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {quickActions.map(
             ({ title, description, icon: Icon, path }) => (
               <button
-                key={title}
+                key={path}
                 onClick={() => navigate(path)}
                 className="group rounded-xl border border-slate-200 bg-white p-5 text-left transition hover:border-blue-200 hover:shadow-sm"
               >
-                <div className="flex justify-between">
+                <div className="flex items-center justify-between">
                   <div className="rounded-lg bg-blue-50 p-3 text-blue-900">
                     <Icon size={20} />
                   </div>
 
                   <ArrowRight
-                    size={20}
-                    className="text-slate-400 group-hover:text-red-600"
+                    size={19}
+                    className="text-slate-400 transition group-hover:translate-x-1 group-hover:text-red-600"
                   />
                 </div>
 
@@ -253,47 +258,17 @@ const FrontOfficeDashboard = () => {
           )}
         </div>
       </section>
-
-      {/* Work Summary */}
-      <section className="rounded-xl border border-slate-200 bg-white p-5">
-        <h2 className="font-bold text-blue-950">
-          {t("frontOfficeDashboard.workSummary")}
-        </h2>
-
-        <p className="mt-1 mb-5 text-sm text-slate-500">
-          {t("frontOfficeDashboard.workSummaryDescription")}
-        </p>
-
-        <div className="grid gap-4 sm:grid-cols-3">
-          <StatCard
-            title={t("frontOfficeDashboard.pendingReview")}
-            value={pending}
-            icon={Clock3}
-          />
-
-          <StatCard
-            title={t("frontOfficeDashboard.completedToday")}
-            value={verified}
-            icon={CheckCircle2}
-          />
-
-          <StatCard
-            title={t("frontOfficeDashboard.requiresAttention")}
-            value={rejected}
-            icon={AlertCircle}
-          />
-        </div>
-      </section>
     </div>
   );
 };
 
-/* Reusable statistic card */
+/* Statistic Card */
 const StatCard = ({ title, value, icon: Icon }) => (
   <div className="rounded-xl border border-slate-200 bg-white p-5">
     <div className="flex items-center justify-between gap-4">
       <div>
         <p className="text-sm text-slate-500">{title}</p>
+
         <p className="mt-2 text-2xl font-bold text-blue-950">
           {value}
         </p>
@@ -306,12 +281,20 @@ const StatCard = ({ title, value, icon: Icon }) => (
   </div>
 );
 
-/* Reusable section header */
-const Header = ({ title, description, action, onClick }) => (
+/* Section Header */
+const SectionHeader = ({
+  title,
+  description,
+  action,
+  onClick,
+}) => (
   <div className="flex items-center justify-between border-b border-slate-200 p-5">
     <div>
       <h2 className="font-bold text-blue-950">{title}</h2>
-      <p className="mt-1 text-xs text-slate-500">{description}</p>
+
+      <p className="mt-1 text-xs text-slate-500">
+        {description}
+      </p>
     </div>
 
     <button
@@ -323,26 +306,68 @@ const Header = ({ title, description, action, onClick }) => (
   </div>
 );
 
-/* Empty state */
-const Empty = ({ text }) => (
-  <p className="p-10 text-center text-sm text-slate-500">{text}</p>
+/* Application Row */
+const ApplicationRow = ({ app, onClick }) => (
+  <button
+    onClick={onClick}
+    className="flex w-full flex-col gap-4 p-5 text-left transition hover:bg-slate-50 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div className="flex items-center gap-4">
+      <div className="rounded-lg bg-blue-50 p-3 text-blue-900">
+        <FileText size={20} />
+      </div>
+
+      <div className="min-w-0">
+        <p className="truncate font-semibold text-blue-950">
+          {app.applicantDetails?.fullName || "Unknown Applicant"}
+        </p>
+
+        <p className="text-sm text-slate-500">
+          {app.service || "-"}
+        </p>
+
+        <p className="text-xs text-slate-400">
+          {app.applicationNumber || app._id}
+          {" • "}
+          {app.createdAt
+            ? new Date(app.createdAt).toLocaleDateString()
+            : "-"}
+        </p>
+      </div>
+    </div>
+
+    <StatusBadge status={app.status} />
+  </button>
 );
 
-/* Application status */
+/* Empty State */
+const EmptyState = ({ text }) => (
+  <p className="p-10 text-center text-sm text-slate-500">
+    {text}
+  </p>
+);
+
+/* Status Badge */
 const StatusBadge = ({ status }) => {
   const styles = {
-    verified: "bg-green-50 text-green-700",
-    rejected: "bg-red-50 text-red-700",
+    submitted: "bg-amber-50 text-amber-700",
+    pending: "bg-amber-50 text-amber-700",
     under_review: "bg-blue-50 text-blue-700",
+    verified: "bg-green-50 text-green-700",
+    recommended: "bg-purple-50 text-purple-700",
+    approved: "bg-emerald-50 text-emerald-700",
+    rejected: "bg-red-50 text-red-700",
   };
+
+  const label = (status || "submitted").replace("_", " ");
 
   return (
     <span
-      className={`rounded-full px-3 py-1 text-xs font-semibold capitalize ${
-        styles[status] || "bg-amber-50 text-amber-700"
+      className={`w-fit shrink-0 rounded-full px-3 py-1 text-xs font-semibold capitalize ${
+        styles[status] || "bg-slate-100 text-slate-600"
       }`}
     >
-      {(status || "submitted").replace("_", " ")}
+      {label}
     </span>
   );
 };

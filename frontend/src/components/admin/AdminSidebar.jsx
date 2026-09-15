@@ -1,5 +1,5 @@
-import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import {
   LayoutDashboard,
   Users,
@@ -14,10 +14,11 @@ import {
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
 
-const AdminSidebar = ({ isOpen, setIsOpen }) => {
+const AdminSidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { user, logout } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -28,7 +29,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
     i18n.changeLanguage(i18n.language === "ne" ? "en" : "ne");
   };
 
-  const mainMenu = [
+  const menu = [
     {
       name: t("adminSidebar.dashboard"),
       path: "/admin",
@@ -46,48 +47,22 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
     },
   ];
 
-  const NavItem = ({ item }) => {
-    const Icon = item.icon;
-
-    return (
-      <NavLink
-        to={item.path}
-        end={item.path === "/admin"}
-        onClick={() => setIsOpen(false)}
-        className={({ isActive }) =>
-          `flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all ${
-            isActive
-              ? "bg-red-600 text-white shadow-sm"
-              : "text-blue-100 hover:bg-blue-900 hover:text-white"
-          }`
-        }
-      >
-        <Icon size={19} strokeWidth={1.8} />
-        <span>{item.name}</span>
-      </NavLink>
-    );
-  };
-
   return (
     <>
-      {/* Mobile Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 z-40 bg-black/40 lg:hidden"
-          onClick={() => setIsOpen(false)}
+          onClick={onClose}
         />
       )}
 
-      {/* Sidebar */}
       <aside
-        className={`
-          fixed left-0 top-0 z-50 flex h-screen w-[270px] flex-col
+        className={`fixed left-0 top-0 z-50 flex h-screen w-[270px] flex-col
           bg-blue-950 text-white transition-transform duration-300
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
-          lg:translate-x-0
-        `}
+          lg:translate-x-0`}
       >
-        {/* Sidebar Header */}
+        {/* Header */}
         <div className="flex items-center justify-between border-b border-blue-900 px-5 py-5">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white">
@@ -95,26 +70,22 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
             </div>
 
             <div>
-              <h1 className="text-sm font-bold">
-                E-Ward Sifarish
-              </h1>
-
+              <h1 className="text-sm font-bold">E-Ward Sifarish</h1>
               <p className="text-[11px] text-blue-300">
                 {t("adminSidebar.adminPortal")}
               </p>
             </div>
           </div>
 
-          {/* Mobile Close */}
           <button
-            onClick={() => setIsOpen(false)}
+            onClick={onClose}
             className="text-blue-300 hover:text-white lg:hidden"
           >
             <X size={21} />
           </button>
         </div>
 
-        {/* Admin Account */}
+        {/* Admin */}
         <div className="border-b border-blue-900 px-4 py-4">
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-800">
@@ -125,7 +96,6 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
               <p className="truncate text-sm font-semibold">
                 {user?.name || t("adminSidebar.admin")}
               </p>
-
               <p className="text-xs text-blue-300">
                 {t("adminSidebar.administrator")}
               </p>
@@ -133,52 +103,57 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
           </div>
         </div>
 
-        {/* Main Navigation */}
-        <nav className="flex-1 overflow-y-auto px-4 py-5">
+        {/* Navigation */}
+        <nav className="flex-1 px-4 py-5">
           <p className="mb-3 px-2 text-[11px] font-semibold uppercase tracking-wider text-blue-400">
             {t("adminSidebar.mainMenu")}
           </p>
 
           <div className="space-y-1.5">
-            {mainMenu.map((item) => (
-              <NavItem
-                key={item.path}
-                item={item}
-              />
+            {menu.map(({ name, path, icon: Icon }) => (
+              <NavLink
+                key={path}
+                to={path}
+                end={path === "/admin"}
+                onClick={onClose}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition ${
+                    isActive
+                      ? "bg-red-600 text-white"
+                      : "text-blue-100 hover:bg-blue-900 hover:text-white"
+                  }`
+                }
+              >
+                <Icon size={19} strokeWidth={1.8} />
+                <span>{name}</span>
+              </NavLink>
             ))}
           </div>
         </nav>
 
         {/* Bottom Actions */}
         <div className="space-y-1.5 border-t border-blue-900 px-4 py-4">
-
-          {/* Public Home */}
           <button
             onClick={() => navigate("/")}
-            className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-blue-100 transition hover:bg-blue-900 hover:text-white"
+            className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-blue-100 hover:bg-blue-900 hover:text-white"
           >
-            <Home size={19} strokeWidth={1.8} />
+            <Home size={19} />
             <span>{t("adminSidebar.publicHome")}</span>
           </button>
 
-          {/* Language */}
           <button
             onClick={changeLanguage}
-            className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-blue-100 transition hover:bg-blue-900 hover:text-white"
+            className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-blue-100 hover:bg-blue-900 hover:text-white"
           >
-            <Globe size={19} strokeWidth={1.8} />
-
-            <span>
-              {i18n.language === "ne" ? "English" : "नेपाली"}
-            </span>
+            <Globe size={19} />
+            <span>{i18n.language === "ne" ? "English" : "नेपाली"}</span>
           </button>
 
-          {/* Logout */}
           <button
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-red-300 transition hover:bg-red-600 hover:text-white"
+            className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-red-300 hover:bg-red-600 hover:text-white"
           >
-            <LogOut size={19} strokeWidth={1.8} />
+            <LogOut size={19} />
             <span>{t("adminSidebar.logout")}</span>
           </button>
         </div>
