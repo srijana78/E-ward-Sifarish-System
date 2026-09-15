@@ -1,5 +1,7 @@
 const User = require("../models/User");
+
 const bcrypt = require("bcryptjs");
+
 const jwt = require("jsonwebtoken");
 
 // ==========================================
@@ -16,6 +18,7 @@ const registerUser = async (req, res) => {
     } = req.body;
 
     // Validate
+
     if (!name || !phone || !citizenshipNo || !password) {
       return res.status(400).json({
         success: false,
@@ -24,6 +27,7 @@ const registerUser = async (req, res) => {
     }
 
     // Check phone
+
     const existingPhone = await User.findOne({
       phone,
     });
@@ -36,6 +40,7 @@ const registerUser = async (req, res) => {
     }
 
     // Check citizenship number
+
     const existingCitizenship = await User.findOne({
       citizenshipNo,
     });
@@ -48,21 +53,26 @@ const registerUser = async (req, res) => {
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const hashedPassword = await bcrypt.hash(
+      password,
+      10
+    );
 
     // Create citizen
+
     const user = await User.create({
       name,
       phone,
       citizenshipNo,
       password: hashedPassword,
       role: "citizen",
+      isActive: true,
     });
 
     res.status(201).json({
       success: true,
       message: "Registration successful! Please login.",
-
       user: {
         id: user._id,
         name: user.name,
@@ -95,6 +105,7 @@ const loginUser = async (req, res) => {
     } = req.body;
 
     // Validate
+
     if (!identifier || !password) {
       return res.status(400).json({
         success: false,
@@ -134,6 +145,7 @@ const loginUser = async (req, res) => {
     }
 
     // Invalid login type
+
     else {
       return res.status(400).json({
         success: false,
@@ -142,6 +154,7 @@ const loginUser = async (req, res) => {
     }
 
     // User not found
+
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -149,7 +162,20 @@ const loginUser = async (req, res) => {
       });
     }
 
+    // ==========================================
+    // CHECK ACCOUNT STATUS
+    // ==========================================
+
+    if (!user.isActive) {
+      return res.status(403).json({
+        success: false,
+        message:
+          "Your account has been deactivated. Please contact the administrator.",
+      });
+    }
+
     // Compare password
+
     const isPasswordCorrect = await bcrypt.compare(
       password,
       user.password
@@ -163,6 +189,7 @@ const loginUser = async (req, res) => {
     }
 
     // Create JWT
+
     const token = jwt.sign(
       {
         id: user._id,
@@ -177,9 +204,7 @@ const loginUser = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Login successful",
-
       token,
-
       user: {
         id: user._id,
         name: user.name,
