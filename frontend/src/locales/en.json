@@ -508,7 +508,17 @@
     "applicationFee": "Application Fee",
     "paymentStatus": "Payment Status",
     "paymentVoucher": "Payment Voucher",
-    "loading": "Loading application details..."
+    "loading": "Loading application details...",
+    "certificateReadyTitle": "Your Certificate is Ready",
+"certificateReadyDescription": "Your application was approved. Download your official recommendation certificate below.",
+"downloadCertificate": "Download Certificate",
+"certificateQrNote": "This certificate contains a QR code for public verification.",
+"rejectedTitle": "Application Rejected",
+"rejectedByFrontOffice": "Rejected by Front Office",
+"rejectedBySecretary": "Rejected by Secretary",
+"rejectedByChairperson": "Rejected by Chairperson",
+"rejectedByUnknown": "Rejected",
+"noRejectionReason": "No specific reason was provided."
   },
 
   "myApplications": {

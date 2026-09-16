@@ -526,7 +526,17 @@
     "applicationFee": "आवेदन शुल्क",
     "paymentStatus": "भुक्तानी स्थिति",
     "paymentVoucher": "भुक्तानी भाउचर",
-    "loading": "आवेदनको विवरण लोड हुँदैछ..."
+    "loading": "आवेदनको विवरण लोड हुँदैछ...",
+    "certificateReadyTitle": "तपाईंको प्रमाणपत्र तयार छ",
+"certificateReadyDescription": "तपाईंको आवेदन स्वीकृत भयो। तल आधिकारिक सिफारिस प्रमाणपत्र डाउनलोड गर्नुहोस्।",
+"downloadCertificate": "प्रमाणपत्र डाउनलोड गर्नुहोस्",
+"certificateQrNote": "यस प्रमाणपत्रमा सार्वजनिक प्रमाणीकरणका लागि QR कोड समावेश छ।",
+"rejectedTitle": "आवेदन अस्वीकृत भयो",
+"rejectedByFrontOffice": "फ्रन्ट अफिसद्वारा अस्वीकृत",
+"rejectedBySecretary": "सचिवद्वारा अस्वीकृत",
+"rejectedByChairperson": "अध्यक्षद्वारा अस्वीकृत",
+"rejectedByUnknown": "अस्वीकृत",
+"noRejectionReason": "कुनै विशेष कारण उल्लेख गरिएको छैन।"
   },
 
   "myApplications": {
