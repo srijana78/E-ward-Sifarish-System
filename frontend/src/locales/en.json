@@ -889,44 +889,40 @@
 
   "secretaryDetails": {
     "label": "Secretary Review",
-    "loading": "Loading application...",
-
+    "frontOfficeVerified": "Front Office Verified",
+    "readyForReview": "This application is ready for your review.",
     "applicant": "Applicant Information",
     "address": "Address Information",
-    "ward": "Ward",
-
-    "documents": "Submitted Documents",
+    "documents": "Supporting Documents",
     "view": "View",
-    "noDocuments": "No documents available",
-
+    "noDocuments": "No documents uploaded.",
     "payment": "Payment Information",
     "status": "Status",
-    "noVoucher": "No payment voucher uploaded",
-
-    "frontOfficeReview": "Front Office Verification",
+    "noVoucher": "No voucher uploaded",
+    "voucher": "Payment Voucher",
+    "frontOfficeReview": "Front Office Review",
     "verifiedByFrontOffice": "Verified by Front Office",
-    "noRemarks": "No remarks available",
-
-    "secretaryReview": "Secretary Review & Recommendation",
-    "reviewDescription": "Cross-check the application and provide your recommendation before forwarding it to the Ward Chairperson.",
-
-    "remarksPlaceholder": "Write your review or recommendation...",
-    "remarksRequired": "Please provide remarks before recommending.",
-
-    "recommend": "Recommend to Chairperson"
-    ,
-    "alreadyRecommended": "You already recommended this application",
-    "alreadyRejected": "You already rejected this application",
-    "processing": "Processing..."
-,    "frontOfficeVerified": "Front Office Verified",
-"readyForReview": "Ready for Secretary Review",
-"actionRequired": "Action Required",
-"actionDescription": "Review the submitted information and documents carefully before making your decision.",
-"required": "Required",
-"selectDecision": "Select Decision",
-"recommendDescription": "Forward this application to the Chairperson for final approval.",
-"rejectDescription": "Reject this application if the requirements are not satisfied."
-  },
+    "noRemarks": "No remarks provided.",
+    "secretaryReview": "Secretary Review",
+    "reviewDescription": "Review the application and make your decision.",
+    "actionRequired": "Action Required",
+    "actionDescription": "Please review all application details and documents before making a decision.",
+    "remarks": "Secretary Remarks",
+    "required": "Required",
+    "remarksPlaceholder": "Enter your remarks or decision comments...",
+    "remarksRequired": "Remarks are required before recommending or rejecting this application.",
+    "selectDecision": "Select Decision",
+    "processing": "Processing...",
+    "recommend": "Recommend Application",
+    "recommendDescription": "Forward this application to the next stage.",
+    "reject": "Reject Application",
+    "rejectDescription": "Reject this application with your remarks.",
+    "alreadyRejected": "Application Rejected",
+    "alreadyRecommended": "Application Recommended",
+    "loading": "Loading application details...",
+    "notFound": "Application not found."
+  }
+,
   
 
   "secretaryRecommended": {
