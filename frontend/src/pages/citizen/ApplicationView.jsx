@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import {
   ArrowLeft, FileText, User, MapPin, CreditCard, Loader2, CalendarDays,
   Phone, Mail, Hash, CheckCircle2, Clock3, XCircle, ExternalLink, Download,
+  ShieldAlert, Award, QrCode,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
@@ -19,6 +20,21 @@ const STATUS_STYLES = {
   verified: { icon: CheckCircle2, style: "bg-purple-50 text-purple-700 border-purple-200" },
   recommended: { icon: CheckCircle2, style: "bg-indigo-50 text-indigo-700 border-indigo-200" },
   draft: { icon: FileText, style: "bg-slate-50 text-slate-700 border-slate-200" },
+};
+
+// Human-readable label for who rejected the application, used with rejectedBy
+const REJECTED_BY_LABEL = {
+  frontoffice: "applicationView.rejectedByFrontOffice",
+  secretary: "applicationView.rejectedBySecretary",
+  chairperson: "applicationView.rejectedByChairperson",
+};
+
+// Picks the correct remarks field based on who rejected it
+const getRejectionRemarks = (application) => {
+  if (application.rejectedBy === "frontoffice") return application.frontOfficeRemarks;
+  if (application.rejectedBy === "secretary") return application.secretaryRemarks;
+  if (application.rejectedBy === "chairperson") return application.chairpersonRemarks;
+  return "";
 };
 
 const formatFileSize = (b) => (!b ? "" : b < 1024 ? `${b} B` : b < 1024 ** 2 ? `${(b / 1024).toFixed(1)} KB` : `${(b / 1024 ** 2).toFixed(1)} MB`);
@@ -180,6 +196,11 @@ const ApplicationView = () => {
   const statusLabel = t(`status.${statusKey}`, { defaultValue: application.status || t("status.pending") });
   const back = () => navigate("/citizen/applications");
 
+  const isApproved = statusKey === "approved" && application.certificate?.filePath;
+  const isRejected = statusKey === "rejected";
+  const rejectionRemarks = isRejected ? getRejectionRemarks(application) : "";
+  const rejectedByLabelKey = isRejected ? REJECTED_BY_LABEL[application.rejectedBy] : null;
+
   return (
     <div className="mx-auto max-w-6xl space-y-6 pb-10">
       <button onClick={back} className="flex items-center gap-2 text-sm font-semibold text-slate-600 transition hover:text-blue-800">
@@ -203,6 +224,70 @@ const ApplicationView = () => {
           <QuickInfo icon={Clock3} label={t("myApplications.currentStatus")} value={statusLabel} na={na} />
         </div>
       </section>
+
+      {/* CERTIFICATE — shown only when approved and a certificate file exists */}
+      {isApproved && (
+        <section className="overflow-hidden rounded-2xl border-2 border-emerald-200 bg-emerald-50 shadow-sm">
+          <div className="px-5 py-6 sm:px-8">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-4">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-emerald-600 text-white">
+                  <Award size={26} />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-emerald-900">
+                    {t("applicationView.certificateReadyTitle")}
+                  </h2>
+                  <p className="mt-1 text-sm text-emerald-700">
+                    {t("applicationView.certificateReadyDescription")}
+                  </p>
+                </div>
+              </div>
+
+              
+               <a href={getFileUrl(application.certificate.filePath)}
+                target="_blank"
+                rel="noreferrer"
+                className="flex shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-700"
+              >
+                <Download size={18} />
+                {t("applicationView.downloadCertificate")}
+              </a>
+            </div>
+
+            {application.certificate.qrData && (
+              <div className="mt-5 flex items-center gap-2 rounded-xl bg-white/60 px-4 py-3 text-xs text-emerald-800">
+                <QrCode size={15} className="shrink-0" />
+                <span>{t("applicationView.certificateQrNote")}</span>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* REJECTION REASON — shown only when rejected */}
+      {isRejected && (
+        <section className="overflow-hidden rounded-2xl border-2 border-red-200 bg-red-50 shadow-sm">
+          <div className="px-5 py-6 sm:px-8">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-600 text-white">
+                <ShieldAlert size={22} />
+              </div>
+              <div className="min-w-0">
+                <h2 className="text-lg font-bold text-red-900">
+                  {t("applicationView.rejectedTitle")}
+                </h2>
+                <p className="mt-1 text-sm font-semibold text-red-700">
+                  {rejectedByLabelKey ? t(rejectedByLabelKey) : t("applicationView.rejectedByUnknown")}
+                </p>
+                <p className="mt-3 rounded-lg bg-white/70 p-3 text-sm text-red-800">
+                  {rejectionRemarks || t("applicationView.noRejectionReason")}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       <Section icon={FileText} title={t("applicationView.appInfoTitle")} description={t("applicationView.appInfoDesc")}>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

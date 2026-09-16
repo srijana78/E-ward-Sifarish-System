@@ -4,14 +4,38 @@ const { generateCertificate } = require("../utils/certificateGenerator");
 
 const { createNotification } = require("./notificaionController");
 
+const cloudinary = require("../config/cloudinary");
+
+const uploadToCloudinary = (file, folder) => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder,
+        resource_type: "auto",
+      },
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+
+    uploadStream.end(file.buffer);
+  });
+};
+
 // ---------- CITIZEN ----------
 
 // POST /api/applications
 
 // multipart/form-data:
+
 //   text: service, fullName, citizenshipNumber, dateOfBirth, phone, email,
 //         province, district, municipality, wardNumber, tole, amount,
 //         documentTypes (JSON string array, one entry per uploaded document, same order)
+
 //   files: documents (multiple), voucher (single, optional)
 
 exports.submitApplication = async (req, res) => {
@@ -65,13 +89,25 @@ exports.submitApplication = async (req, res) => {
       typeList = [];
     }
 
-    const documents = documentFiles.map((f, i) => ({
-      documentType: typeList[i] || "other",
-      fileName: f.originalname,
-      fileUrl: `/uploads/documents/${f.filename}`,
-      fileType: f.mimetype,
-      fileSize: f.size,
-    }));
+    // Upload application documents to Cloudinary
+    const documents = [];
+
+    for (let i = 0; i < documentFiles.length; i++) {
+      const file = documentFiles[i];
+
+      const result = await uploadToCloudinary(
+        file,
+        "e-ward-sifarish/documents"
+      );
+
+      documents.push({
+        documentType: typeList[i] || "other",
+        fileName: file.originalname,
+        fileUrl: result.secure_url,
+        fileType: file.mimetype,
+        fileSize: file.size,
+      });
+    }
 
     const voucherFile = req.files?.voucher?.[0];
 
@@ -81,9 +117,15 @@ exports.submitApplication = async (req, res) => {
       status: voucherFile ? "paid" : "pending",
     };
 
+    // Upload payment voucher to Cloudinary
     if (voucherFile) {
+      const voucherResult = await uploadToCloudinary(
+        voucherFile,
+        "e-ward-sifarish/vouchers"
+      );
+
       payment.voucherName = voucherFile.originalname;
-      payment.voucherUrl = `/uploads/vouchers/${voucherFile.filename}`;
+      payment.voucherUrl = voucherResult.secure_url;
       payment.voucherType = voucherFile.mimetype;
       payment.voucherSize = voucherFile.size;
     }
@@ -91,7 +133,6 @@ exports.submitApplication = async (req, res) => {
     const application = await Application.create({
       service,
       user: req.user.id,
-
       applicantDetails: {
         fullName,
         citizenshipNumber,
@@ -99,7 +140,6 @@ exports.submitApplication = async (req, res) => {
         phone,
         email,
       },
-
       address: {
         province,
         district,
@@ -107,13 +147,9 @@ exports.submitApplication = async (req, res) => {
         wardNumber,
         tole,
       },
-
       documents,
-
       payment,
-
       status: "submitted",
-
       currentStage: "frontoffice",
     });
 
@@ -132,6 +168,8 @@ exports.submitApplication = async (req, res) => {
       application,
     });
   } catch (err) {
+    console.error("Application submission error:", err);
+
     res.status(500).json({
       success: false,
       message: err.message,
@@ -208,6 +246,7 @@ exports.getApplicationById = async (req, res) => {
 };
 
 // GET /api/applications
+
 // Staff queue, filtered to their stage
 
 exports.listForRole = async (req, res) => {
@@ -273,6 +312,7 @@ exports.getFrontOfficeVerified = async (req, res) => {
 // ---------- STAGE ACTIONS ----------
 
 // PATCH /api/applications/:id/frontoffice
+
 // decision: 'verify' | 'reject'
 
 exports.frontOfficeAction = async (req, res) => {
@@ -300,13 +340,11 @@ exports.frontOfficeAction = async (req, res) => {
 
     if (decision === "verify") {
       application.status = "verified";
-
       application.currentStage = "secretary";
 
       // Mark THIS application as verified by front office
 
       application.verifiedBy = "frontoffice";
-
       application.verifiedAt = new Date();
 
       if (application.payment?.required) {
@@ -314,9 +352,7 @@ exports.frontOfficeAction = async (req, res) => {
       }
     } else if (decision === "reject") {
       application.status = "rejected";
-
       application.currentStage = "completed";
-
       application.rejectedBy = "frontoffice";
     } else {
       return res.status(400).json({
@@ -371,6 +407,7 @@ exports.frontOfficeAction = async (req, res) => {
 };
 
 // PATCH /api/applications/:id/secretary
+
 // decision: 'recommend' | 'reject'
 
 exports.secretaryAction = async (req, res) => {
@@ -398,13 +435,10 @@ exports.secretaryAction = async (req, res) => {
 
     if (decision === "recommend") {
       application.status = "recommended";
-
       application.currentStage = "chairperson";
     } else if (decision === "reject") {
       application.status = "rejected";
-
       application.currentStage = "completed";
-
       application.rejectedBy = "secretary";
     } else {
       return res.status(400).json({
@@ -482,6 +516,7 @@ exports.getSecretaryRecommended = async (req, res) => {
 };
 
 // PATCH /api/applications/:id/chairperson
+
 // decision: 'approve' | 'reject'
 
 exports.chairpersonAction = async (req, res) => {
@@ -509,7 +544,6 @@ exports.chairpersonAction = async (req, res) => {
 
     if (decision === "approve") {
       application.status = "approved";
-
       application.currentStage = "completed";
 
       const cert = await generateCertificate(application);
@@ -521,9 +555,7 @@ exports.chairpersonAction = async (req, res) => {
       };
     } else if (decision === "reject") {
       application.status = "rejected";
-
       application.currentStage = "completed";
-
       application.rejectedBy = "chairperson";
     } else {
       return res.status(400).json({
@@ -562,6 +594,8 @@ exports.chairpersonAction = async (req, res) => {
       application,
     });
   } catch (err) {
+    console.error("Chairperson action error:", err);
+
     res.status(500).json({
       success: false,
       message: err.message,
@@ -570,6 +604,7 @@ exports.chairpersonAction = async (req, res) => {
 };
 
 // GET /api/applications/verify/:id
+
 // PUBLIC — what the QR code opens
 
 exports.verifyCertificate = async (req, res) => {

@@ -1,33 +1,7 @@
 const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
+const cloudinary = require("../config/cloudinary");
 
-const documentsPath = path.join(__dirname, "../uploads/documents");
-const vouchersPath = path.join(__dirname, "../uploads/vouchers");
-
-// Create folders automatically if they don't exist
-fs.mkdirSync(documentsPath, { recursive: true });
-fs.mkdirSync(vouchersPath, { recursive: true });
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    if (file.fieldname === "documents") {
-      cb(null, documentsPath);
-    } else if (file.fieldname === "voucher") {
-      cb(null, vouchersPath);
-    } else {
-      cb(new Error("Invalid upload field"));
-    }
-  },
-
-  filename: (req, file, cb) => {
-    const uniqueName =
-      `${Date.now()}-${Math.round(Math.random() * 1e9)}` +
-      path.extname(file.originalname);
-
-    cb(null, uniqueName);
-  },
-});
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   const allowedTypes = [
