@@ -82,4 +82,4 @@ Each stage can either move the application forward or reject it (with a reason),
 
 ## Screenshots
 
-_(Add dashboard screenshots for each role, and a sample certificate here)_
+![alt text](image.png)
