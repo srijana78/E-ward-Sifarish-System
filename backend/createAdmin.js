@@ -8,7 +8,7 @@ const createAdmin = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
 
-    const email = "admin@eward.com";
+    const email = "admin@gmail.com";
     const existingAdmin = await User.findOne({ email });
 
     if (existingAdmin) {
@@ -16,7 +16,7 @@ const createAdmin = async () => {
       process.exit();
     }
 
-    const password = await bcrypt.hash("admin123", 10);
+    const password = await bcrypt.hash("admin1234", 10);
 
     await User.create({
       name: "System Admin",
@@ -26,8 +26,8 @@ const createAdmin = async () => {
     });
 
     console.log("Admin created successfully!");
-    console.log("Email: admin@eward.com");
-    console.log("Password: admin123");
+    console.log("Email: admin@gmail.com");
+    console.log("Password: admin1234");
 
     process.exit();
   } catch (error) {
