@@ -16,6 +16,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+// Certificate
+import VerifyCertificate from "./pages/VerifyCertificate";
 // ...
 
 // ================= CITIZEN PAGES =================
@@ -56,6 +58,7 @@ import CreateStaff from "./pages/admin/CreateStaff";
 import StaffDetails from "./pages/admin/StaffDetails";
 import EditStaff from "./pages/admin/EditStaff";
 
+
 function App() {
   return (
     <Routes>
@@ -67,6 +70,7 @@ function App() {
         <Route path="/register" element={<Register />} />
 <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+<Route path="/verify/:id" element={<VerifyCertificate />} />
       </Route>
 
       {/* ================= CITIZEN ================= */}

@@ -285,22 +285,14 @@ function Register() {
                     )}
                     className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 pl-10 pr-10 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/10 sm:h-11 sm:rounded-xl"
                   />
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setShowPassword(
-                        (prev) => !prev
-                      )
-                    }
-                    className="absolute right-1.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 sm:right-2"
-                  >
-                    {showPassword ? (
-                      <EyeOff size={17} />
-                    ) : (
-                      <Eye size={17} />
-                    )}
-                  </button>
+<button
+  type="button"
+  aria-label={showPassword ? "Hide password" : "Show password"}
+  onClick={() => setShowPassword((prev) => !prev)}
+  className="absolute right-1.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 sm:right-2"
+>
+  {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+</button>
 
                 </div>
               </div>
