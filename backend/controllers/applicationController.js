@@ -26,6 +26,29 @@ const uploadToCloudinary = (file, folder) => {
   });
 };
 
+// Official, human-readable name for each stage role — used in rejection
+// notices so the citizen sees "Front Office" / "Secretary" / "Chairperson"
+// rather than the raw internal role string.
+const STAGE_LABELS = {
+  frontoffice: "Front Office",
+  secretary: "Secretary",
+  chairperson: "Chairperson",
+};
+
+// Builds a formal rejection notice. Used identically by all three stages
+// so the tone and structure stay consistent regardless of which desk
+// rejected the application.
+function buildRejectionNotice(application, stageKey, remarks) {
+  const roleLabel = STAGE_LABELS[stageKey] || stageKey;
+  const decisionDate = new Date().toLocaleDateString("en-GB");
+  const reason = remarks && remarks.trim() ? remarks.trim() : "No reason was provided.";
+
+  return {
+    title: "Application Rejected",
+    message: `Application No. ${application.applicationNumber} for ${application.service} has been reviewed and rejected by the ${roleLabel} on ${decisionDate}. Stated reason: ${reason} For further clarification, please contact the ward office.`,
+  };
+}
+
 // ---------- CITIZEN ----------
 
 // POST /api/applications
@@ -89,16 +112,20 @@ exports.submitApplication = async (req, res) => {
       typeList = [];
     }
 
-    // Upload application documents to Cloudinary
+    // Upload application documents to Cloudinary — in parallel, since each
+    // upload is independent and this was previously awaited one at a time,
+    // which meant 5 documents took 5x as long as they needed to.
+    const uploadResults = await Promise.all(
+      documentFiles.map((file) =>
+        uploadToCloudinary(file, "e-ward-sifarish/documents")
+      )
+    );
+
     const documents = [];
 
     for (let i = 0; i < documentFiles.length; i++) {
       const file = documentFiles[i];
-
-      const result = await uploadToCloudinary(
-        file,
-        "e-ward-sifarish/documents"
-      );
+      const result = uploadResults[i];
 
       documents.push({
         documentType: typeList[i] || "other",
@@ -172,7 +199,7 @@ exports.submitApplication = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: "Server error. Please try again.",
     });
   }
 };
@@ -194,7 +221,7 @@ exports.getMyApplications = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: "Server error. Please try again.",
     });
   }
 };
@@ -240,7 +267,7 @@ exports.getApplicationById = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: "Server error. Please try again.",
     });
   }
 };
@@ -278,7 +305,7 @@ exports.listForRole = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: "Server error. Please try again.",
     });
   }
 };
@@ -304,7 +331,7 @@ exports.getFrontOfficeVerified = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: "Server error. Please try again.",
     });
   }
 };
@@ -383,11 +410,10 @@ exports.frontOfficeAction = async (req, res) => {
         recipientUser: application.user,
       });
     } else {
+      const notice = buildRejectionNotice(application, "frontoffice", remarks);
       await createNotification({
-        title: "Your application was rejected",
-        message: `Your ${application.service} application (${application.applicationNumber}) was rejected by front office. Reason: ${
-          remarks || "not specified"
-        }.`,
+        title: notice.title,
+        message: notice.message,
         type: "rejected",
         application: application._id,
         recipientUser: application.user,
@@ -401,7 +427,7 @@ exports.frontOfficeAction = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: "Server error. Please try again.",
     });
   }
 };
@@ -469,11 +495,10 @@ exports.secretaryAction = async (req, res) => {
         recipientUser: application.user,
       });
     } else {
+      const notice = buildRejectionNotice(application, "secretary", remarks);
       await createNotification({
-        title: "Your application was rejected",
-        message: `Your ${application.service} application (${application.applicationNumber}) was rejected by the secretary. Reason: ${
-          remarks || "not specified"
-        }.`,
+        title: notice.title,
+        message: notice.message,
         type: "rejected",
         application: application._id,
         recipientUser: application.user,
@@ -487,7 +512,7 @@ exports.secretaryAction = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: "Server error. Please try again.",
     });
   }
 };
@@ -510,7 +535,7 @@ exports.getSecretaryRecommended = async (req, res) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: "Server error. Please try again.",
     });
   }
 };
@@ -578,11 +603,10 @@ exports.chairpersonAction = async (req, res) => {
         recipientUser: application.user,
       });
     } else {
+      const notice = buildRejectionNotice(application, "chairperson", remarks);
       await createNotification({
-        title: "Your application was rejected",
-        message: `Your ${application.service} application (${application.applicationNumber}) was rejected by the chairperson. Reason: ${
-          remarks || "not specified"
-        }.`,
+        title: notice.title,
+        message: notice.message,
         type: "rejected",
         application: application._id,
         recipientUser: application.user,
@@ -598,7 +622,7 @@ exports.chairpersonAction = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: "Server error. Please try again.",
     });
   }
 };
@@ -639,7 +663,7 @@ exports.verifyCertificate = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: "Server error. Please try again.",
     });
   }
 };
@@ -685,7 +709,7 @@ exports.getApplicationStatistics = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: err.message,
+      message: "Server error. Please try again.",
     });
   }
 };

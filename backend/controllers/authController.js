@@ -26,6 +26,13 @@ const registerUser = async (req, res) => {
       });
     }
 
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters",
+      });
+    }
+
     // Check phone
 
     const existingPhone = await User.findOne({
@@ -87,7 +94,6 @@ const registerUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error",
-      error: error.message,
     });
   }
 };
@@ -219,7 +225,186 @@ const loginUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error",
-      error: error.message,
+    });
+  }
+};
+
+// ==========================================
+// FORGOT PASSWORD — STAFF (email-based link)
+// ==========================================
+// Staff log in with email, so a reset link is sent there.
+// Always returns a generic success message, whether or not the email
+// matches an account — this avoids leaking which emails are registered.
+
+const forgotPasswordStaff = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required",
+      });
+    }
+
+    const genericResponse = {
+      success: true,
+      message:
+        "If that email is registered, a password reset link has been sent.",
+    };
+
+    const user = await User.findOne({
+      email: email.toLowerCase(),
+      role: { $in: ["frontoffice", "secretary", "chairperson", "admin"] },
+    });
+
+    // Don't reveal whether the account exists — respond the same either way
+    if (!user) {
+      return res.status(200).json(genericResponse);
+    }
+
+    const rawToken = crypto.randomBytes(32).toString("hex");
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(rawToken)
+      .digest("hex");
+
+    user.resetPasswordToken = hashedToken;
+    user.resetPasswordExpires = Date.now() + 60 * 60 * 1000; // 1 hour
+    await user.save();
+
+    const frontendUrl = process.env.FRONTEND_URL
+      ? process.env.FRONTEND_URL.split(",")[0].trim()
+      : "http://localhost:5173";
+
+    const resetLink = `${frontendUrl}/reset-password/${rawToken}`;
+
+    try {
+      await sendPasswordResetEmail(user.email, resetLink);
+    } catch (emailError) {
+      console.error("Failed to send reset email:", emailError);
+      // Don't leak email-sending failures to the client either —
+      // log it server-side so it can be investigated, but the response
+      // stays generic.
+    }
+
+    res.status(200).json(genericResponse);
+  } catch (error) {
+    console.error("Forgot password (staff) error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+// ==========================================
+// RESET PASSWORD — STAFF (completes the email link)
+// ==========================================
+
+const resetPasswordStaff = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { newPassword } = req.body;
+
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters",
+      });
+    }
+
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpires: { $gt: Date.now() },
+    }).select("+resetPasswordToken +resetPasswordExpires");
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "This reset link is invalid or has expired",
+      });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successful. Please log in with your new password.",
+    });
+  } catch (error) {
+    console.error("Reset password (staff) error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+// ==========================================
+// FORGOT PASSWORD — CITIZEN (identity-verified reset)
+// ==========================================
+// Citizens don't reliably have an email on file, so there's no link to
+// email them. Instead, they confirm two pieces of identity they provided
+// at registration — phone number and citizenship number — and set a new
+// password directly. Rate-limited at the route level against brute-force
+// guessing of the citizenship number.
+
+const forgotPasswordCitizen = async (req, res) => {
+  try {
+    const { phone, citizenshipNo, newPassword } = req.body;
+
+    if (!phone || !citizenshipNo || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Phone, citizenship number and new password are all required",
+      });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters",
+      });
+    }
+
+    const user = await User.findOne({
+      phone,
+      citizenshipNo,
+      role: "citizen",
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "We couldn't verify your identity with that phone number and citizenship number",
+      });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successful. Please log in with your new password.",
+    });
+  } catch (error) {
+    console.error("Forgot password (citizen) error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server error",
     });
   }
 };
@@ -227,4 +412,7 @@ const loginUser = async (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
+  forgotPasswordStaff,
+  resetPasswordStaff,
+  forgotPasswordCitizen,
 };

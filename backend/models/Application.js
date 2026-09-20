@@ -1,7 +1,6 @@
-
-
 // claue hehe
 const mongoose = require("mongoose");
+const Counter = require("./Counter");
 
 const applicationSchema = new mongoose.Schema(
   {
@@ -205,12 +204,21 @@ currentStage: {
 );
 
 // ================= GENERATE APPLICATION NUMBER =================
-applicationSchema.pre("save", function (next) {
+applicationSchema.pre("save", async function () {
   if (!this.applicationNumber) {
-    this.applicationNumber = `APP-${Date.now()}`;
-  }
+    // Atomically increment a shared counter so two applications submitted
+    // at the same instant still get different numbers — Date.now() could
+    // theoretically collide under high concurrency; this can't.
+    const counter = await Counter.findOneAndUpdate(
+      { _id: "applicationNumber" },
+      { $inc: { seq: 1 } },
+      { new: true, upsert: true }
+    );
 
-  // next();
+    // Short, sequential, 8-digit ID — easy to read aloud or type into a
+    // search box, e.g. 10000001, 10000002, ...
+    this.applicationNumber = String(10000000 + counter.seq);
+  }
 });
 
 const Application = mongoose.model("Application", applicationSchema);
