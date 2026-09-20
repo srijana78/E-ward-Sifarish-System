@@ -114,9 +114,24 @@
     "loginLink": "Login",
     "forgotPasswordTitle": "Reset your password",
     "forgotPasswordSubtitle": "Enter your email and we'll send you a reset link",
+    "forgotPasswordCitizenSubtitle": "Verify your identity to set a new password",
     "sendResetLink": "Send reset link",
+    "sendingResetLink": "Sending...",
     "resetLinkSent": "If an account exists with that email, a reset link has been sent.",
-    "backToLogin": "Back to login"
+    "backToLogin": "Back to login",
+    "newPasswordLabel": "New Password",
+    "newPasswordPlaceholder": "Enter a new password (min. 6 characters)",
+    "confirmPasswordLabel": "Confirm New Password",
+    "confirmPasswordPlaceholder": "Re-enter your new password",
+    "passwordMismatch": "Passwords do not match",
+    "resetPasswordCitizenButton": "Reset Password",
+    "resettingPassword": "Resetting...",
+    "resetPasswordCitizenSuccess": "Your password has been reset. You can now log in.",
+    "resetPasswordTitle": "Set a new password",
+    "resetPasswordSubtitle": "Choose a new password for your staff account",
+    "resetPasswordButton": "Set new password",
+    "resetPasswordSuccess": "Password reset successful. You can now log in with your new password.",
+    "invalidResetLink": "This reset link is invalid or has expired. Please request a new one."
   }
 ,
   "admin": {
@@ -287,11 +302,29 @@
       "temporaryResidence": "Temporary Residence Recommendation",
       "temporaryResidenceDescription": "Apply for a recommendation confirming your temporary residence.",
 
+      "migrationCertificate": "Migration Certificate",
+      "migrationCertificateDescription": "Apply for a certificate confirming your migration from one place of residence to another.",
+
       "citizenship": "Citizenship Recommendation",
       "citizenshipDescription": "Apply for a recommendation related to citizenship matters.",
 
       "relationship": "Relationship Verification Recommendation",
       "relationshipDescription": "Apply for a recommendation to verify family or personal relationships.",
+
+      "unmarriedStatus": "Unmarried Status Certificate",
+      "unmarriedStatusDescription": "Apply for a certificate confirming you are currently unmarried.",
+
+      "survivalCertificate": "Surviving (Alive) Status Certificate",
+      "survivalCertificateDescription": "Apply for a certificate confirming that a person is alive, for pension or other official use.",
+
+      "guardianCertificate": "Guardian Recommendation",
+      "guardianCertificateDescription": "Apply for a recommendation naming the legal guardian of a minor or dependent.",
+
+      "characterCertificate": "Character / Conduct Certificate",
+      "characterCertificateDescription": "Apply for a certificate confirming your character and conduct, often required for jobs or scholarships abroad.",
+
+      "incomeCertificate": "Income / Economic Status Certificate",
+      "incomeCertificateDescription": "Apply for a certificate confirming your household income or economic status.",
 
       "education": "Education Recommendation",
       "educationDescription": "Apply for a recommendation related to education and academic purposes.",
@@ -301,6 +334,15 @@
 
       "property": "Property / House Recommendation",
       "propertyDescription": "Apply for a recommendation related to property or house matters.",
+
+      "fourBoundary": "Four-Boundary (Chaar Killa) Certificate",
+      "fourBoundaryDescription": "Apply for a certificate describing the four boundaries of a piece of land.",
+
+      "houseAndPath": "House-and-Path (Ghar Bato) Certificate",
+      "houseAndPathDescription": "Apply for a certificate confirming the access route to your house or land.",
+
+      "noObjectionCertificate": "No Objection Certificate (NOC)",
+      "noObjectionCertificateDescription": "Apply for a no-objection certificate required for certain official, travel or business purposes.",
 
       "other": "Other Recommendation",
       "otherDescription": "Apply for other ward recommendation services."
@@ -329,33 +371,33 @@
     "fullNamePlaceholder": "Enter your full name",
 
     "citizenshipNumber": "Citizenship Number",
-    "citizenshipNumberPlaceholder": "Enter your citizenship number",
+    "citizenshipNumberPlaceholder": "e.g. 12-34-56-78901",
 
     "dateOfBirth": "Date of Birth",
 
     "phone": "Mobile Number",
-    "phonePlaceholder": "Enter your mobile number",
+    "phonePlaceholder": "e.g. 98XXXXXXXX",
 
     "email": "Email Address",
-    "emailPlaceholder": "Enter your email address",
+    "emailPlaceholder": "e.g. yourname@example.com",
 
     "addressInformation": "Address Information",
     "addressInformationDescription": "Provide your current residential address details.",
 
     "province": "Province",
-    "provincePlaceholder": "Enter your province",
+    "provincePlaceholder": "Select your province",
 
     "district": "District",
-    "districtPlaceholder": "Enter your district",
+    "districtPlaceholder": "e.g. Kathmandu",
 
     "municipality": "Municipality",
-    "municipalityPlaceholder": "Enter your municipality",
+    "municipalityPlaceholder": "e.g. Kathmandu Metropolitan City",
 
     "wardNumber": "Ward Number",
-    "wardNumberPlaceholder": "Enter your ward number",
+    "wardNumberPlaceholder": "e.g. 5",
 
     "tole": "Tole / Locality",
-    "tolePlaceholder": "Enter your tole or locality",
+    "tolePlaceholder": "e.g. Baneshwor",
 
     "back": "Back",
     "continue": "Continue"

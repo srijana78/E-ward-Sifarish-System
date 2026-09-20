@@ -20,3 +20,7 @@ pnpm-debug.log*
 Thumbs.db
 # Uploaded files
 backend/uploads/
+
+# self study
+diagram.png
+studyGuid.md

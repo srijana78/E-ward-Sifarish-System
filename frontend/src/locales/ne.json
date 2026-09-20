@@ -114,9 +114,24 @@
     "loginLink": "लगइन",
     "forgotPasswordTitle": "आफ्नो पासवर्ड रिसेट गर्नुहोस्",
     "forgotPasswordSubtitle": "आफ्नो इमेल प्रविष्ट गर्नुहोस्, हामी तपाईंलाई रिसेट लिंक पठाउनेछौं",
+    "forgotPasswordCitizenSubtitle": "नयाँ पासवर्ड सेट गर्न आफ्नो पहिचान प्रमाणित गर्नुहोस्",
     "sendResetLink": "रिसेट लिंक पठाउनुहोस्",
+    "sendingResetLink": "पठाउँदै...",
     "resetLinkSent": "यदि त्यो इमेलसँग खाता अवस्थित छ भने, रिसेट लिंक पठाइएको छ।",
-    "backToLogin": "लगइनमा फर्कनुहोस्"
+    "backToLogin": "लगइनमा फर्कनुहोस्",
+    "newPasswordLabel": "नयाँ पासवर्ड",
+    "newPasswordPlaceholder": "नयाँ पासवर्ड प्रविष्ट गर्नुहोस् (कम्तिमा ६ अक्षर)",
+    "confirmPasswordLabel": "नयाँ पासवर्ड पुष्टि गर्नुहोस्",
+    "confirmPasswordPlaceholder": "आफ्नो नयाँ पासवर्ड फेरि प्रविष्ट गर्नुहोस्",
+    "passwordMismatch": "पासवर्डहरू मेल खाँदैनन्",
+    "resetPasswordCitizenButton": "पासवर्ड रिसेट गर्नुहोस्",
+    "resettingPassword": "रिसेट हुँदैछ...",
+    "resetPasswordCitizenSuccess": "तपाईंको पासवर्ड रिसेट भएको छ। अब तपाईं लगइन गर्न सक्नुहुन्छ।",
+    "resetPasswordTitle": "नयाँ पासवर्ड सेट गर्नुहोस्",
+    "resetPasswordSubtitle": "आफ्नो स्टाफ खाताको लागि नयाँ पासवर्ड छान्नुहोस्",
+    "resetPasswordButton": "नयाँ पासवर्ड सेट गर्नुहोस्",
+    "resetPasswordSuccess": "पासवर्ड रिसेट सफल भयो। अब तपाईं आफ्नो नयाँ पासवर्डले लगइन गर्न सक्नुहुन्छ।",
+    "invalidResetLink": "यो रिसेट लिंक अमान्य वा म्याद सकिएको छ। कृपया नयाँ अनुरोध गर्नुहोस्।"
   }
 
 
@@ -303,11 +318,29 @@
       "temporaryResidence": "अस्थायी बसोबास सिफारिस",
       "temporaryResidenceDescription": "आफ्नो अस्थायी बसोबास प्रमाणित गर्ने सिफारिसका लागि आवेदन दिनुहोस्।",
 
+      "migrationCertificate": "बसाइँसराइ प्रमाणित सिफारिस",
+      "migrationCertificateDescription": "एक ठाउँबाट अर्को ठाउँमा बसाइँसराइ भएको प्रमाणित गर्न सिफारिसका लागि आवेदन दिनुहोस्।",
+
       "citizenship": "नागरिकता सम्बन्धी सिफारिस",
       "citizenshipDescription": "नागरिकता सम्बन्धी विषयका लागि सिफारिस आवेदन दिनुहोस्।",
 
       "relationship": "नाता प्रमाणित सिफारिस",
       "relationshipDescription": "पारिवारिक वा व्यक्तिगत नाता प्रमाणित गर्न सिफारिसका लागि आवेदन दिनुहोस्।",
+
+      "unmarriedStatus": "अविवाहित प्रमाणित सिफारिस",
+      "unmarriedStatusDescription": "हाल अविवाहित रहेको प्रमाणित गर्न सिफारिसका लागि आवेदन दिनुहोस्।",
+
+      "survivalCertificate": "जीवित रहेको प्रमाणित सिफारिस",
+      "survivalCertificateDescription": "पेन्सन वा अन्य आधिकारिक प्रयोजनका लागि व्यक्ति जीवित रहेको प्रमाणित गर्ने सिफारिसका लागि आवेदन दिनुहोस्।",
+
+      "guardianCertificate": "संरक्षक प्रमाणित सिफारिस",
+      "guardianCertificateDescription": "नाबालक वा आश्रितको कानूनी संरक्षक तोक्ने सिफारिसका लागि आवेदन दिनुहोस्।",
+
+      "characterCertificate": "चालचलन प्रमाणित सिफारिस",
+      "characterCertificateDescription": "जागिर वा विदेशी छात्रवृत्तिका लागि प्रायः आवश्यक पर्ने चालचलन प्रमाणित सिफारिसका लागि आवेदन दिनुहोस्।",
+
+      "incomeCertificate": "आर्थिक अवस्था प्रमाणित सिफारिस",
+      "incomeCertificateDescription": "आफ्नो घरपरिवारको आम्दानी वा आर्थिक अवस्था प्रमाणित गर्ने सिफारिसका लागि आवेदन दिनुहोस्।",
 
       "education": "शैक्षिक सिफारिस",
       "educationDescription": "शिक्षा तथा शैक्षिक प्रयोजनका लागि सिफारिस आवेदन दिनुहोस्।",
@@ -317,6 +350,15 @@
 
       "property": "सम्पत्ति / घर सिफारिस",
       "propertyDescription": "सम्पत्ति वा घरसँग सम्बन्धित विषयका लागि सिफारिस आवेदन दिनुहोस्।",
+
+      "fourBoundary": "चार किल्ला प्रमाणित सिफारिस",
+      "fourBoundaryDescription": "जग्गाको चार किल्ला उल्लेख गर्ने प्रमाणित सिफारिसका लागि आवेदन दिनुहोस्।",
+
+      "houseAndPath": "घरबाटो प्रमाणित सिफारिस",
+      "houseAndPathDescription": "घर वा जग्गासम्म पुग्ने बाटो प्रमाणित गर्ने सिफारिसका लागि आवेदन दिनुहोस्।",
+
+      "noObjectionCertificate": "गैह्र आपत्ति प्रमाणपत्र (NOC)",
+      "noObjectionCertificateDescription": "केही आधिकारिक, यात्रा वा व्यावसायिक प्रयोजनका लागि आवश्यक पर्ने गैह्र आपत्ति प्रमाणपत्रका लागि आवेदन दिनुहोस्।",
 
       "other": "अन्य सिफारिस",
       "otherDescription": "अन्य वडा सिफारिस सेवाका लागि आवेदन दिनुहोस्।"
@@ -346,33 +388,33 @@
     "fullNamePlaceholder": "आफ्नो पूरा नाम लेख्नुहोस्",
 
     "citizenshipNumber": "नागरिकता नम्बर",
-    "citizenshipNumberPlaceholder": "नागरिकता नम्बर लेख्नुहोस्",
+    "citizenshipNumberPlaceholder": "जस्तै: १२-३४-५६-७८९०१",
 
     "dateOfBirth": "जन्म मिति",
 
     "phone": "मोबाइल नम्बर",
-    "phonePlaceholder": "मोबाइल नम्बर लेख्नुहोस्",
+    "phonePlaceholder": "जस्तै: ९८XXXXXXXX",
 
     "email": "इमेल ठेगाना",
-    "emailPlaceholder": "इमेल ठेगाना लेख्नुहोस्",
+    "emailPlaceholder": "जस्तै: yourname@example.com",
 
     "addressInformation": "ठेगानाको विवरण",
     "addressInformationDescription": "आफ्नो हालको बसोबासको ठेगाना विवरण भर्नुहोस्।",
 
     "province": "प्रदेश",
-    "provincePlaceholder": "प्रदेश लेख्नुहोस्",
+    "provincePlaceholder": "आफ्नो प्रदेश छान्नुहोस्",
 
     "district": "जिल्ला",
-    "districtPlaceholder": "जिल्ला लेख्नुहोस्",
+    "districtPlaceholder": "जस्तै: काठमाडौं",
 
     "municipality": "नगरपालिका / गाउँपालिका",
-    "municipalityPlaceholder": "नगरपालिका / गाउँपालिका लेख्नुहोस्",
+    "municipalityPlaceholder": "जस्तै: काठमाडौं महानगरपालिका",
 
     "wardNumber": "वडा नम्बर",
-    "wardNumberPlaceholder": "वडा नम्बर लेख्नुहोस्",
+    "wardNumberPlaceholder": "जस्तै: ५",
 
     "tole": "टोल / स्थान",
-    "tolePlaceholder": "टोल वा स्थान लेख्नुहोस्",
+    "tolePlaceholder": "जस्तै: बानेश्वर",
 
     "back": "पछाडि",
     "continue": "अगाडि बढ्नुहोस्"

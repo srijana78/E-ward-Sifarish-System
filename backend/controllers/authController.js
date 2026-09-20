@@ -4,6 +4,10 @@ const bcrypt = require("bcryptjs");
 
 const jwt = require("jsonwebtoken");
 
+const crypto = require("crypto");
+
+const { sendPasswordResetEmail } = require("../utils/emailService");
+
 // ==========================================
 // REGISTER CITIZEN
 // ==========================================

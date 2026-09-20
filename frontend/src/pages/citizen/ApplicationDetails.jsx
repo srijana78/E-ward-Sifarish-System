@@ -15,6 +15,17 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { useApplication } from "../../context/ApplicationContext";
 
+// Nepal's 7 federal provinces
+const NEPAL_PROVINCES = [
+  "Koshi Province",
+  "Madhesh Province",
+  "Bagmati Province",
+  "Gandaki Province",
+  "Lumbini Province",
+  "Karnali Province",
+  "Sudurpashchim Province",
+];
+
 const ApplicationDetails = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -372,6 +383,7 @@ const ApplicationDetails = () => {
               placeholder={t(
                 "applicationDetails.provincePlaceholder"
               )}
+              options={NEPAL_PROVINCES}
               required
             />
 
@@ -476,6 +488,7 @@ const InputField = ({
   placeholder,
   required = false,
   icon,
+  options,
 }) => {
   return (
     <div>
@@ -498,17 +511,38 @@ const InputField = ({
           </span>
         )}
 
-        <input
-          type={type}
-          name={name}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          required={required}
-          className={`w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-slate-800 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 ${
-            icon ? "pl-10" : ""
-          }`}
-        />
+        {options ? (
+          <select
+            name={name}
+            value={value}
+            onChange={onChange}
+            required={required}
+            className={`w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-slate-800 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 ${
+              icon ? "pl-10" : ""
+            }`}
+          >
+            <option value="" disabled>
+              {placeholder}
+            </option>
+            {options.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <input
+            type={type}
+            name={name}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            required={required}
+            className={`w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-slate-800 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 ${
+              icon ? "pl-10" : ""
+            }`}
+          />
+        )}
 
       </div>
 
